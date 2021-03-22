@@ -1,0 +1,90 @@
+<header class="d-flex p-0 flex-wrap align-content-end justify-content-between">
+                                    <?php if ($view === 'all'): ?>
+                                        <form method="get" action="../config/proc/inside_nav.process.php" class="h-70 o-hide w-25 clearfix">
+                                            <!--Select-->
+                                            <div class="w-65 h-100 float-left bg-dark">
+                                                <input type="hidden" value="reports" name="page">
+                                                <select name="activity" class="form-control-sm border-0 w-100 rounded-0 bg-dark text-light">
+                                                    <option <?php if ($activity === 'Live Income'){echo 'selected';}?> value="Live Income">Live Income</option>
+                                                    <option <?php if ($activity === 'Booking'){echo 'selected';}?>  value="Booking">Booking</option>
+                                                    <option <?php if ($activity === 'Payment'){echo 'selected';}?>  value="Payment">Payment</option>
+                                                    <option <?php if ($activity === 'Refund'){echo 'selected';}?>  value="Refund">Refund</option>
+                                                    <option <?php if ($activity === 'Check In'){echo 'selected';}?>  value="Check In">Check In</option>
+                                                    <option <?php if ($activity === 'Check Out'){echo 'selected';}?>  value="Check Out">Check Out</option>
+                                                    <option <?php if ($activity === 'Invoice'){echo 'selected';}?>  value="Invoice">Invoice</option>
+                                                </select>
+                                            </div>
+                                            <!--Button-->
+                                            <div class="w-25 float-right bg-danger text_sm text-center o-hide h-100">
+                                                <button class="btn btn-sm btn-magento w-100 bold h-100">LOAD</button>
+                                            </div>
+                                        </form>
+
+                                        <?php if ($bookingsCount > 0): ?>
+                                            <div class="input-group input-group-sm w-50">
+                                                <div class="input-group-prepend">
+                                                  <span class="input-group-text"><img src="../assets/icos/general/delete.png" alt="" class="img-fluid"></span>
+                                                </div>
+
+
+                                                    <input type="text" autocomplete="off" class="w-75 inside_search text-dark pl-2" id="<?php echo $activity ?>Search" placeholder="Search String">
+
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </header>
+
+
+
+
+
+<div class="w-100 h-95 bg-clight text-dark">
+    <header style="background-color: #F5F6FA;">
+        <table class="table border-0">
+            <thead>
+            <tr class="c_tr_head">
+                <th class="p-0 pl-2 c_th w-25">Catrgory</th>
+                <th class="p-0 c_th w-25">Facility</th>
+                <th class="p-0 c_th w-25">Quantity</th>
+                <th class="p-0 pr-2 c_th w-25 text-right">Receptionist</th>
+            </tr>
+            </thead>
+        </table>
+    </header>
+
+    <article class="o-auto">
+
+        <div class="w-100 h-100 o-auto">
+
+            <table class="table border-0 table-hover pointer">
+                <tbody id="<?php echo $activity ?>Table">
+
+                <tr onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bookings['id'] ?>'" class="border-bottom">
+                    <td class="pl-1 c_td_xsm w-25">
+                        Hello
+                    </td>
+                    <td class="c_td_xsm pl-0 w-25">
+                        World
+                    </td>
+                    <td class="c_td_xsm pl-0 w-25">
+                        Hellest
+                    </td>
+                    <td class="pr-2 c_td_xsm w-25 text-right">
+                        Worldest
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+    </article>
+
+</div>
+
+
+

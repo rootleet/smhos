@@ -1,0 +1,1233 @@
+<?php
+    include '../config/inc/config.company_setup.php';
+    $main = $_SESSION['company_setup'];
+    $sub = $_SESSION['company_setup_sub'];
+    $config = $_SESSION['company_setup_config'];
+    $edit_all = $_SESSION['edit_all'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="shortcut icon"
+          href="../assets/icos/general/Hms.png"
+          type="image/x-icon">
+    <title>SMHOS || Company Setup</title>
+</head>
+
+<body class="container-fluid p-0 bg-cprimary">
+    
+    <div class="row h-100 no-gutters">
+
+        <!--Navigation-->
+        <section class="col-sm-2 h-100 o-hide">
+            <header class="h_main d-flex flex-wrap align-content-center justify-content-center">
+                <strong class="cname"><?php echo $company_setup['c_name']; ?></strong>
+            </header>
+
+            <article class="a_main pt-1">
+                <ul class="nav h-90 nav-pills nav-justified flex-column">
+
+                    <!--Dashboard-->
+                    <button onclick="location.href='../dashboard/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/dashboard.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Dashboard</span>
+                    </button>
+
+                    <!--Company Setup-->
+                    <button class="btn btn-nav-active text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/company_setup.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Company Setup</span>
+                    </button>
+
+                    <!--Facility Management-->
+                    <button onclick="location.href='../facility-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/facility_management.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Facility Management</span>
+                    </button>
+
+                    <!--User Management-->
+                    <button onclick="location.href='../user-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/user_management.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">User Management</span>
+                    </button>
+
+                    <!--Reports-->
+                    <button onclick="location.href='../reports/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Reports</span>
+                    </button>
+
+                    
+
+                </ul>
+
+                <div class="w-100 h-10">
+                    <button onclick="loction.href='www.facebook.com'" class="btn btn-csecondary rounded-0 h-100 w-100">Powered By Rootech.inc</button>
+                </div>
+            </article>
+        </section>
+
+        <!--Work Space-->
+        <section class="col-sm-10 h-100 bg-cmain o-hide">
+            <!--work space header-->
+            <header class="bg-clight clearfix">
+
+                <div class="w-25 float-right h-100 d-flex flex-wrap justify-content-end pr-2 align-content-center">
+                    <!--Username-->
+                    <div style="height: 30px;" class="d-flex flex-wrap align-content-center">
+                        <span class="mr-1 ml-1"><?php echo $user_details['first_name'] . ' ' . $user_details['last_name'] ?></span>
+                    </div>
+                    <!--Logout-->
+                    <div onclick="location.href='../config/inc/logout.php'" data-toggle="tooltip" title="logout" class="ico-nm pointer bg-success rounded-circle ml-1 border border-success">
+                        <img src="../assets/icos/general/logout.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </header>
+
+            <!--WorkSpace-->
+            <article>
+
+                <div class="container p-0 w-90 h-100 o-hide">
+                    <!--Head-->
+                    <div class="head pl-3 d-flex flex-wrap align-content-center justify-content-between">
+                        <div class="w-50 h-50">
+                            <ol style="background-color: inherit !important;" class="breadcrumb p-0">
+                                <li class="breadcrumb-item"><a onclick="location.href='../config/proc/company_setup.php?main_nav&main=Main'" class="text-primary pointer" >Company Setup</a></li>
+                                <?php if($main != "Main"): ?>
+                                <li class="breadcrumb-item active"><?php echo $main ?></li>
+                                <?php endif; ?>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!--Middle-->
+                    <?php if ($main == 'Main'): ?>
+                        <div class="middle container w-100 p-0">
+                            <div class="row o-hide no-gutters w-100 h-100">
+
+                                <!--Card 1-->
+                                <div class="col-sm-4 p-3">
+                                    <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+    
+                                        <div class="w-100 h-100">
+                                            <div class="w-100 clearfix h-40">
+                                                <span class="rcard-title float-left">Name</span>
+                                                 
+                                            </div>
+        
+                                            <div class="w-100 h-60 rcard_details clearfix">
+                                                <!--Count-->
+                                                <div class="w-50 h-100 float-left">
+    
+                                                    <div class="w-100 h-100 d-flex flex-wrap align-content-end">
+                                                        <p class="p-0 text_eclips text-dark bold m-0"><?php echo $company['c_name'] ?></p>
+                                                    </div>
+                                                </div>
+    
+                                                <!--graph-->
+                                                <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
+                                                    <!--<span class="text-success t-nm">&uArr; good</span>-->
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+
+                                <!--Card 2-->
+                                <div class="col-sm-4 p-3">
+                                    <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+    
+                                        <div class="w-100 h-100">
+                                            <div class="w-100 clearfix h-40">
+                                                <span class="rcard-title float-left">Address</span>
+                                                 
+                                            </div>
+        
+                                            <div class="w-100 h-60 rcard_details clearfix">
+                                                <!--Count-->
+                                                <div class="w-50 h-100 float-left">
+    
+                                                    <div class="w-100 h-100 d-flex flex-wrap align-content-end">
+                                                        <address>
+                                                            <?php echo $company['add1'] ?><br>
+                                                            <?php echo $company['add2'] ?>, <?php echo $company['add3'] ?><br>
+                                                            <?php echo $company['add4'] ?>, <?php echo $company['add5'] ?>
+                                                        </address>
+                                                        </p>
+                                                    </div>
+                                                </div>
+    
+                                                <!--graph-->
+                                                <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
+                                                    <!--<span class="text-success t-nm">&uArr; good</span>-->
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+
+                                <!--Card 3-->
+                                <div class="col-sm-4 p-3">
+                                    <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+    
+                                        <div class="w-100 h-100">
+                                            <div class="w-100 clearfix h-40">
+                                                <span class="rcard-title float-left">Master Currency</span>
+                                                 
+                                            </div>
+        
+                                            <div class="w-100 h-60 rcard_details clearfix">
+                                                <!--Count-->
+                                                <div class="w-50 h-100 float-left">
+    
+                                                    <div class="w-100 h-100 d-flex flex-wrap align-content-end">
+                                                        <p class="p-0 text-dark bold m-0">GHC ( C )</p>
+                                                    </div>
+                                                </div>
+    
+                                                <!--graph-->
+                                                <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
+                                                   <!--<span class="text-success t-nm">&uArr; good</span>-->
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!--Bottom-->
+                    <?php if ($main == 'Main'): ?>
+                        <div class="bottom p-2">
+
+                            <main style="background-color: #F2F2F2 !important;" class="w-100 p-0 h-100 container-fluid o-auto">
+                                <div class="row no-gutters o-auto" style="max-height: 100% !important;">
+
+                                    <!-- Tax Button -->
+                                    <div class="col-sm-4 m_button p-2">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Tax'" class="w-100 border o-hide border-secondary btn rounded-0 h-100">
+                                            Tax
+                                        </button>
+                                    </div>
+
+                                    <!-- Payment Method Button -->
+                                    <div class="col-sm-4 m_button p-2">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Payment Method'" class="w-100 border o-hide border-secondary btn rounded-0 h-100">
+                                            Payment Method
+                                        </button>
+                                    </div>
+
+                                    <!-- Backup Button -->
+                                    <div class="col-sm-4 m_button p-2">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Backup'" class="w-100 border o-hide border-secondary btn rounded-0 h-100">
+                                            Backup
+                                        </button>
+                                    </div>
+
+                                    <!-- Others Button -->
+                                    <div class="col-sm-4 m_button p-2">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Others'" class="w-100 border o-hide border-secondary btn rounded-0 h-100">
+                                            Others
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </main>
+
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($main != 'main'): ?>
+                        <div class="middle_plus_bottom p-3">
+                            <!--Buttons-->
+                            <div class="h-20 w-100 d-flex flex-wrap align-content-center justify-content-between">
+
+                                <!-- Tax Button -->
+                                <div class="w-25 h-75">
+                                    <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Tax'" class="w-85 h-100 it_btn btn rounded-0 <?php if($main == 'Tax'){echo 'btn-cprimary-active';}else {echo 'btn-cprimary';} ?>">
+                                        Tax
+                                    </button>
+                                </div>
+
+                                <!--Payment Button -->
+                                <div class="w-25 h-75">
+                                    <div class="w-75 h-100 mx-auto">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Payment Method'" class="it_btn btn h-100 w-100 rounded-0 <?php if($main == 'Payment Method'){echo 'btn-cprimary-active';}else {echo 'btn-cprimary';} ?>">
+                                            Payment Method
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Backup -->
+                                <div class="w-25 h-75">
+                                    <div class="w-75 h-100 mx-auto">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Backup'" class="btn it_btn h-100 w-100 rounded-0 <?php if($main == 'Backup'){echo 'btn-cprimary-active';}else {echo 'btn-cprimary';} ?>">
+                                            Backup
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Others -->
+                                <div class="w-25 h-75">
+                                    <div class="w-85 h-100 ml-auto">
+                                        <button onclick="location.href='../config/proc/company_setup.php?main_nav&main=Others'" class="btn it_btn h-100 w-100 rounded-0 <?php if($main == 'Others'){echo 'btn-cprimary-active';}else {echo 'btn-cprimary';} ?>">
+                                            Others
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Taxes-->
+                            <?php if ($main == "Tax"):?>
+
+                                <!--Contents-->
+                                <div class="w-100 h-80 o-hide">
+                                    <header class="w-100 border clearfix sub_header">
+                                        <!--Buttons-->
+                                        <div class="w-50 h-100 float-left d-flex flex-wrap align-content-center">
+                                            <?php if ($sub == 'View'): ?>
+                                                <!--Add New-->
+                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Add New" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/add_new.png" alt="NEW" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Edit-->
+                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Delete-->
+                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Delete" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/delete.png" alt="Delete" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Disablke-->
+                                                <button data-toggle="tooltip" title="Disable" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/disable.png" alt="Disable" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Enable-->
+                                                <button data-toggle="tooltip" title="Enable" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/enable.png" alt="Enable" class="img-fluid h_btn_md mr-2">
+                                                </button>
+                                            <?php endif; ?>
+                                            
+                                            <?php if ($sub == 'Edit'): ?>
+                                                <!--Save Edit-->
+                                                <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Cancel Edit-->
+                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                </button>
+                                            <?php endif; ?>
+
+                                            <?php if ($sub == "New"): ?>
+                                                <!--Save New-->
+                                                <button form="newForm" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md">
+                                                </button>
+
+                                                <!--Cancel Add-->
+                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                </button>
+                                            <?php endif; ?>
+
+                                        </div>
+                                    </header>
+
+                                    <article class="border bg-clight o-auto">
+
+                                        <?php if ($sub == 'View'): ?>
+                                            <!--VIEW-->
+                                            <div class="w-25 h-50 p-2">
+                                                <!--Next Back-->
+                                                <div class="w-100 d-flex flex-wrap align-content-center" style="height: 25px;">
+
+                                                    <!--Back-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
+                                                        <img src="../assets/icos/general/sort_left.png" alt="Previous" class="img -fluid">
+                                                    </button>
+
+                                                    <!--Next-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
+                                                        <img src="../assets/icos/general/sort_right.png" alt="Next" class="img -fluid">
+                                                    </button>
+
+                                                </div>
+
+                                                <!--Details-->
+                                                <div class="container w-100 p-2">
+                                                    <!--Tax ID-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                        <div class="col-sm-8 der_det p-1">01</div>
+                                                    </div>
+
+                                                    <!--Name-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
+                                                        <div class="col-sm-8 der_det p-1">Cust 1</div>
+                                                    </div>
+
+                                                    <!--Rate-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                        <div class="col-sm-8 der_det p-1">12%</div>
+                                                    </div>
+
+                                                    <div class="der_row">
+                                                        <span class="badge badge-pill pointer badge-success">Active</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($sub == 'Edit'): ?>
+                                            <!--Edit-->
+                                            <form id="editForm" method="POST" action="../config/proc/company_setup.php" class="w-25 h-50 p-2">
+
+                                                <!--Details-->
+                                                <div class="container w-100 p-2">
+                                                    <!--Tax ID-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                        <div class="col-sm-8 der_det p-1">01</div>
+                                                    </div>
+
+                                                    <!--Name-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
+                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="Cust 1" name="name" id="">
+                                                    </div>
+
+                                                    <!--Rate-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="12" name="rate" id="">
+                                                    </div>
+
+                                                    <!--Active-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Active</strong></div>
+                                                        <select name="active" class="col-sm-8 der_det pl-1" id="">
+                                                            <option value="1">YES</option>
+                                                            <option value="2">NO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        <?php endif; ?>
+
+                                        <?php if ($sub == 'New'): ?>
+                                            <!--New-->
+                                            <form id="newForm" method="POST" action="../config/proc/company_setup.php" class="w-25 h-50 p-2">
+
+                                                <!--Details-->
+                                                <div class="container w-100 p-2">
+                                                    <!--Name-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
+                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Tax Unique Name" name="name" id="">
+                                                    </div>
+
+                                                    <!--Rate-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="rate without % (12)" name="rate" id="">
+                                                    </div>
+
+                                                    <!--Active-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Active</strong></div>
+                                                        <select name="active" class="col-sm-8 der_det pl-1" id="">
+                                                            <option value="1">YES</option>
+                                                            <option value="2">NO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        <?php endif; ?>
+
+                                    </article>
+                                </div>
+                            <?php endif; ?>
+
+                            <!--Payment Method-->
+                            <?php if ($main == "Payment Method"): ?>
+
+                                <!--Contents-->
+                                <div class="w-75 h-50 mx-auto">
+                                    <table class="table border-0 table-hover">
+                                        <thead>
+                                            <tr class="c_tr_head">
+                                                <th class="c_th">ID</th>
+                                                <th class="c_th">Name</th>
+                                                <th class="c_th text-right">Active</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr class="bg-clight border-bottom">
+                                                <td class="c_td w-25">01</td>
+                                                <td class="c_td w-25">Payment 1</td>
+                                                <td class="c_td w-25 clearfix">
+                                                    <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" data-toggle="tooltip" title="Active" class="pointer"><img src="../assets/icos/general/tick_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-clight border-bottom">
+                                                <td class="c_td w-25">02</td>
+                                                <td class="c_td w-25">Payment 2</td>
+                                                <td class="c_td w-25">
+                                                    <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" data-toggle="tooltip" title="Disabled" class="pointer"><img src="../assets/icos/general/unticked_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-clight border-bottom">
+                                                <td class="c_td w-25">03</td>
+                                                <td class="c_td w-25">Payment 3</td>
+                                                <td class="c_td w-25">
+                                                    <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" data-toggle="tooltip" title="Disabled" class="pointer"><img src="../assets/icos/general/unticked_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+
+                            <!--Backup-->
+                            <?php if ($main == "Backup"): ?>
+
+                                <!--Contents-->
+                                <div class="w-50 mx-auto bg-clight text-center p-5 mt-2">
+                                    <!--Backup-->
+                                    <button onclick="location.href='../config/proc/company_setup.php'" class="btn btn-csecondary rounded-0 bold">
+                                        Backup Now
+                                    </button>
+
+                                    <!--Restore-->
+                                    <form method="post" enctype="multipart/form-data" action="../config/proc/company_setup.php" class="w-75 mt-5 mx-auto">
+                                        <div class="w-100 clearfix">
+                                            <div class="custom-file float-left w-65">
+                                                <input type="file" class="custom-file-input" id="customFile">
+                                                <label class="custom-file-label" for="customFile"></label>
+                                            </div>
+
+                                            <button name="restoredb" class="w-25 float-right btn btn-corange">Restore</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            <?php endif; ?>
+
+                            <?php if ($main == "Others"): ?>
+
+                                <!-- Content -->
+                                <div class="w-100 h-80 o-hide">
+
+                                    <!--Header-->
+                                    <header class="w-100 border clearfix sub_header">
+                                        
+                                        <!--Buttons-->
+                                        <div class="w-50 h-100 float-left d-flex flex-wrap align-content-center">
+
+                                            <?php if($config == "csetup"): ?>
+                                                <!--Company Setup-->
+                                                <?php if ($sub == 'View'): ?>
+                                                <!--Edit-->
+                                                <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+                                                <?php endif; ?>
+                                                
+                                                <?php if ($sub == 'Edit'): ?>
+                                                    <!--Save Edit-->
+                                                    <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Cancel Edit-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                            <?php endif; ?>
+
+                                            <?php if($config == "compare"): ?>
+                                                <!--Compare-->
+                                                <?php if ($sub == 'View'): ?>
+                                                <!--Edit-->
+                                                <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+                                                <?php endif; ?>
+                                                
+                                                <?php if ($sub == 'Edit'): ?>
+                                                    <!--Save Edit-->
+                                                    <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Cancel Edit-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                            <?php endif; ?>
+
+                                            <?php if($config == "cursetup"): ?>
+                                                    <!--Currency Setup-->
+                                                <?php if ($sub == 'View'): ?>
+                                                    <!--Add-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=New'" data-toggle="tooltip" title="Add" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/add_new.png" alt="Add" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Edit-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                                <?php if($sub == "New"): ?>
+
+                                                    <!--Save New-->
+                                                    <button form="newForm" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md">
+                                                    </button>
+
+                                                    <!--Cancel Add-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                <?php endif; ?>
+                                                
+                                                <?php if ($sub == 'Edit'): ?>
+                                                    
+                                                    <?php if ($edit_all == true): ?>
+
+                                                        <!--Save Edit-->
+                                                        <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
+                                                            <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                        </button>
+
+                                                        <!--Exit Edit all-->
+                                                        <button onclick="location.href='../config/proc/company_setup.php?sub_nav&edit_all=no'" data-toggle="tooltip" title="Cancel All Edit" class="btn p-0 rounded-0">
+                                                            <img src="../assets/icos/general/cancel_all_edit.png" alt="CAE" class="img-fluid h_btn_md mr-2">
+                                                        </button>
+
+                                                    <?php endif; ?>
+
+                                                    <?php if($edit_all == false): ?>
+
+                                                        <!--Cancel Edit-->
+                                                        <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                            <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                        </button>
+
+                                                    <?php endif; ?>
+
+
+                                                    
+                                                <?php endif; ?>
+
+                                            <?php endif; ?>
+
+                                            
+
+                                        </div>
+
+                                        <!--Header Navs-->
+                                        <div style="font-size: 12px !important;" class="w-50 h-100 float-right d-flex flex-wrap justify-content-end align-content-center">
+                                            
+                                            <!--Company Config-->
+                                            <button onclick="location.href='../config/proc/company_setup.php?config_chg&config=csetup'" style="font-size: inherit;"
+                                                    class="btn p-0 ml-1 mr-1 rounded pl-2 pr-2  <?php if($config == 'csetup'){echo 'btn-csecondary-active';}else {echo 'btn-csecondary';} ?>">
+                                                Company Setup
+                                            </button>
+
+                                            <!--Currency Setup-->
+                                            <button onclick="location.href='../config/proc/company_setup.php?config_chg&config=cursetup'" style="font-size: inherit;"
+                                                    class="btn p-0 ml-1 mr-1 rounded pl-2 pr-2  <?php if($config == 'cursetup'){echo 'btn-csecondary-active';}else {echo 'btn-csecondary';} ?>">
+                                                Currency Setup
+                                            </button>
+
+                                            <!--Comparison-->
+                                            <button onclick="location.href='../config/proc/company_setup.php?config_chg&config=compare'" style="font-size: inherit;"
+                                                    class="btn p-0 ml-1 mr-1 rounded pl-2 pr-2  <?php if($config == 'compare'){echo 'btn-csecondary-active';}else {echo 'btn-csecondary';} ?>">
+                                                Comparison
+                                            </button>
+
+                                        </div>
+                                        
+
+                                    </header>
+
+                                    <!--Content-->
+                                    <article class="border bg-clight o-auto">
+                                        <?php if($config == "csetup"): ?>
+                                        
+                                            <?php if($sub == "View") : ?>
+                                                <!--View Mode-->
+                                                <div class="clearfix w-100 h-100 o-hide">
+
+                                                    <div class="w-50 float-left">
+                                                        <div class="container w-100 p-2">
+                                                            <!--Company Name-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Company Name</strong></div>
+                                                                <div class="col-sm-8 der_det p-1">Demo Company</div>
+                                                            </div>
+                
+                                                            <!--Address-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Address</strong></div>
+                                                                <div class="col-sm-8 der_det p-1">P.O Box BP550 , Street , City , Country</div>
+                                                            </div>
+            
+                                                            <!--Phone-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">+233 1234567</div>
+                                                            </div>
+            
+                                                            <!--Email-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">+email@domain.com</div>
+                                                            </div>
+            
+                                                            <!--VAT code-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">VAT Code</strong></div>
+                                                                <div class="col-sm-8 der_det p-1">12345</div>
+                                                            </div>
+            
+                                                            <!--Discount-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">DIscount</strong></div>
+                                                                <div class="col-sm-8 der_det p-1">x%</div>
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">y%</div>
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">z%</div>
+                                                            </div>
+            
+                                                            <!--Invoice Footer-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Footer</strong></div>
+                                                                <div class="col-sm-8 der_det p-1">Footer 1</div>
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">Footer 2</div>
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <div class="col-sm-8 der_det p-1">Footer 3</div>
+                                                            </div>
+            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="w-50 float-right p-2">
+                                                        <div class="w-50 mx-auto border-0 card">
+                                                            <p class="text-center text-dark p-0 m-0 bold">Logo</p>
+                                                            <img data-toggle="tooltip" title="Go to edit mode to change" src="../assets/icos/general/Hms.png" alt="" class="img-fluid img-thumbnail">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            <?php endif; ?>
+
+                                            <?php if($sub == "Edit") : ?>
+                                                <!--Edit Mode-->
+                                                <form id="editForm" method="POST" action="../config/proc/company_setup.php" enctype="multipart/form-data" class="clearfix w-100 h-100 o-hide">
+
+                                                    <div class="w-50 float-left">
+                                                        <div class="container w-100 p-2">
+                                                            <!--Company Name-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Company Name</strong></div>
+                                                                <input type="text" autocomplete="off" value="Demo Company" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+                
+                                                            <!--Address-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Address</strong></div>
+                                                                <!--Box-->
+                                                                <input type="text" autocomplete="off" class="col-sm-2 der_det" value="P.O Box BP550" name="box" id="">
+                                                                <!--street-->
+                                                                <input type="text" autocomplete="off" class="col-sm-2 der_det" value="Street" name="street" id="">
+                                                                <!--City-->
+                                                                <input type="text" autocomplete="off" class="col-sm-2 der_det" value="City" name="city" id="">
+                                                                <!--Country-->
+                                                                <input type="text" autocomplete="off" class="col-sm-2 der_det" value="Country" name="country" id="">
+                                                            </div>
+            
+                                                            <!--Phone-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="tel" value="+233 123456789" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <!--Email-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="Email" value="email@domain.com" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <!--VAT code-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">VAT Code</strong></div>
+                                                                <input type="text" autocomplete="off" value="12345" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <!--Discount-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">DIscount</strong></div>
+                                                                <input type="text" autocomplete="off" value="x" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="text" autocomplete="off" value="y" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="text" autocomplete="off" value="z" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <!--Invoice Footer-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark">Footer</strong></div>
+                                                                <input type="text" autocomplete="off" value="footer 1" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="text" autocomplete="off" value="footer 2" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-4"><strong class="text-dark"></strong></div>
+                                                                <input type="text" autocomplete="off" value="footer 3" class="col-sm-8 der_det" name="" id="">
+                                                            </div>
+            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="w-50 float-right p-2">
+                                                        <div class="w-50 mx-auto border-0 card">
+                                                            <p class="text-center text-dark p-0 m-0 bold">Logo</p>
+                                                            <img data-toggle="modal" data-target="#changeLogo" src="../assets/icos/general/Hms.png" alt="" class="img-fluid pointer img-thumbnail">
+
+                                                            <div class="modal fade" id="changeLogo">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <strong class="modal-title text-dark">Change Logo</strong>
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                            <div class="card w-50 mx-auto">
+                                                                                <img src="../assets/icos/general/Hms.png" alt="" class="img-thumbnail img-fluid">
+                                                                            </div>
+
+                                                                            <div class="mt-2 w-50 mx-auto">
+                                                                                <form action="" enctype="multipart/form-data">
+                                                                                    <div class="custom-file">
+                                                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                                                        <label class="custom-file-label" for="customFile">Choose Logo</label>
+                                                                                    </div>
+
+                                                                                    <button data-dismiss="modal" class="mt-2 w-100 btn btn-csecondary">
+                                                                                        COMMIT
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+
+                                        <?php if($config == "cursetup"): ?>
+                                            
+                                            <?php if($sub == "View") : ?>
+                                                <!--View Mode-->
+                                                <div class="w-50 float-left">
+
+                                                    <div class="w-100 m-2 h-100 o-auto">
+                                                        <table class="table border-0 table-hover">
+                                                            <thead>
+                                                                <tr class="c_tr_head">
+                                                                    <th class="c_th">ID</th>
+                                                                    <th class="c_th">Name</th>
+                                                                    <th class="c_th">Short</th>
+                                                                    <th class="c_th">Symbol</th>
+                                                                    <th class="c_th text-right">Status</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                    
+                                                            <tbody>
+                                                                <tr class="bg-clight border-bottom">
+                                                                    <td class="c_td w-25">01</td>
+                                                                    <td class="c_td w-25">Ghana Cedi</td>
+                                                                    <td class="c_td w-25">GHS</td>
+                                                                    <td class="c_td w-25">$</td>
+                                                                    <td class="c_td w-25 clearfix">
+                                                                        <span data-toggle="popover" data-placement="left" data-content="Enter Edit Mode" class="float-right pointer" class="pointer"><img src="../assets/icos/general/tick_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="bg-clight border-bottom">
+                                                                    <td class="c_td w-25">01</td>
+                                                                    <td class="c_td w-25">Ghana Cedi</td>
+                                                                    <td class="c_td w-25">GHS</td>
+                                                                    <td class="c_td w-25">C</td>
+                                                                    <td class="c_td w-25 clearfix">
+                                                                        <span data-toggle="popover" data-placement="left" data-content="Enter Edit Mode" class="float-right pointer" class="pointer"><img src="../assets/icos/general/unticked_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                        
+                                                    </div>
+    
+                                                </div>   
+                                            <?php endif; ?>
+
+                                            <?php if($sub == "Edit") : ?>
+
+                                                <?php if ($edit_all == false) : ?>
+                                                <!--Edit Single-->
+                                                
+                                                    <!--Edit Mode-->
+                                                    <div class="w-50 float-left">
+
+                                                        <div class="w-100 m-2 h-100 o-auto">
+
+                                                        <!--Edit All-->
+                                                        <button form="editForm" onclick="location.href='../config/proc/company_setup.php?sub_nav&edit_all=yes'" name="commitEdit" data-toggle="tooltip" title="Edit All" data-placement="right" class="btn p-0 rounded-0">
+                                                            <img src="../assets/icos/general/edit_all.png" alt="Edit All" class="img-fluid h_btn_md mr-2">
+                                                        </button>
+
+                                                            <table class="table border-0 table-hover">
+                                                                <thead>
+                                                                    <tr class="c_tr_head">
+                                                                        <th class="c_th">Edit</th>
+                                                                        <th class="c_th">Name</th>
+                                                                        <th class="c_th">Short</th>
+                                                                        <th class="c_th">Symbol</th>
+                                                                        <th class="c_th text-right">Status</th>
+                                                                        
+                                                                    </tr>
+                                                                </thead>
+                        
+                                                                <tbody>
+                                                                    <!--View Currency-->
+                                                                    <tr class="bg-clight border-bottom">
+                                                                        <td class="c_td w-25">
+                                                                            <img onclick="editRow(1,1)" onmousemove="this.src='../assets/icos/general/edit_change_icon_hover.png'" onmouseout="this.src='../assets/icos/general/edit_change_icon_normal.png'" src="../assets/icos/general/edit_change_icon_normal.png" alt="YES" class="h_btn_md pointer img-fluid">
+                                                                        </td>
+                                                                        <td class="c_td w-25">Currenct 1</td>
+                                                                        <td class="c_td w-25">SHORT 1</td>
+                                                                        <td class="c_td w-25">S1</td>
+                                                                        <td class="c_td w-25 clearfix">
+                                                                            <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" class="pointer"><img data-toggle="tooltip" title="Default" src="../assets/icos/general/tick_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <!--Edit Currency-->
+                                                                    <tr id="1" style="display: none;" class="bg-clight border-bottom">
+                                                                        <td class="c_td w-25">
+                                                                            <img  onclick="editRow(1,2)" src="../assets/icos/general/close.png" alt="YES" class="h_btn_md pointer img-fluid">
+                                                                        </td>
+
+                                                                        <!--Edit Currency-->
+                                                                        <td class="c_td w-25"><input type="text" value="Currency 1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                        </td>
+
+                                                                    <!--Edit Short-->
+                                                                    <td class="c_td w-25"><input type="text" value="SHORT 1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                    </td>
+
+                                                                    <!--Edit Symbol-->
+                                                                    <td class="c_td w-25"><input type="text" value="S1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                    </td>
+
+                                                                        <td class="c_td w-25 clearfix">
+                                                                            <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" class="pointer"><img data-toggle="tooltip" title="Default" src="../assets/icos/general/save.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <script>
+                                                                    
+                                                                        function editRow(id,action)//js function to edit currency row , id will be id from db, and action is 1 or 2
+                                                                        {
+                                                                            if (action == 1)  //if action is 1, show edit form
+                                                                            {
+                                                                                document.getElementById(id).style.display = ""; // empty will mean no display option set, so it will show element
+                                                                                console.log("action is 1 and we are editing")
+                                                                            } 
+                                                                            else if(action == 2)// if action is 2, close edit form
+                                                                            {
+                                                                                document.getElementById(id).style.display = "none";
+                                                                                console.log("action is 2 and we are not editing")
+                                                                            }
+                                                                        }
+
+                                                                    </script>
+
+                                                                    <tr class="bg-clight border-bottom">
+                                                                        <td class="c_td w-25">
+                                                                            <img onmousemove="this.src='../assets/icos/general/edit_change_icon_hover.png'" onmouseout="this.src='../assets/icos/general/edit_change_icon_normal.png'" src="../assets/icos/general/edit_change_icon_normal.png" alt="YES" class="h_btn_md pointer img-fluid">
+                                                                        </td>
+                                                                        <td class="c_td w-25">Ghana Cedi</td>
+                                                                        <td class="c_td w-25">GHS</td>
+                                                                        <td class="c_td w-25">C</td>
+                                                                        <td class="c_td w-25 clearfix">
+                                                                            <span onclick="location.href='../config/proc/company_setup.php'" class="float-right pointer" class="pointer"><img data-toggle="tooltip" title="Set as default" src="../assets/icos/general/unticked_box.png" alt="YES" class="h_btn_md img-fluid"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                            
+                                                        </div>
+        
+                                                    </div> 
+
+                                                <?php endif; ?>
+
+                                                <?php if ($edit_all == true) : ?>
+                                                <!--Edit all-->
+                                                
+                                                    <!--Edit Mode-->
+                                                    <div class="w-50 float-left">
+
+                                                        <form id="editForm" method="POST" action="../config/proc/company_setup.php" class="w-100 m-2 h-100 o-auto">
+
+                                                            <table class="table border-0 table-hover">
+                                                                <thead>
+                                                                    <tr class="c_tr_head">
+                                                                        <th class="c_th">ID</th>
+                                                                        <th class="c_th">Name</th>
+                                                                        <th class="c_th">Short</th>
+                                                                        <th class="c_th">Symbol</th>
+                                                                        
+                                                                    </tr>
+                                                                </thead>
+                        
+                                                                <tbody>
+                                                                    
+
+                                                                    <!--Edit Currency-->
+                                                                    <tr class="bg-clight border-bottom">
+                                                                        <td class="c_td w-25">01</td>
+
+                                                                        <!--Edit Currency-->
+                                                                        <td class="c_td w-25"><input type="text" value="Currency 1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                        </td>
+
+                                                                        <!--Edit Short-->
+                                                                        <td class="c_td w-25"><input type="text" value="SHORT 1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                        </td>
+
+                                                                        <!--Edit Symbol-->
+                                                                        <td class="c_td w-25"><input type="text" value="S1" name="" style="width: 80px !important;" class="der_row der_det" id="">
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                            
+                                                        </form>
+        
+                                                    </div> 
+                                                    <?php echo $edit_all; ?>
+
+                                                <?php endif; ?>
+
+
+ 
+                                            <?php endif; ?>
+
+                                            <?php if($sub == "New") : ?>
+                                                <form id="newForm" method="POST" action="../config/proc/company_setup.php" class="w-25 h-50 p-2">
+
+                                                    <!--Details-->
+                                                    <div class="container w-100 p-2">
+                                                        <!--Name-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Currency</strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Currency" name="name" id="">
+                                                        </div>
+
+                                                        <!--Code-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Code</strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Code" name="name" id="">
+                                                        </div>
+
+                                                        <!--Symbol-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Symbol</strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Symbol" name="name" id="">
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            <?php endif; ?>
+                                                                                          
+
+                                        <?php endif; ?>
+
+                                        <?php if ($config == "compare"): ?>
+                                                <!--Compare-->
+                                                <div class="w-30 p-2 text-dark">
+                                                    
+                                                    <?php if($sub == "View"): ?>
+                                                        <!--View-->
+                                                        <div class="container w-100 p-2">
+                                                            <!--Booking Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Bookings Target</strong></div>
+                                                                <div class="col-sm-6 der_det p-1">20</div>
+                                                            </div>
+    
+                                                            <!--Check In Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Checkin Target</strong></div>
+                                                                <div class="col-sm-6 der_det p-1">20</div>
+                                                            </div>
+            
+                                                            <!--Daily Earning Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Daily Earning</strong></div>
+                                                                <div class="col-sm-6 der_det p-1">$100.00</div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <?php if($sub == "Edit"): ?>
+                                                        <!--Edit-->
+                                                        <form id="editForm" method="POST" action="../config/proc/company_setup.php" class="container w-100 p-2">
+                                                            <!--Booking Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Bookings Target</strong></div>
+                                                                <input type="text" class="col-sm-6 der_det pl-1" value="20" name="booking_target" autocomplete="off">
+                                                            </div>
+    
+                                                            <!--Check In Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Checkin Target</strong></div>
+                                                                <input type="text" class="col-sm-6 der_det pl-1" value="20" name="checin_target" autocomplete="off">
+                                                            </div>
+            
+                                                            <!--Daily Earning Target-->
+                                                            <div class="row p-0 der_row no-gutters">
+                                                                <div class="col-sm-6"><strong class="text-dark">Daily Earning</strong></div>
+                                                                <input type="text" class="col-sm-6 der_det pl-1" autocomplete="off" name="dailing_earning" value="$100.00">
+                                                            </div>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    
+                                                </div>
+                                        <?php endif; ?>
+                                        
+                                    </article>
+                                </div>
+
+                            <?php endif; ?>
+
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            </article>
+        </section>
+
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="../js/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="../js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script>
+
+<script>
+    $(document).ready(function(){
+      $('.toast').toast('show');
+    });
+    </script>
+
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover();
+    });
+    </script>
+</body>
+
+
+</html>

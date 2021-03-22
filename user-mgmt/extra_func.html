@@ -1,0 +1,113 @@
+<?php
+
+    require '../config/inc/config.usermgmt.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EXTRA TOOL</title>
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+
+<style>
+    #saveButton
+    {
+        position: fixed;
+        bottom: 0;
+        height: 25px;
+        width: 25px;
+    }
+</style>
+<body>
+<!--    <div id="saveButton" class="m-2 p-0">-->
+<!--        <button>Save</button>-->
+<!--    </div>-->
+
+
+  <div class="mx-auto border overflow-hidden" style="width: 350px !important; height: 100vh">
+      <form id="permissions" method="post" action="../config/proc/usermgmt.php" style="height: 90%; overflow: auto" class="table-responsive table-responsive-sm w-100">
+        <table class="table table-striped mb-0">
+          <thead class="bg-cus-muted">
+            <tr class="text_sm">
+              <th class="p-1">Permission</th>
+              <th class="p-1">Active</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <?php
+                $perm_sql = "select COLUMN_NAME from information_schema.columns where table_name='user_access_level' and column_name like 'Perm%'";
+                $perm_stmt = $pdo->prepare($perm_sql);
+                $perm_stmt->execute();
+            ?>
+            <?php while ($perm = $perm_stmt->fetch(PDO::FETCH_ASSOC)): ?>
+            <?php
+                $permission = $perm['COLUMN_NAME'];
+                $column_explode = explode('_' , $perm['COLUMN_NAME']);
+                if (count($column_explode) > 2)
+                {
+                    $shrt_col_name = $column_explode[1] . " " . $column_explode[2];
+                }
+                else
+                {
+                    $shrt_col_name = $column_explode[1];
+                }
+
+            ?>
+                <tr class="text_xsm">
+                  <td class="p-1"><?php echo $shrt_col_name ?></td>
+                  <td class="p-1">
+                      <?php
+                        $checkPermSql = "SELECT * FROM `user_access_level` WHERE `name` = ?";
+                        $checkPermStmt = $pdo->prepare($checkPermSql);
+                        $checkPermStmt->execute([$group['name']]);
+                        $checkPermRes = $checkPermStmt->fetch(PDO::FETCH_ASSOC);
+                        $status = $checkPermRes[$permission];
+
+                      ?>
+
+                      <?php if ($status === 0) : ?>
+                        <input name="<?php echo $permission ?>" type="checkbox">
+                      <?php endif; ?>
+
+                      <?php if ($status === 1) : ?>
+                        <input name="<?php echo $permission ?>"  checked type="checkbox">
+                      <?php endif; ?>
+
+                  </td>
+                </tr>
+
+            <?php endwhile; ?>
+            <input type="hidden" name="group" value="<?php echo $group['name'] ?>">
+          </tbody>
+        </table>
+      </form>
+      <!--BUTTONS-->
+      <div style="height: 10%; overflow: hidden" class="d-flex flex-wrap align-content-center pt-1 justify-content-center">
+          <!--SAVE BUTT-->
+          <button form="permissions" name="modifyPermissions" class="btn-success ml-1 btn-sm mr-1 p-1 h-90 text_xsm w-20">SAVE</button>
+          <button onclick="window.close()" class="btn-success ml-1 btn-danger mr-1 p-1 h-90 text_xsm w-20">CANCEL</button>
+          <button onclick="selectAllPerm()" class="btn-success ml-1 btn-danger mr-1 p-1 h-90 text_xsm w-20">CANCEL</button>
+
+      </div>
+  </div>
+</body>
+</html>
+
+<script>
+  function activate(task , id)
+  {
+    if (task === 1)
+    {
+      alert('Enabling');
+    }
+    else if (task === 0)
+    {
+      alert('Disabling');
+    }
+
+  }
+</script>

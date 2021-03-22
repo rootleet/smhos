@@ -1,0 +1,923 @@
+<?php
+    include '../config/inc/config.usermgmt.php';
+    $main = $_SESSION['usermgmt_main'];
+    $sub = $_SESSION['usermgmt_main_sub'];
+
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="shortcut icon"
+          href="../assets/icos/general/Hms.png"
+          type="image/x-icon">
+    <title>SMHOS || User Management</title>
+</head>
+
+<body class="container-fluid p-0 bg-cprimary">
+    
+    <div class="row h-100 no-gutters">
+
+        <!--Navigation-->
+        <section class="col-sm-2 h-100 o-hide">
+            <header class="h_main d-flex flex-wrap align-content-center justify-content-center">
+                <strong class="cname"><?php echo $company_setup['c_name']; ?></strong>
+            </header>
+
+            <article class="a_main pt-1">
+                <ul class="nav h-90 nav-pills nav-justified flex-column">
+
+                    <!--Dashboard-->
+                    <button onclick="location.href='../dashboard/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/dashboard.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Dashboard</span>
+                    </button>
+
+                    <!--Company Setup-->
+                    <button onclick="location.href='../company-setup/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/company_setup.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Company Setup</span>
+                    </button>
+
+                    <!--Facility Management-->
+                    <button onclick="location.href='../facility-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/facility_management.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Facility Management</span>
+                    </button>
+
+                    <!--User Management-->
+                    <button class="btn btn-nav-active text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/user_management.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">User Management</span>
+                    </button>
+
+                    <!--Reports-->
+                    <button onclick="location.href='../reports/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
+                        <span class="w-80">Reports</span>
+                    </button>
+
+                </ul>
+
+                <div class="w-100 h-10">
+                    <button onclick="loction.href='www.facebook.com'" class="btn btn-csecondary rounded-0 h-100 w-100">Powered By Rootech.inc</button>
+                </div>
+            </article>
+        </section>
+
+        <!--Work Space-->
+        <section class="col-sm-10 h-100 bg-cmain o-hide">
+            <!--work space header-->
+            <header class="bg-clight">
+                <div class="w-25 ml-auto h-100 d-flex flex-wrap justify-content-end pr-2 align-content-center">
+                    <!--Username-->
+                    <div style="height: 30px;" class="d-flex flex-wrap align-content-center">
+                        <span class="mr-1 ml-1"><?php echo $user_details['first_name'] . ' ' . $user_details['last_name'] ?></span>
+                    </div>
+                    <!--Logout-->
+                    <div onclick="location.href='../config/inc/logout.php'" data-toggle="tooltip" title="logout" class="ico-nm pointer bg-success rounded-circle ml-1 border border-success">
+                        <img src="../assets/icos/general/logout.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </header>
+
+            <!--WorkSpace-->
+            <article>
+
+                <div class="container p-0 w-90 h-100 o-hide">
+                    <!--Head-->
+                    <div class="head p-3 d-flex flex-wrap align-content-center">
+                        <span>User Management</span>
+                    </div>
+
+                    <!--Middle-->
+                    <div class="middle container w-100 p-0">
+                        <div class="row o-hide no-gutters w-100 h-100">
+
+                            <!--Card 1-->
+                            <div class="col-sm-4 p-3">
+                                <div onclick="location.href='../config/proc/usermgmt.php?nav&level=top&to=groups'" class="<?php if($main == 'groups'){echo 'btn-cprimary-active';}else{echo 'rcard';} ?> cust_shadow pointer w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+
+                                    <div class="w-100 h-100">
+                                        <div class="w-100 h-50">
+                                            <span class="rcard-title">Groups</span>
+                                        </div>
+    
+                                        <div class="w-100 h-50 rcard_details clearfix">
+                                            <!--Count-->
+                                            <div class="w-50 h-100 float-left">
+
+                                                <div class="w-100 h-50">
+                                                    <p class="p-0 text-magento bold m-0"><?php echo $group_count ?></p>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--Card 2-->
+                            <div class="col-sm-4 p-3">
+                                <div onclick="location.href='../config/proc/usermgmt.php?nav&level=top&to=users'" class="<?php if($main == 'users'){echo 'btn-cprimary-active';}else{echo 'rcard';} ?> cust_shadow pointer w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+
+                                    <div class="w-100 h-100">
+                                        <div class="w-100 h-50">
+                                            <span class="rcard-title">Users</span>
+                                        </div>
+    
+                                        <div class="w-100 h-50 rcard_details clearfix">
+                                            <!--Count-->
+                                            <div class="w-50 h-100 float-left">
+
+                                                <div class="w-100 h-50">
+                                                    <p class="p-0 text-magento bold m-0">
+                                                        <?php echo $users_count ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--Card 3-->
+                            <div class="col-sm-4 p-3">
+                                <div onclick="location.href='../config/proc/usermgmt.php?nav&level=top&to=active_users'" class="<?php if($main == 'active_users'){echo 'btn-cprimary-active';}else{echo 'rcard';} ?> cust_shadow pointer w-100 p-3 h-100 d-flex flex-wrap align-content-between">
+
+                                    <div class="w-100 h-100">
+                                        <div class="w-100 h-50">
+                                            <span class="rcard-title">Active Users</span>
+                                        </div>
+    
+                                        <div class="w-100 h-50 rcard_details clearfix">
+                                            <!--Count-->
+                                            <div class="w-50 h-100 float-left">
+
+                                                <div class="w-100 h-50">
+                                                    <p class="p-0 text-magento bold m-0">
+                                                        <?php echo $online_users ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--Bottom-->
+                    <div class="bottom p-3">
+
+                        <?php if($main == 'home'): ?>
+
+                            <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                <p class="enc">Select a function above</p>
+                            </div>
+
+                        <?php endif; ?>
+
+                        <?php if($main == 'groups'): ?>
+                            <!--Groups-->
+                            <?php if ($group_count < 1): ?>
+                                <div class="w-100 h-100 card">
+                                    <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                        <button data-toggle="modal" data-target="#createUserGroup" class="btn btn-sm btn-outline-info">Creat Group</button>
+                                        <div class="modal fade" id="createUserGroup">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <span class="modal-title">Creating your first group</span>
+                                                        <button class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body p-3">
+                                                        <div class="w-75 mx-auto">
+                                                            <form method="post" action="../config/proc/usermgmt.php">
+                                                                <div class="input-group mb-3">
+                                                                    <input class="form-control" autocomplete="off" autofocus placeholder="Group Name" name="grp_name">
+                                                                </div>
+                                                                <div class="input-group mb-3">
+                                                                    <select name="grp_level" class="form-control">
+                                                                        <option value="0">Administrator</option>
+                                                                        <option value="1">Manager</option>
+                                                                        <option value="2">Receptionist</option>
+                                                                        <option value="3" selected>Guess</option>
+                                                                    </select>
+                                                                </div>
+                                                                <button class="w-100 btn btn-success" name="addUserGroup">CREATE</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($group_count > 0): ?>
+                                <main class="w-100 card cust_shadow border-0 p-1 h-100">
+                                    <header class="clearfix sub_header">
+                                        <div class="w-50 h-100 float-left d-flex flex-wrap align-content-center">
+                                            <?php if($sub == "View"): ?>
+
+                                                <!--Add-->
+                                                <button onclick="location.href='../config/proc/usermgmt.php?nav&level=sub&to=New'" data-toggle="tooltip" title="Add New" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/add_new.png" alt="NEW" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+
+                                                <!--Edit-->
+                                                <button onclick="location.href='../config/proc/usermgmt.php?nav&level=sub&to=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+
+                                                <!--Delete Group Modal-->
+                                                <div class="modal fade" id="deleteGrp">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <!--Modal Header-->
+                                                            <div class="modal-header">
+                                                                <strong class="modal-title">Deleting Group</strong>
+                                                                <button class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+
+                                                            <!--Modal Body-->
+                                                            <div class="modal-body">
+
+                                                                <div class="alert alert-warning w-75 text-center mx-auto">
+                                                                    Are you sure you want to delete <strong>group_name</strong> ?
+
+                                                                    <div class="w-50 mx-auto mt-2 clearfix">
+                                                                        <button onclick="location.href='../config/proc/usermgmt.php'" class="btn btn-success w-40 p-0 float-left">
+                                                                            Yes
+                                                                        </button>
+
+                                                                        <button data-dismiss="modal" class="btn btn-warning w-40 p-0 float-right">
+                                                                            No
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="alert alert-danger text-center w-75 mx-auto">
+                                                                    Sorry you can't delete <strong>group_name</strong> unless you re-assign it users to a different group:
+                                                                    <br>
+                                                                    <button onclick='popupwindow("", "none", 650, 500)' class="btn btn-info" data-dismiss="modal">re-aasign</button>
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <?php endif; ?>
+
+                                            <?php if($sub == "Edit"): ?>
+
+                                                <!--Save Edit-->
+                                                <button form="commitEditForm" name="commitEdit" data-toggle="tooltip" title="Save Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/save_edit.png" alt="SAVE EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Delete-->
+                                                <button data-toggle="modal" data-target="#deleteGrp" class="btn p-0 rounded-0">
+                                                    <img data-toggle="tooltip" title="Delete" src="../assets/icos/general/delete.png" alt="DELETE" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Cancel-->
+                                                <button onclick="location.href='../config/proc/usermgmt.php?nav&level=sub&to=View'" data-toggle="tooltip" title="Cancel Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/disable.png" alt="CANCEL EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                            <?php endif; ?>
+
+                                            <?php if($sub == "New"): ?>
+                                                <!--Save-->
+                                                <button form="commitNew" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                                <!--Cancel-->
+                                                <button onclick="location.href='../config/proc/usermgmt.php?nav&level=sub&to=View'" data-toggle="tooltip" title="Cancel Edit" class="btn p-0 rounded-0">
+                                                    <img src="../assets/icos/general/disable.png" alt="CANCEL EDIT" class="img-fluid h_btn_md mr-2">
+                                                </button>
+
+                                            <?php endif; ?>
+
+
+                                        </div>
+
+                                        <div class="w-50 h-100 float-right border">
+
+                                        </div>
+                                    </header>
+
+                                    <article>
+
+                                        <?php if($sub == "View"): ?>
+
+                                            <!--VIEW-->
+                                            <div class="w-25 h-50 p-2">
+                                                <!--Next Back-->
+                                                <div class="w-100 d-flex flex-wrap align-content-center" style="height: 25px;">
+
+                                                    <!--Back-->
+                                                    <?php if ($previous === true): ?>
+
+                                                        <button data-toggle="tooltip" title="Previous" data-placement="left" onclick="location.href='../config/proc/usermgmt.php?item_nav&direction=Previous'" class="btn p-0 mr-1 rounded-0">
+                                                            <img src="../assets/icos/general/sort_left.png" alt="Previous" class="img -fluid">
+                                                        </button>
+
+                                                    <?php endif; ?>
+
+                                                    <?php if ($previous !== true): ?>
+
+                                                        <button data-toggle="tooltip" title="Start" data-placement="left"  class="btn p-0 mr-1 rounded-0">
+                                                            <img src="../assets/icos/general/sort_left_disabled.png" alt="Previous" class="img -fluid">
+                                                        </button>
+
+                                                    <?php endif; ?>
+
+                                                    <!--Next-->
+                                                    <?php if ($next === true): ?>
+
+                                                        <button data-toggle="tooltip" title="Next" data-placement="right" onclick="location.href='../config/proc/usermgmt.php?item_nav&direction=Next'" class="btn p-0 mr-1 rounded-0">
+                                                            <img src="../assets/icos/general/sort_right.png" alt="Next" class="img -fluid">
+                                                        </button>
+
+                                                    <?php endif; ?>
+
+                                                    <?php if ($next !== true): ?>
+                                                        <button data-toggle="tooltip" title="End" data-placement="right" class="btn p-0 mr-1 rounded-0">
+                                                            <img src="../assets/icos/general/sort_right_disabled.png" alt="Next" class="img -fluid">
+                                                        </button>
+                                                    <?php endif; ?>
+
+                                                </div>
+
+                                                <!--Details-->
+                                                <div class="container w-100 p-2">
+                                                    <!--Group Id-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                        <div class="col-sm-8 der_det p-1"><?php echo $group['id'] ?></div>
+                                                    </div>
+
+                                                    <!--Group Name-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
+                                                        <div class="col-sm-8 der_det p-1"><?php echo $group['name'] ?></div>
+                                                    </div>
+
+                                                    <!--Owner-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Owner</strong></div>
+                                                        <div class="col-sm-8 der_det p-1"><?php echo $group['owner'] ?></div>
+                                                    </div>
+
+                                                    <!--Permissions-->
+                                                    <div class="d-flex flex-wrap">
+                                                        <?php
+
+                                                            $uncheckImg = "../assets/icos/general/unchecked_radio_button.png";
+                                                            $uncheckBase = base64_encode(file_get_contents($uncheckImg));
+                                                            $uncheckSrc = 'data:'.mime_content_type($uncheckImg).';base64,'.$uncheckBase;
+
+                                                            $checkImg = "../assets/icos/general/checked_radio_button.png";
+                                                            $checkBase = base64_encode(file_get_contents($checkImg));
+                                                            $checkSrc = 'data:'.mime_content_type($checkImg).';base64,'.$checkBase;
+
+                                                        ?>
+
+                                                        <button onclick="popupwindow('extra_func.html', 'User Access Level', 350, 350)" class="text_sm btn btn-info mt-3 cust_shadow" >Access Level</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <?php endif; ?>
+
+
+                                        <?php if($sub == 'New'): ?>
+
+                                            <!--New-->
+                                            <div class="w-25 h-100 p-2">
+
+                                                <!--Details-->
+                                                <form id="commitNew" action="../config/proc/usermgmt.php" method="POST" class="container h-100 o-hide w-100 p-2">
+                                                    <!--Group Name-->
+                                                    <header class="p-0 der_row no-gutters">
+                                                        <input autofocus type="text" class="w-100 text-dark der_det pl-1" autocomplete="off" placeholder="Group Name" name="grp_name">
+                                                    </header>
+
+                                                    <!--Permissions-->
+                                                    <article class="w-100 card mt-2 bg-cus-muted cust_shadow border">
+                                                        <div class="card-body h-100 table-responsive-sm overflow-auto">
+                                                            <table class="table table-striped mb-0">
+                                                                <thead class="bg-cus-muted">
+                                                                <tr class="text_sm">
+                                                                    <th class="p-1">Permission</th>
+                                                                    <th class="p-1">Active</th>
+                                                                </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                <?php
+                                                                    $perm_sql = "select COLUMN_NAME from information_schema.columns where table_name='user_access_level' and column_name like 'Perm%'";
+                                                                    $perm_stmt = $pdo->prepare($perm_sql);
+                                                                    $perm_stmt->execute();
+                                                                ?>
+                                                                <?php while ($perm = $perm_stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                                                                <?php
+                                                                    $permission = $perm['COLUMN_NAME'];
+                                                                    $column_explode = explode('_' , $perm['COLUMN_NAME']);
+                                                                    if (count($column_explode) > 2)
+                                                                    {
+                                                                        $shrt_col_name = $column_explode[1] . " " . $column_explode[2];
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        $shrt_col_name = $column_explode[1];
+                                                                    }
+
+                                                                ?>
+                                                                <tr class="text_xsm">
+                                                                    <td class="p-1"><?php echo $shrt_col_name ?></td>
+                                                                    <td class="p-1">
+                                                                        <?php
+                                                                            $checkPermSql = "SELECT * FROM `user_access_level` WHERE `name` = ?";
+                                                                            $checkPermStmt = $pdo->prepare($checkPermSql);
+                                                                            $checkPermStmt->execute([$group['name']]);
+                                                                            $checkPermRes = $checkPermStmt->fetch(PDO::FETCH_ASSOC);
+                                                                            $status = $checkPermRes[$permission];
+
+                                                                        ?>
+
+                                                                        <input name="<?php echo $permission ?>" type="checkbox">
+
+                                                                    </td>
+                                                                </tr>
+
+                                                                <?php endwhile; ?>
+                                                                <input type="hidden" name="group" value="<?php echo $group['name'] ?>">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </article>
+                                                </form>
+
+                                            </div>
+
+                                        <?php endif; ?>
+
+                                        <?php if($sub == "Edit"): ?>
+
+                                            <!--Edit-->
+                                            <div class="w-25 h-50 p-2">
+
+                                                <!--Details-->
+                                                <form id="commitEditForm" name="editUserGroup" action="../config/proc/usermgmt.php" method="POST" class="container w-100 p-2">
+                                                    <!--Group Id-->
+    <!--                                                <div class="row p-0 der_row no-gutters">-->
+    <!--                                                    <div class="col-sm-4"><strong class="text-dark">ID</strong></div>-->
+    <!--                                                    <input type="text" readonly value="01" class="col-sm-8 der_det pl-1" name="grp_id" id="">-->
+    <!--                                                </div>-->
+
+                                                    <!--Group Name-->
+                                                    <div class="row p-0 der_row no-gutters">
+                                                        <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
+                                                        <input type="text" autocomplete="off" value="<?php echo $group['name'] ?>" class="col-sm-8 der_det pl-1" name="group_name" id="">
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                        <?php endif; ?>
+
+                                    </article>
+                                </main>
+                            <?php endif; ?>
+
+                        <?php endif; ?>
+
+                        <?php if($main == 'users'): ?>
+                            <!--users-->
+                            <main class="w-100 card cust_shadow border-0 p-1 h-100">
+                                <header class="clearfix sub_header">
+                                    <div class="w-50 h-100 float-left border d-flex flex-wrap align-content-center">
+                                        <?php if($sub == "View"): ?>
+
+                                            <!--Add-->
+                                            <button onclick="location.href='../config/proc/usermgmt.php?sub_nav&sub=New'" data-toggle="tooltip" title="Add New" class="btn p-0 rounded-0">
+                                                <img src="../assets/icos/general/add_new.png" alt="NEW" class="img-fluid h_btn_md mr-2">
+                                            </button>
+
+
+                                            <!--Edit-->
+                                            <button onclick="location.href='../config/proc/usermgmt.php?sub_nav&sub=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                            </button>
+
+
+
+
+
+                                        <?php endif; ?>
+
+                                        <?php if($sub == "Edit"): ?>
+
+                                            <!--Save Edit-->
+                                            <button form="commitEditForm" name="commitEdit" data-toggle="tooltip" title="Save Edit" class="btn p-0 mr-2 rounded-0">
+                                                <img src="../assets/icos/general/save_edit.png" alt="SAVE EDIT" class="img-fluid h_btn_md">
+                                            </button>
+
+                                            <!--Delete-->
+                                            <button data-toggle="modal" data-target="#deletUser" class="btn p-0 mr-2 rounded-0">
+                                                <img data-toggle="tooltip" title="Delete" src="../assets/icos/general/delete.png" alt="DELETE" class="img-fluid h_btn_md">
+                                            </button>
+
+                                            <!--Delete Group Modal-->
+                                            <div class="modal fade" id="deletUser">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!--Modal Header-->
+                                                        <div class="modal-header">
+                                                            <strong class="modal-title">Deleting Group</strong>
+                                                            <button class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+
+                                                        <!--Modal Body-->
+                                                        <div class="modal-body">
+
+                                                            <?php if ($user_online !== 1): ?>
+                                                                <div class="alert alert-warning w-75 text-center mx-auto">
+                                                                Are you sure you want to delete <strong><?php echo $username ?></strong>
+
+                                                                <div class="w-50 mx-auto mt-2 clearfix">
+                                                                    <button onclick="location.href='../config/proc/usermgmt.php?del'" class="btn btn-success w-40 p-0 float-left">
+                                                                        Yes
+                                                                    </button>
+
+                                                                    <button data-dismiss="modal" class="btn btn-warning w-40 p-0 float-right">
+                                                                        No
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <?php endif; ?>
+
+                                                            <?php if ($user_online === 1): ?>
+                                                                <div class="alert alert-info w-75 text-center mx-auto">
+                                                                    <p>User is online, you can't delete account right away</p>
+                                                                </div>
+                                                            <?php endif; ?>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--Cancel-->
+                                            <button onclick="location.href='../config/proc/usermgmt.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel Edit" class="btn p-0 rounded-0">
+                                                <img src="../assets/icos/general/disable.png" alt="CANCEL EDIT" class="img-fluid h_btn_md">
+                                            </button>
+
+                                        <?php endif; ?>
+
+                                        <?php if($sub == "New"): ?>
+                                            <!--Save-->
+                                            <button form="commitNew" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
+                                                <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                            </button>
+
+                                            <!--Cancel-->
+                                            <button onclick="location.href='../config/proc/usermgmt.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel Edit" class="btn p-0 rounded-0">
+                                                <img src="../assets/icos/general/disable.png" alt="CANCEL EDIT" class="img-fluid h_btn_md mr-2">
+                                            </button>
+
+                                        <?php endif; ?>
+
+
+                                    </div>
+
+                                    <div class="w-50 h-100 float-right border">
+
+                                    </div>
+                                </header>
+
+                                <article>
+
+                                    <?php if($sub == "View"): ?>
+
+                                        <!--VIEW-->
+                                        <div class="w-25 h-50 p-2">
+                                            <!--Next Back-->
+                                            <div class="w-100 d-flex flex-wrap align-content-center" style="height: 25px;">
+
+                                                <!--Back-->
+                                                <?php if ($previous === true): ?>
+                                                    <button data-toggle="tooltip" data-placement="left" title="Previous" onclick="location.href='../config/proc/usermgmt.php?item_nav&direction=Previous'" class="btn p-0 mr-1 rounded-0">
+                                                        <img src="../assets/icos/general/sort_left.png" alt="Previous" class="img -fluid">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                                <?php if ($previous !== true): ?>
+                                                <button data-toggle="tooltip" data-placement="left" title="Start" class="btn p-0 mr-1 rounded-0">
+                                                    <img src="../assets/icos/general/sort_left_disabled.png" alt="Previous" class="img -fluid">
+                                                </button>
+                                                <?php endif; ?>
+
+                                                <!--Next-->
+                                                <?php if ($next === true): ?>
+                                                    <button data-toggle="tooltip" data-placement="right" title="Next" onclick="location.href='../config/proc/usermgmt.php?item_nav&direction=Next'" class="btn p-0 mr-1 rounded-0">
+                                                        <img src="../assets/icos/general/sort_right.png" alt="Next" class="img -fluid">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                                <?php if ($next !== true): ?>
+                                                    <button data-toggle="tooltip" data-placement="right" title="End" class="btn p-0 mr-1 rounded-0">
+                                                <img src="../assets/icos/general/sort_right_disabled.png" alt="Next" class="img -fluid">
+                                                </button>
+                                                <?php endif; ?>
+
+                                            </div>
+
+                                            <!--Details-->
+                                            <div class="container w-100 p-2">
+                                                <!--Group Id-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                    <div class="col-sm-8 der_det p-1"><?php echo $user_id ?></div>
+                                                </div>
+
+                                                <!--Name-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
+                                                    <div class="col-sm-8 der_det p-1"><?php echo $username ?></div>
+                                                </div>
+
+                                                <!--Group Name-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">Group</strong></div>
+                                                    <div class="col-sm-8 der_det p-1"><?php echo $access_level ?></div>
+                                                </div>
+
+
+                                                <!--Profile pic-->
+<!--                                                <div class="w-50 card mt-2">-->
+<!--                                                    <img src="../assets/users/test.jpg" alt="" class="img-fluid img-thumbnail">-->
+<!--                                                </div>-->
+                                            </div>
+                                        </div>
+
+                                    <?php endif; ?>
+
+
+                                    <?php if($sub == 'New'): ?>
+
+                                        <!--New-->
+                                        <div class="w-25 h-50 p-2">
+                                            
+                                            <!--Details-->
+                                            <form id="commitNew" action="../config/proc/usermgmt.php" method="POST" class="container w-100 p-2">
+                                                <!--Name-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
+                                                    <input type="text" class="col-sm-8 der_det pl-1" autofocus autocomplete="off" placeholder="username" name="username" required>
+                                                </div>
+
+                                                <!--Group-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">User Group</strong></div>
+                                                    <select name="access_level" class="col-sm-8 der_det pl-1" id="">
+
+                                                        <?php
+                                                            $ual_sql = "SELECT * FROM `user_access_level`";
+                                                            $ual_stmt = $pdo->prepare($ual_sql);
+                                                            $ual_stmt->execute();
+                                                            while ($ual = $ual_stmt->fetch(PDO::FETCH_ASSOC)):
+                                                        ?>
+                                                            <option value="<?php echo $ual['id'] ?>"><?php echo $ual['name'] ?></option>
+
+                                                        <?php endwhile; ?>
+
+                                                    </select>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+
+                                    <?php endif; ?>
+
+                                    <?php if($sub == "Edit"): ?>
+
+                                        <!--Edit-->
+                                        <div class="w-25 h-50 p-2">
+                                            
+                                            <!--Details-->
+                                            <form id="commitEditForm" action="../config/proc/usermgmt.php" method="POST" class="container w-100 p-2">
+                                                <!--Group Id-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                    <input title="ReadOnly : Changing ID will cause system misfunction" data-toggle="tooltip" data-placement="right" type="text" readonly value="<?php echo $user_id ?>" class="col-sm-8 der_det pl-1" name="usr_id" id="">
+                                                </div>
+
+                                               <!--Name-->
+                                               <div class="row p-0 der_row no-gutters">
+                                                <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
+                                                    <input readonly title="ReadOnly : Username can be changed by user in profile settinfs" data-toggle="tooltip" data-placement="right" type="text" class="col-sm-8 der_det pl-1" autocomplete="off" value="<?php echo $username ?>" name="usr_name">
+                                                </div>
+
+                                                <!--Group-->
+                                                <div class="row p-0 der_row no-gutters">
+                                                    <div class="col-sm-4"><strong class="text-dark">User Group</strong></div>
+                                                    <select name="ual" class="col-sm-8 der_det pl-1" id="">
+
+
+                                                        <?php if ($curr_user_det['access_level'] === NULL): ?>
+                                                            <option value="null">Select UAL</option>
+                                                        <?php endif; ?>
+
+                                                        <?php
+                                                            $ual_sql = "SELECT * FROM `user_access_level`";
+                                                            $ual_stmt = $pdo->prepare($ual_sql);
+                                                            $ual_stmt->execute();
+                                                            while ($ual = $ual_stmt->fetch(PDO::FETCH_ASSOC)):
+                                                        ?>
+
+                                                        <?php if ($access_level === $ual['name']): ?>
+                                                            <option selected value="<?php echo $ual['id'] ?>"><?php echo $ual['name'] ?></option>
+                                                        <?php endif; ?>
+
+                                                        <?php if ($access_level !== $ual['name']): ?>
+                                                        <option value="<?php echo $ual['id'] ?>"><?php echo $ual['name'] ?></option>
+                                                        <?php endif; ?>
+
+                                                        <?php endwhile; ?>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    <?php endif; ?>
+
+                                </article>
+                            </main>
+
+                        <?php endif; ?>
+
+                        <?php if($main == 'active_users'): ?>
+                        <?php
+                            if (!isset($_SESSION['actusr_sub']))
+                            {
+                                $_SESSION['actusr_sub'] = 'online';
+                            }
+                        ?>
+                            <!--Active User-->
+                            <main class="w-75 card cust_shadow mx-auto h-100">
+                                <div class="w-100 h-100 d-flex flex-wrap">
+                                    <!--BUTTONS-->
+                                    <div class="w-50 h-100 d-flex flex-wrap align-content-between justify-content-between">
+                                        <!--ONLINE-->
+                                        <div class="w-100 h-50 d-flex flex-wrap align-content-center justify-content-center">
+                                            <button onclick="location.href='../config/proc/usermgmt.php?nav&level=usr&to=online'" class="btn-success <?php if ($_SESSION['actusr_sub'] === 'online'){echo 'active';} ?> btn cust_shadow w-75 h-50">
+                                                <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                                    <strong>ONLINE</strong>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <!--USER LOG-->
+                                        <div class="w-100 h-50 d-flex flex-wrap align-content-center justify-content-center">
+                                            <button onclick="location.href='../config/proc/usermgmt.php?nav&level=usr&to=usr_log'" class="btn btn-info <?php if ($_SESSION['actusr_sub'] === 'usr_log'){echo 'active';} ?> cust_shadow w-75 h-50">
+                                                <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                                    <strong>USER LOG</strong>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!--RESULT-->
+                                    <div class="w-50  h-100 p-2 overflow-hidden">
+                                        <?php if ($_SESSION['actusr_sub'] === 'online') :?>
+                                            <!--ONLINE-->
+                                            <div class="w-100 h-100 overflow-hidden cust_shadow card">
+                                                <div class="table-responsive-sm overflow-auto">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="p-1 text_sm">username</th>
+                                                                <th class="p-1 text_sm">ip</th>
+                                                                <th class="p-1 text_sm">time</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <?php
+                                                               $actusrSql = "SELECT * FROM `users` WHERE `online` = 1";
+                                                               $actusrStmt = $pdo->prepare($actusrSql);
+                                                               $actusrStmt->execute();
+                                                                while ($active_user = $actusrStmt->fetch(PDO::FETCH_ASSOC) ):
+                                                            ?>
+                                                                <tr>
+                                                                    <th class="p-1 text_xsm"><?php echo $active_user['username'] ?></th>
+                                                                    <th class="p-1 text_xsm"><?php echo $active_user['ip_address'] ?></th>
+                                                                    <th class="p-1 text_xsm"><?php echo $active_user['last_login_time'] ?></th>
+                                                                </tr>
+                                                            <?php endwhile; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php if ($_SESSION['actusr_sub'] === 'usr_log') :?>
+                                            <!--LOGS-->
+                                            <div class="w-100 h-100 overflow-auto p-1 text_xsm cust_shadow_inside bg-dark">
+                                                <?php
+                                                    $logsSql = "SELECT * FROM `user_login_log`";
+                                                    $logsStmt = $pdo->prepare($logsSql);
+                                                    $logsStmt->execute();
+                                                    while ($log = $logsStmt->fetch(PDO::FETCH_ASSOC)):
+                                                ?>
+                                                    <div class="w-100 mb-1">
+                                                        <kbd class="text-success ">@<?php echo $log['username'] ?> : <span class="text-muted"><?php echo $log['time'] ?></span></kbd> <span class="text-light"><?php echo $log['func'] ?></span>
+                                                    </div>
+                                                <?php endwhile; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </main> 
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+
+            </article>
+        </section>
+
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="../js/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="../js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+
+</html>
+
+<script>
+    function popupwindow(url, title, w, h) {
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        var reAssignWindow = open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+        reAssignWindow.focus();
+
+
+
+    }
+</script>
+
+<?php
+    if (isset($_SESSION['info']))
+    {
+        echo "<script>alert('".$_SESSION['info']."')</script>";
+        unset($_SESSION['info']);
+    }
+?>

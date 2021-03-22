@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/general.css">
+</head>
+<body>
+    <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center bg-info">
+      <div class="card w-25">
+        <div class="card-body p-2 text-center">
+          <?php if ($loc === 'dashboard'): ?>
+
+            <p class="text-danger m-0">You not having access here means you have 0 access to use system. Is either it is
+            intentional or contact System Administrator for help</p>
+
+          <?php endif; ?>
+
+          <?php if ($loc !== 'dashboard'): ?>
+
+          <p class="text-danger text_sm">You dont have access to view this page</p>
+
+          <?php endif; ?>
+
+          <?php if ($loc !== 'dashboard'): ?>
+            <button class="btn btn-warning btn-sm">Return</button>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+</script>
