@@ -1,6 +1,7 @@
 <?php 
     require 'session.php';
     require 'db.php';
+    require 'functions.php';
 
     //set session catigory main view
     if (!isset($_SESSION['fac_cat_main_view']))
@@ -21,6 +22,12 @@
             $cat_res = $stmt->fetch(PDO::FETCH_ASSOC);
             $_SESSION['cat_standing'] = $cat_res['id'];
         }
+    }
+
+    //session ranges
+    if (!isset($_SESSION['facRange']) || $_SESSION['facRange'] < 1)
+    {
+        $_SESSION['facRange'] = 3;
     }
 
     $cpsql = "SELECT * FROM `facCat` LIMIT 1";
@@ -50,11 +57,17 @@
         $prev_count = $prev_stmt->rowCount();
 
         //get facilities
-        $cat_fac_sql = "SELECT * FROM `facilities` WHERE `facCat` = ?";
+        $cat_fac_sql = "SELECT * FROM `facilities` WHERE `facCat` = ? LIMIT ?";
         $cat_fac_stmt = $pdo->prepare($cat_fac_sql);
-        $cat_fac_stmt->execute([$_SESSION['cat_standing']]);
+        $cat_fac_stmt->execute([$_SESSION['cat_standing'], $_SESSION['facRange']]);
         $cat_fac_count = $cat_fac_stmt->rowCount();
+
+        $facCount = rowsOf('facilities','none',$pdo);
+        $catCount = rowsOf('facCat' , 'none' , $pdo);
+
     }
+
+
 
 
 ?>

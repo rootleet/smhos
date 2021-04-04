@@ -1,10 +1,7 @@
 <?php
     include '../config/inc/config.company_setup.php';
-    $main = $_SESSION['company_setup'];
-    $sub = $_SESSION['company_setup_sub'];
-    $config = $_SESSION['company_setup_config'];
-    $edit_all = $_SESSION['edit_all'];
-    $loc = 'company_setup';s
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,8 +106,8 @@
                     <div class="head pl-3 d-flex flex-wrap align-content-center justify-content-between">
                         <div class="w-50 h-50">
                             <ol style="background-color: inherit !important;" class="breadcrumb p-0">
-                                <li class="breadcrumb-item"><a onclick="location.href='../config/proc/company_setup.php?main_nav&main=Main'" class="text-primary pointer" >Company Setup</a></li>
-                                <?php if($main != "Main"): ?>
+                                <li class="breadcrumb-item"><a onclick="location.href='../config/proc/company_setup.php?main_nav&main=home'" class="text-primary pointer" >Company Setup</a></li>
+                                <?php if($main != "home"): ?>
                                 <li class="breadcrumb-item active"><?php echo $main ?></li>
                                 <?php endif; ?>
                             </ol>
@@ -118,7 +115,7 @@
                     </div>
 
                     <!--Middle-->
-                    <?php if ($main == 'Main'): ?>
+                    <?php if ($main == 'home'): ?>
                         <div class="middle container w-100 p-0">
                             <div class="row o-hide no-gutters w-100 h-100">
 
@@ -222,7 +219,7 @@
                     <?php endif; ?>
 
                     <!--Bottom-->
-                    <?php if ($main == 'Main'): ?>
+                    <?php if ($main == 'home'): ?>
                         <div class="bottom p-2">
 
                             <main style="background-color: #F2F2F2 !important;" class="w-100 p-0 h-100 container-fluid o-auto">
@@ -262,7 +259,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <?php if ($main != 'main'): ?>
+                    <?php if ($main != 'home'): ?>
                         <div class="middle_plus_bottom p-3">
                             <!--Buttons-->
                             <div class="h-20 w-100 d-flex flex-wrap align-content-center justify-content-between">

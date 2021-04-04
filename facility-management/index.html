@@ -127,7 +127,9 @@
                                             <div class="w-50 h-100 float-left">
 
                                                 <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                    <p class="p-0 text-dark bold m-0">20</p>
+                                                    <p class="p-0 text-dark bold m-0">
+                                                        <?php echo $catCount ?>
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -157,7 +159,7 @@
                                             <div class="w-50 h-100 float-left">
 
                                                 <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                    <p class="p-0 text-dark bold m-0">20</p>
+                                                    <p class="p-0 text-dark bold m-0"><?php echo $facCount ?></p>
                                                 </div>
                                             </div>
 
@@ -426,10 +428,10 @@
                                                                         <form action="../config/proc/facility.php" class="w-75 mx-auto p-2" method="post">
 
                                                                             <!--Facilty Name-->
-                                                                            <input autocomplete="off" type="text" placeholder="Facility Name" name="facName" class="form-control mb-2">
+                                                                            <input required autocomplete="off" type="text" placeholder="Facility Name" name="facName" class="form-control mb-2">
 
                                                                             <!--SPACE AVAILABLE-->
-                                                                            <input autocomplete="off" type="text" placeholder="Spaces" name="space" class="form-control mb-2">
+                                                                            <input required autocomplete="off" type="text" placeholder="Spaces" name="space" class="form-control mb-2">
 
                                                                             <button name="addFacility" class="btn btn-csecondary w-100">
                                                                                 ADD FACILITY
@@ -446,13 +448,31 @@
 
                                                             <div class="w-100 h-50 card cust_shadow">
                                                                 <div class="card-header">
-                                                                    <kbd data-toggle="modal" data-target="#addFacility" class="pointer">&plus;</kbd>
+                                                                    <div class="w-100 h-100 clearfix">
+                                                                        <kbd data-toggle="modal" data-target="#addFacility" class="pointer">&plus;</kbd>
+                                                                        <div class="float-right">
+                                                                            <form class="form-inline" method="post" action="../config/proc/facility.php">
+                                                                                <select class="form-control p-0 m-0 form-control-sm" name="range">
+                                                                                    <option value="<?php echo $_SESSION['facRange'] ?>" disabled selected><?php echo $_SESSION['facRange'] ?></option>
+                                                                                    <option value="3">3</option>
+                                                                                    <option value="5">5</option>
+                                                                                    <option value="10">10</option>
+                                                                                    <option value="15">15</option>
+                                                                                    <option value="20">20</option>
+                                                                                    <option value="25">25</option>
+                                                                                    <option value="30">30</option>
+                                                                                </select>
+                                                                                <input type="hidden" value="facility" name="task">
+                                                                                <button class="btn btn-sm btn-info ml-2" name="face_range">GO</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
-                                                                <div class="card-body">
+                                                                <div class="card-body overflow-hidden">
 
                                                                         <div class="w-100 h-100 table-responsive table-responsive-sm p-1">
-                                                                            <table class="table">
+                                                                            <table class="table mb-0 h-100">
                                                                                 <thead class="bg-info text-light">
                                                                                     <tr>
                                                                                         <th class="p-1 text_xsm">Name</th>
@@ -470,9 +490,10 @@
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['owner'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['date_created'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
-                                                                                            <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] - 5 ?></td>
+                                                                                            <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                         </tr>
                                                                                     <?php endwhile; ?>
+
                                                                                 </tbody>
 
                                                                             </table>
@@ -518,10 +539,10 @@
 
                                                         <div class="w-100 h-50 card cust_shadow">
 
-                                                        <div class="card-body">
+                                                        <div class="card-body overflow-hidden">
 
-                                                            <div class="w-100 h-100 table-responsive table-responsive-sm p-1">
-                                                                <table class="table">
+                                                            <div class="w-100 h-100 overflow-auto table-responsive table-responsive-sm p-1">
+                                                                <table class="table h-100 mb-0">
                                                                     <thead class="bg-info text-light">
                                                                     <tr>
                                                                         <th class="p-1 text_xsm">Name</th>
@@ -546,10 +567,14 @@
                                                                                             </div>
 
                                                                                             <div class="modal-body p-3">
-                                                                                                <form class="w-50 text-center mx-auto" method="post" action="../config/proc/facility.php">
+                                                                                                <form class="w-50 mx-auto" method="post" action="../config/proc/facility.php">
                                                                                                     <input type="hidden" name="current_name" value="<?php echo $cat_fac['name'] ?>">
-                                                                                                    <input type="text" class="form-control cust_shadow mb-3" autocomplete="off" autofocus name="new_name" placeholder="New Name" >
-                                                                                                    <button name="rename_facility" class="btn btn-sm btn-success cust_shadow">CHANGE</button>
+                                                                                                    <input type="hidden" name="current_id" value="<?php echo $cat_fac['id'] ?>">
+                                                                                                    <label for="new_name" class="text-info">Name</label>
+                                                                                                    <input type="text" id="new_name" class="form-control cust_shadow mb-3" autocomplete="off" autofocus name="new_name" value="<?php echo $cat_fac['name'] ?>" >
+                                                                                                    <label for="space" class="text-info">Space</label>
+                                                                                                    <input id="space" type="tel" class="form-control cust_shadow mb-3" autocomplete="off" name="total_space" value="<?php echo $cat_fac['total_space'] ?>" >
+                                                                                                    <div class="w-100 text-center"><button name="rename_facility" class="btn btn-sm btn-success cust_shadow">CHANGE</button></div>
                                                                                                 </form>
                                                                                             </div>
 
@@ -557,8 +582,8 @@
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <kbd data-toggle="modal" data-target="#deleteFacility" class="ml-1 mr-1 pointer bg-danger">&minus;</kbd>
-                                                                                <div class="modal text_nm fade" id="deleteFacility">
+                                                                                <kbd data-toggle="modal" data-target="#deleteFacility<?php echo $cat_fac['id'] ?>" class="ml-1 mr-1 pointer bg-danger">&minus;</kbd>
+                                                                                <div class="modal text_nm fade" id="deleteFacility<?php echo $cat_fac['id'] ?>">
                                                                                     <div class="modal-dialog modal-dialog-centered">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-body p-3">

@@ -96,7 +96,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                                 $_SESSION['edit_all'] = false;
 
                                 //company setup session
-                                $_SESSION['company_setup'] = 'Main';
+                                $_SESSION['company_setup_main'] = 'home';
                                 $_SESSION['company_setup_sub'] = 'View';
                                 $_SESSION['company_setup_config'] = 'csetup';
 

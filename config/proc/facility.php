@@ -84,11 +84,13 @@
     elseif (isset($_POST['rename_facility']))
     {
         $current_name = htmlentities($_POST['current_name']);
+        $current_id = htmlentities($_POST['current_id']);
         $new_name = htmlentities($_POST['new_name']);
+        $total_space = htmlentities($_POST['total_space']);
         //check if cacility exist with same name
-        $v_sql = "SELECT * FROM `facilities` WHERE `name` = ?";
+        $v_sql = "SELECT * FROM `facilities` WHERE `name` = ? AND `id` != ?";
         $v_stmt = $pdo->prepare($v_sql);
-        $v_stmt->execute($new_name);
+        $v_stmt->execute([$new_name,$current_id]);
         $validate = $v_stmt->rowCount();
 
         if ($v_stmt->rowCount() > 0) //if name exist
@@ -101,13 +103,13 @@
         {
 
             //if name does not exist update
-            $u_sql = "UPDATE `facilities` SET `name` = ? WHERE `name` = ?";
+            $u_sql = "UPDATE `facilities` SET `name` = ? , `total_space` = ? WHERE `id` = ?";
             $u_stmt = $pdo->prepare($u_sql);
-            $u_stmt->execute([$new_name , $current_name]);
+            $u_stmt->execute([$new_name , $total_space , $current_id]);
 
             if($u_stmt->rowCount() > 0)
             {
-                $_SESSION['notif'] = 'Renamed Successful';
+                $_SESSION['notif'] = 'Record Modified Successfully';
                 header("Location:".$_SERVER['HTTP_REFERER']);
                 exit();
             }
@@ -208,4 +210,16 @@
         gb($_SERVER['HTTP_REFERER']);
     }
 
-?>
+    #######################
+    ### CHANGE RANGE ######
+    #######################
+    elseif (isset($_POST['face_range']))
+    {
+        //if facility range
+        if (isset($_POST['task']) && $_POST['task'] === 'facility')
+        {
+            $_SESSION['facRange'] = $_POST['range'];
+        }
+
+        gb($_SERVER['HTTP_REFERER']);
+    }

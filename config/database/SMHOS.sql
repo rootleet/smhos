@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 04, 2021 at 06:35 PM
+-- Generation Time: Apr 04, 2021 at 09:26 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -194,7 +194,17 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (2, 1, 'root', 'login', '2021-04-04 06:09:03'),
 (3, 1, 'root', 'login', '2021-04-04 15:15:57'),
 (4, 1, 'root', 'logout', '2021-04-04 16:16:47'),
-(5, 1, 'root', 'login', '2021-04-04 16:17:51');
+(5, 1, 'root', 'login', '2021-04-04 16:17:51'),
+(6, 1, 'root', 'logout', '2021-04-04 16:41:27'),
+(7, 1, 'root', 'login', '2021-04-04 16:41:31'),
+(8, 1, 'root', 'logout', '2021-04-04 17:01:19'),
+(9, 1, 'root', 'login', '2021-04-04 17:01:26'),
+(10, 1, 'root', 'logout', '2021-04-04 17:13:38'),
+(11, 1, 'root', 'login', '2021-04-04 17:13:43'),
+(12, 1, 'root', 'logout', '2021-04-04 17:16:15'),
+(13, 1, 'root', 'login', '2021-04-04 17:16:19'),
+(14, 1, 'root', 'logout', '2021-04-04 17:16:55'),
+(15, 1, 'root', 'login', '2021-04-04 17:17:00');
 
 -- --------------------------------------------------------
 
@@ -320,7 +330,7 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user_task`

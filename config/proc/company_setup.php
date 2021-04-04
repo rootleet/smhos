@@ -1,14 +1,14 @@
 <?php
     include '../inc/session.php';
     include '../inc/db.php';
-    $main = $_SESSION['company_setup'];
+    $main = $_SESSION['company_setup_main'];
     $config = $_SESSION['company_setup_config'];
 
     if(isset($_GET['main_nav']))
     {
-        $main = $_GET['main']; //get main
-        $_SESSION['company_setup'] = $main; //change company setup
+        $_SESSION['company_setup_main'] = $_GET['main']; //get main
         header("Location:".$_SERVER['HTTP_REFERER']); //redirect to previous page
+        exit();
     }
 
     ##############################
