@@ -3,8 +3,9 @@
     //includes
     include '../inc/db.php';
     include '../inc/functions.php';
+    include '../inc/session.php';
 
-    //get live incone query
+    //get live income query
     if(isset($_GET['update']))
     {
 
@@ -33,9 +34,8 @@
             $act_live_income = $payment.'.00';
         }
 
-        $cs_curr = $company_setup['currency'];
-        $currency = fetchFunc('admin.currency','`id` = '.$cs_curr, $pdo)['symbol'];
-        echo $currency . ' ' . $act_live_income;
+
+        echo $_SESSION['currency'] . ' ' . $act_live_income;
     }
 
     //check shift start

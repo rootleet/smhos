@@ -1,4 +1,5 @@
 <?php
+    @!session_start();
     //permissions
     $perm_sql = "select COLUMN_NAME from information_schema.columns where table_name='user_access_level' and column_name like 'Perm%'";
     $perm_stmt = $pdo->prepare($perm_sql);
@@ -16,11 +17,14 @@
             $toUser = strtolower($permission[1]);
         }
 
+
         //select user permission
-        $select_ual_sql = "SELECT $permissions_column FROM `user_access_level` WHERE `id` = ?";
+        $select_ual_sql = "SELECT $permissions_column FROM `user_access_level` WHERE `access_level` = ?";
         $select_ual_stmt = $pdo->prepare($select_ual_sql);
         $select_ual_stmt->execute([$_SESSION['ual']]);
         $ual_res = $select_ual_stmt->fetch(PDO::FETCH_ASSOC);
+
+
         if ($ual_res[$permissions_column] === 1)
         {
 
@@ -28,7 +32,7 @@
         }
         else
         {
-
             $_SESSION[$toUser] = false;
         }
+
     }

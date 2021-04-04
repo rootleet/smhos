@@ -4,6 +4,7 @@
     $sub = $_SESSION['company_setup_sub'];
     $config = $_SESSION['company_setup_config'];
     $edit_all = $_SESSION['edit_all'];
+    $loc = 'company_setup';s
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,36 +36,45 @@
                 <ul class="nav h-90 nav-pills nav-justified flex-column">
 
                     <!--Dashboard-->
-                    <button onclick="location.href='../dashboard/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                    <button onclick="location.href='<?php if ($loc !== 'dashboard') {echo '../dashboard/';}   ?>'" class="btn <?php if ($loc === 'dashboard') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?> text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/dashboard.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Dashboard</span>
                     </button>
 
+
+                    <?php if (checkPermission(['company_setup'])): ?>
                     <!--Company Setup-->
-                    <button class="btn btn-nav-active text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                    <button onclick="location.href='<?php if ($loc !== 'company_setup') {echo '../company-setup/';}   ?>'" class="btn <?php if ($loc === 'company_setup') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?> text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/company_setup.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Company Setup</span>
                     </button>
+                    <?php endif; ?>
 
+
+
+                    <?php if (checkPermission(['facility_management'])): ?>
                     <!--Facility Management-->
-                    <button onclick="location.href='../facility-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                    <button onclick="location.href='<?php if ($loc !== 'facility_management') {echo '../facility-management/';}   ?>'" class="btn <?php if ($loc === 'facility_management') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?> text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/facility_management.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Facility Management</span>
                     </button>
+                    <?php endif; ?>
 
+                    <?php if (checkPermission(['user_management'])): ?>
                     <!--User Management-->
                     <button onclick="location.href='../user-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/user_management.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">User Management</span>
                     </button>
+                    <?php endif; ?>
 
+                    <?php if (checkPermission(['reports'])): ?>
                     <!--Reports-->
                     <button onclick="location.href='../reports/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Reports</span>
                     </button>
-
-                    
+                    <?php endif; ?>
 
                 </ul>
 
@@ -192,7 +202,7 @@
                                                 <div class="w-50 h-100 float-left">
     
                                                     <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                        <p class="p-0 text-dark bold m-0">GHC ( C )</p>
+                                                        <p class="p-0 text-dark bold m-0"><?php echo $_SESSION['curr_short'] ?> ( <?php echo $_SESSION['currency'] ?> )</p>
                                                     </div>
                                                 </div>
     

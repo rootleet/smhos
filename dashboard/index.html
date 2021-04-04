@@ -3,14 +3,16 @@
     include '../config/inc/config.dashboard.php';
     $loc = 'dashboard';
 
-    //initialize permission
-    $iniPermArray = ['live_update'];
-    if (!checkPermission($iniPermArray) === true)
+    $iniPermArray = ['dashboard'];
+    if (checkPermission($iniPermArray) !== true)
     {
-
+        echo '<link rel="stylesheet"
+          href="../css/bootstrap.min.css">';
         include '../config/gui/msg/access_denied.html';
         die();
     }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +49,8 @@
                         <span class="w-80">Dashboard</span>
                     </button>
 
-                    <?php if (isset($_SESSION['tax']) && $_SESSION['tax'] === true || isset($_SESSION['payment_method']) && $_SESSION['payment_method'] === true || isset($_SESSION['backup']) && $_SESSION['backup'] === true || isset($_SESSION['others']) && $_SESSION['others'] === true ): ?>
+
+                    <?php if (checkPermission(['company_setup'])): ?>
                         <!--Company Setup-->
                         <button onclick="location.href='<?php if ($loc !== 'company_setup') {echo '../company-setup/';}   ?>'" class="btn <?php if ($loc === 'company_setup') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?> text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                             <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/company_setup.png" alt="" class="img-fluid"></div></span>
@@ -57,23 +60,29 @@
 
 
 
+                    <?php if (checkPermission(['facility_management'])): ?>
                     <!--Facility Management-->
                     <button onclick="location.href='<?php if ($loc !== 'facility_management') {echo '../facility-management/';}   ?>'" class="btn <?php if ($loc === 'facility_management') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?> text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/facility_management.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Facility Management</span>
                     </button>
+                    <?php endif; ?>
 
+                    <?php if (checkPermission(['user_management'])): ?>
                     <!--User Management-->
                     <button onclick="location.href='../user-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/user_management.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">User Management</span>
                     </button>
+                    <?php endif; ?>
 
+                    <?php if (checkPermission(['reports'])): ?>
                     <!--Reports-->
                     <button onclick="location.href='../reports/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
                         <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
                         <span class="w-80">Reports</span>
                     </button>
+                    <?php endif; ?>
 
                 </ul>
 
@@ -116,7 +125,8 @@
                             <div class="col-sm-4 p-3">
                                 <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
 
-                                    <div class="w-100 h-100">
+                                    <?php if (checkPermission(['booking'])): ?>
+                                        <div class="w-100 h-100">
                                         <div class="w-100 clearfix h-40">
                                             <span class="rcard-title float-left">Total Booking</span>
                                              
@@ -127,25 +137,25 @@
                                             <div class="w-50 h-100 float-left">
 
                                                 <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                    <?php if ($shift === true):?>
                                                         <p class="p-0 text-dark bold m-0"><?php echo $total_booking; ?></p>
-                                                    <?php endif; ?>
-
-                                                    <?php if ($shift === false):?>
-                                                        <p class="p-0 text-muted font-italic text_sm m-0">start shift</p>
-                                                    <?php endif; ?>
                                                 </div>
                                             </div>
 
                                             <!--graph-->
                                             <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
-                                                <?php if ($shift === true):?>
                                                     <span class="text-success t-nm">&uArr; good</span>
-                                                <?php endif; ?>
                                             </div>
 
                                         </div>
                                     </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!checkPermission(['booking'])): ?>
+                                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                            <i class="text_sm text-danger">NO ACCESS</i>
+                                        </div>
+                                    <?php endif; ?>
+
 
                                 </div>
                             </div>
@@ -154,7 +164,8 @@
                             <div class="col-sm-4 p-3">
                                 <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
 
-                                    <div class="w-100 h-100">
+                                    <?php if (checkPermission(['check_in'])): ?>
+                                        <div class="w-100 h-100">
                                         <div class="w-100 clearfix h-40">
                                             <span class="rcard-title float-left">Total Checkin</span>
                                              
@@ -165,24 +176,24 @@
                                             <div class="w-50 h-100 float-left">
 
                                                 <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                    <?php if ($shift === true):?>
                                                         <p class="p-0 text-dark bold m-0"><?php echo $total_checkin; ?></p>
-                                                    <?php endif; ?>
-                                                    <?php if ($shift === false):?>
-                                                        <p class="p-0 text-muted font-italic text_sm m-0">start shift</p>
-                                                    <?php endif; ?>
                                                 </div>
                                             </div>
 
                                             <!--graph-->
                                             <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
-                                                <?php if ($shift === true):?>
                                                     <span class="text-success t-nm">&uArr; good</span>
-                                                <?php endif; ?>
                                             </div>
 
                                         </div>
                                     </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!checkPermission(['check_in'])): ?>
+                                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                            <i class="text_sm text-danger">NO ACCESS</i>
+                                        </div>
+                                    <?php endif; ?>
 
                                 </div>
                             </div>
@@ -191,9 +202,10 @@
                             <div class="col-sm-4 p-3">
                                 <div class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
 
-                                    <div class="w-100 h-100">
+                                    <?php if (checkPermission(['payment'])): ?>
+                                        <div class="w-100 h-100">
                                         <div class="w-100 clearfix h-40">
-                                            <span class="rcard-title float-left">Shift Time</span>
+                                            <span class="rcard-title float-left">Total Payment</span>
                                              
                                         </div>
     
@@ -202,24 +214,24 @@
                                             <div class="w-50 h-100 float-left">
 
                                                 <div class="w-100 h-100 d-flex flex-wrap align-content-end">
-                                                    <?php if ($shift === true):?>
-                                                        <p class="p-0 text-dark bold m-0"><?php echo $shift_time; ?></p>
-                                                    <?php endif; ?>
-                                                    <?php if ($shift === false):?>
-                                                    <p class="p-0 text-muted font-italic text_sm m-0">start shift</p>
-                                                    <?php endif; ?>
+                                                    <p class="p-0 text-muted font-italic text_sm m-0">Total Payment</p>
                                                 </div>
                                             </div>
 
                                             <!--graph-->
                                             <div class="w-50 h-100 float-right d-flex flex-wrap align-content-end justify-content-end">
-                                                <?php if ($shift === true):?>
-<!--                                                    <span class="text-danger t-nm">&dArr; poor</span>-->
-                                                <?php endif; ?>
+                                                    <span class="text-danger t-nm">&dArr; poor</span>
                                             </div>
 
                                         </div>
                                     </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!checkPermission(['payment'])): ?>
+                                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                            <i class="text_sm text-danger">NO ACCESS</i>
+                                        </div>
+                                    <?php endif; ?>
 
                                 </div>
                             </div>
@@ -231,15 +243,10 @@
                     <div class="bottom p-3">
 
                         <main class="w-100 card p-1 h-100">
-                            <div class="w-100 d-flex flex-wrap text-center align-content-center justify-content-center h-100">
-                                <?php if ($shift != true): ?>
-                                    <!--START SHIFT-->
-                                    <button onclick="popupwindow('shift.php','SHIFT', 300,300)" class="btn p-4 btn-info">
-                                        Start Master Shift
-                                    </button>
-                                <?php endif; ?>
 
-                                <?php if ($shift === true): ?>
+                            <?php if (checkPermission(['payment'])): ?>
+                                <div class="w-100 d-flex flex-wrap text-center align-content-center justify-content-center h-100">
+
                                     <h1 id="updatedValue" class="display-1">Loading...</h1>
                                     <script>
 
@@ -263,8 +270,16 @@
                                             }, 1000);
 
                                     </script>
-                                <?php endif; ?>
                             </div>
+                            <?php endif; ?>
+
+                            <?php if (!checkPermission(['payment'])): ?>
+                                <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                    <i class="display-1 text-danger">NO ACCESS</i>
+                                </div>
+                            <?php endif; ?>
+
+
                         </main>
 
                     </div>

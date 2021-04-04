@@ -1,5 +1,5 @@
 <?php
-    require 'session.php';
+    @!session_start();
     require 'db.php';
 
     function checkPermission(array $permission)
@@ -7,7 +7,7 @@
         $access_granted = 0;
         foreach ($permission as $key => $value)
         {
-            if ($_SESSION[$value] === true)
+            if (isset($_SESSION[$value]) && $_SESSION[$value] === true)
             {
                 $access_granted ++;
             }
@@ -50,7 +50,7 @@
         }
         else
         {
-            $sql = "SELECT * FROM `$table` WHERE $condition LIMIT 1";
+            $sql = "SELECT * FROM $table WHERE $condition LIMIT 1";
         }
         $stmt = $connection->prepare($sql);
         $stmt->execute();
@@ -192,11 +192,16 @@
     ##check user task
     function task($username,$conn)
     {
-        $sql = "SELECT * FROM `user_task` WHERE `user` = ? AND `task_status` = '1' LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$username]);
-        return $task_res = $stmt->fetch(PDO::FETCH_ASSOC);
-//         $task_res['task'];
+        try
+        {
+            $sql = "SELECT * FROM `user_task` WHERE `user` = ? AND `task_status` = '1' LIMIT 1";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$username]);
+            return $task_res = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $error)
+        {
+            echo $error->getMessage();
+        }
     }
 
     ##password validate

@@ -13,9 +13,7 @@
     //total checkin
     $total_checkin = rowsOf('check_in' , "`date` = '$today'" , $pdo);
 
-    //get_currency
-    $cs_curr = $company_setup['currency'];
-    $currency = fetchFunc('admin.currency','`id` = '.$cs_curr, $pdo)['symbol'];
+
 
 
     //daily earning
@@ -29,20 +27,17 @@
         $daily_earning_exe = $daily_earning;
     }
 
-    //check_master_shift
-    $date = date('d/m/Y');
 
-    $shift_check = fetchFunc('admin.company_setup' , '`c_name` = "'.$company_setup['c_name'].'"',$pdo)['shift_start'];
-    if ($shift_check === 1)
-    {
-        $shift = true;
-        //get_shift_details
-        $shit_detail = fetchFunc('`shift` ORDER BY `id` DESC' , "none", $pdo);
-        $shift_time = $shit_detail['shift_time'];
-    }
-    else
-    {
-        $shift = false;
-    }
+    //initialize permission
+//    $iniPermArray = ['dashboard'];
+//    if (checkPermission($iniPermArray) !== true)
+//    {
+//
+//        include '../../gui/msg/access_denied.html';
+//        die();
+//    }
+
+    $company_setup_array = ['tax','payment_method','backup','modify_company'];
+
 
 
