@@ -62,10 +62,13 @@
         $cat_fac_stmt->execute([$_SESSION['cat_standing'], $_SESSION['facRange']]);
         $cat_fac_count = $cat_fac_stmt->rowCount();
 
-        $facCount = rowsOf('facilities','none',$pdo);
-        $catCount = rowsOf('facCat' , 'none' , $pdo);
+
 
     }
+
+    //counts
+    $facCount = rowsOf('facilities','none',$pdo);
+    $catCount = rowsOf('facCat' , 'none' , $pdo);
 
 
 

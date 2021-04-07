@@ -1,30 +1,7 @@
-<?php 
-    include "../config/inc/session.php";
-    include '../config/inc/db.php';
+<?php
+    include '../config/inc/config.reports.php';
 
-    if ( isset($_SESSION['reports_activity']) || !empty( $_SESSION['reports_activity'] )) {
-        $activity = $_SESSION['reports_activity'];
-        $view = $_SESSION['reports_view'];
-    } else {
-        die ("Error: Please if this is not a legal access, go back!!");
-    }
 
-    //bookings query
-    $bookinsSql = "SELECT * FROM `bookings`";
-    $bookingStmt = $pdo->prepare($bookinsSql);
-    $bookingStmt->execute();
-    $bookingsCount = $bookingStmt->rowCount();
-
-    //payments query
-    $paymentSql = "SELECT * FROM `payment` where `level` = 'Primary'";
-    $paymentStmt = $pdo->prepare($paymentSql);
-    $paymentStmt->execute();
-    $paymentCount = $paymentStmt->rowCount();
-
-    if (isset($_GET['update']))
-    {
-        echo 'hello';
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,64 +31,7 @@
             </header>
 
             <article class="a_main pt-1">
-                <ul class="nav h-90 nav-pills nav-justified flex-column">
-
-                    <!--Dashboard-->
-                    <button onclick="location.href='../dashboard/'"
-                            class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20">
-                            <div class="ico-sm"><img src="../assets/icos/general/dashboard.png"
-                                     alt=""
-                                     class="img-fluid"></div>
-                        </span>
-                        <span class="w-80">Dashboard</span>
-                    </button>
-
-                    <!--Company Setup-->
-                    <button onclick="location.href='../company-setup/'"
-                            class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20">
-                            <div class="ico-sm"><img src="../assets/icos/general/company_setup.png"
-                                     alt=""
-                                     class="img-fluid"></div>
-                        </span>
-                        <span class="w-80">Company Setup</span>
-                    </button>
-
-                    <!--Facility Management-->
-                    <button onclick="location.href='../facility-mgmt/'"
-                            class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20">
-                            <div class="ico-sm"><img src="../assets/icos/general/facility_management.png"
-                                     alt=""
-                                     class="img-fluid"></div>
-                        </span>
-                        <span class="w-80">Facility Management</span>
-                    </button>
-
-                    <!--User Management-->
-                    <button onclick="location.href='../user-mgmt/'"
-                            class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20">
-                            <div class="ico-sm"><img src="../assets/icos/general/user_management.png"
-                                     alt=""
-                                     class="img-fluid"></div>
-                        </span>
-                        <span class="w-80">User Management</span>
-                    </button>
-
-                    <!--Reports-->
-                    <button
-                            class="btn btn-nav-active text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20">
-                            <div class="ico-sm"><img src="../assets/icos/general/reports.png"
-                                     alt=""
-                                     class="img-fluid"></div>
-                        </span>
-                        <span class="w-80">Reports</span>
-                    </button>
-
-                </ul>
+                <?php include '../config/inc/general_nav.inc.php'; ?>
 
                 <div class="w-100 h-10">
                     <button onclick="loction.href='www.facebook.com'"

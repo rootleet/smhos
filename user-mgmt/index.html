@@ -1,7 +1,6 @@
 <?php
     include '../config/inc/config.usermgmt.php';
-    $main = $_SESSION['usermgmt_main'];
-    $sub = $_SESSION['usermgmt_main_sub'];
+
 
 
 ?>
@@ -32,39 +31,7 @@
             </header>
 
             <article class="a_main pt-1">
-                <ul class="nav h-90 nav-pills nav-justified flex-column">
-
-                    <!--Dashboard-->
-                    <button onclick="location.href='../dashboard/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/dashboard.png" alt="" class="img-fluid"></div></span>
-                        <span class="w-80">Dashboard</span>
-                    </button>
-
-                    <!--Company Setup-->
-                    <button onclick="location.href='../company-setup/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/company_setup.png" alt="" class="img-fluid"></div></span>
-                        <span class="w-80">Company Setup</span>
-                    </button>
-
-                    <!--Facility Management-->
-                    <button onclick="location.href='../facility-mgmt/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/facility_management.png" alt="" class="img-fluid"></div></span>
-                        <span class="w-80">Facility Management</span>
-                    </button>
-
-                    <!--User Management-->
-                    <button class="btn btn-nav-active text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/user_management.png" alt="" class="img-fluid"></div></span>
-                        <span class="w-80">User Management</span>
-                    </button>
-
-                    <!--Reports-->
-                    <button onclick="location.href='../reports/'" class="btn btn-nav text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
-                        <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
-                        <span class="w-80">Reports</span>
-                    </button>
-
-                </ul>
+                <?php include '../config/inc/general_nav.inc.php'; ?>
 
                 <div class="w-100 h-10">
                     <button onclick="loction.href='www.facebook.com'" class="btn btn-csecondary rounded-0 h-100 w-100">Powered By Rootech.inc</button>
@@ -510,6 +477,8 @@
                                                     </div>
 
                                                 </form>
+
+
                                             </div>
 
                                         <?php endif; ?>
@@ -777,6 +746,39 @@
                                                     </select>
                                                 </div>
                                             </form>
+                                            <div class="card border-0 p-2">
+                                                <div class="w-100 d-flex flex-wrap align-content-center">
+                                                    <div data-toggle="modal" data-target="#resetPassword" class="btn p-0 rounded-0">
+                                                        <img data-toggle="tooltip" title="Reset Password" src="../assets/icos/general/reset_password.png" alt="NEW" class="img-fluid h_btn_md mr-2">
+                                                    </div>
+                                                    <!--RESET PASSWORD MODAL-->
+                                                    <div class="modal fade" id="resetPassword">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+
+                                                                <div class="modal-header">
+                                                                    <strong class="modal-title text-primary">
+                                                                        <?php echo $curr_user_det['username'] ?>
+                                                                    </strong>
+                                                                    <button class="close" data-dismiss="modal">&times;</button>
+                                                                </div>
+
+                                                                <div class="modal-body p-2">
+                                                                    <p class="text-center">
+                                                                        Are you sure you want to reset password?
+                                                                    </p>
+
+                                                                    <div class="w-50 mx-auto clearfix">
+                                                                        <button onclick="location.href='../config/proc/usermgmt.php?reset_password'" class="btn btn-warning btn-sm w-25">YES</button>
+                                                                        <button data-dismiss="modal" class="btn btn-dark btn-sm w-25 float-right">NO</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     <?php endif; ?>
@@ -860,7 +862,7 @@
                                                     while ($log = $logsStmt->fetch(PDO::FETCH_ASSOC)):
                                                 ?>
                                                     <div class="w-100 mb-1">
-                                                        <kbd class="text-success ">@<?php echo $log['username'] ?> : <span class="text-muted"><?php echo $log['time'] ?></span></kbd> <span class="text-light"><?php echo $log['func'] ?></span>
+                                                        <kbd class="text-success ">@<?php echo $log['username'] ?> : <span class="text-muted"><?php echo $log['time'] ?></span></kbd> <span class="text-light ml-2"><?php echo $log['func'] ?></span>
                                                     </div>
                                                 <?php endwhile; ?>
                                             </div>

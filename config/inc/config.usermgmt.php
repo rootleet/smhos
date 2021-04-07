@@ -2,11 +2,15 @@
     require 'session.php';
     require 'db.php';
     require 'functions.php';
+    $loc = 'user_mgmt';
 
     if (isset($_SESSION['usermgmt_main']))
     {
         $usermgmt = $_SESSION['usermgmt_main'];
     }
+
+    $main = $_SESSION['usermgmt_main'];
+    $sub = $_SESSION['usermgmt_main_sub'];
 
     ###GEGERAL INITIALIZATION
     $group_count = rowsOf("user_access_level" , "none" , $pdo);
@@ -93,11 +97,11 @@
 
                 $user_id = $curr_user_det['id'];
                 $username = $curr_user_det['username'];
-                $ual = $curr_user_det['access_level'];
+                $ual = $curr_user_det['ual'];
 
 
                 //get user access level
-                if ($curr_user_det['access_level'] === NULL)
+                if ($curr_user_det['ual'] === NULL)
                 {
                     $access_level = "UNKNOWN";
                 }
@@ -106,7 +110,7 @@
                     //get access level
                     $access_level_sql = "SELECT * FROM `user_access_level` WHERE `id` = ?";
                     $access_level_stmt = $pdo->prepare($access_level_sql);
-                    $access_level_stmt->execute([$curr_user_det['access_level']]);
+                    $access_level_stmt->execute([$curr_user_det['ual']]);
                     $access_level_res = $access_level_stmt->fetch(PDO::FETCH_ASSOC);
                     $access_level = $access_level_res['name'];
                 }

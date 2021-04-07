@@ -641,6 +641,11 @@ input:focus
       color: #BCBCCB;
   }
 
+  .bg-none
+  {
+      background: none !important;
+  }
+
   .bg-csecondary
   {
       background-color: #00B194;

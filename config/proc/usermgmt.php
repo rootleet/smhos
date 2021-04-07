@@ -277,6 +277,7 @@
             $username = htmlentities($_POST['username']);
             $access_level = htmlentities($_POST['access_level']);
             $password = password_hash('12345' , PASSWORD_DEFAULT);
+            $owner = $_SESSION['username'];
 
             if (ifRecordExist('users' , 'username',"'".$username."'" , $pdo))
             {
@@ -288,7 +289,7 @@
             else
             {
                 //insert into database
-                if (insertIntoDatabase('users' , '`username`,`password`,`access_level`' , "'$username' , '$password' , '$access_level'" , $pdo))
+                if (insertIntoDatabase('users' , '`username`,`password`,`ual`, `owner`' , "'$username' , '$password' , '$access_level','$owner'" , $pdo))
                 {
                     //user_task
                     $task_msg = "Initialize your account";
@@ -301,6 +302,9 @@
                     }
                     else
                     {
+                        info("User added but task not scheduled");
+                        $_SESSION['usermgmt_main_sub'] = "View";
+                        gb($_SERVER['HTTP_REFERER']);
                         die("User added but task not scheduled");
                     }
                 }
@@ -349,4 +353,36 @@
 
         echo "<script>window.close()</script>";
 
+    }
+
+    ############################
+    #### RESET PASSWORD #######
+    ###########################
+    elseif (isset($_GET['reset_password']) && isset($_SESSION['curr_user']))
+    {
+        $user = $_SESSION['curr_user'];
+
+        //get user details
+        $target_uname = fetchFunc('users',"`id` = '$user'",$pdo)['username'];
+        $newPassword = password_hash('12345', PASSWORD_DEFAULT);
+
+        //reset password
+        if(updateRecord('users' , "SET `password` = '$newPassword'", "`id`=$user", $pdo))
+        {
+            //create task
+            if (insertIntoDatabase('user_task',"`user`,`task_status`,`task`,`message`", "'$target_uname' , '1' , '2' , 'Password Reset'",$pdo))
+            {
+                info("Account rest successfully");
+            }
+
+            else
+            {
+                info("Could not schedule user task");
+            }
+            $_SESSION['usermgmt_main_sub'] = 'View';
+            gb($_SERVER['HTTP_REFERER']);
+
+        }
+
+        echo "reset password for user ".$target_uname;
     }

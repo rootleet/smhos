@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 04, 2021 at 09:26 PM
+-- Generation Time: Apr 07, 2021 at 08:36 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -103,15 +103,16 @@ CREATE TABLE `check_in` (
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `amount_paid` text NOT NULL,
-  `date_paid` date NOT NULL
+  `date_paid` date NOT NULL,
+  `level` text DEFAULT 'Primary'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`) VALUES
-(1, '100.00', '2021-04-04');
+INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`) VALUES
+(1, '100.00', '2021-04-04', 'Primary');
 
 -- --------------------------------------------------------
 
@@ -122,23 +123,25 @@ INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`) VALUES
 CREATE TABLE `users` (
   `id` int(11) NOT NULL COMMENT 'user id',
   `username` text NOT NULL,
-  `first_name` text NOT NULL,
-  `last_name` text NOT NULL,
+  `first_name` text DEFAULT NULL,
+  `last_name` text DEFAULT NULL,
   `password` text NOT NULL,
   `ual` int(11) NOT NULL DEFAULT 0,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `online` int(11) DEFAULT NULL,
-  `ip_address` text NOT NULL,
+  `ip_address` text DEFAULT NULL,
   `owner` text NOT NULL,
-  `db_access` text NOT NULL
+  `db_access` text NOT NULL DEFAULT 'current_user()',
+  `last_login_time` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `password`, `ual`, `date_created`, `online`, `ip_address`, `owner`, `db_access`) VALUES
-(1, 'root', 'root', 'leet', '$2y$10$qRpH3lExixl7K6dPG9R2lOH0oR08v2DabpxMY9LJ6EvAgEexh5BWy', 1, '2021-04-03 23:38:14', 1, '::1', 'mo', '0');
+INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `password`, `ual`, `date_created`, `online`, `ip_address`, `owner`, `db_access`, `last_login_time`) VALUES
+(1, 'root', 'root', 'leet', '$2y$10$bweYjvpJUBq1mFyTPgpEe.FV5hYpysqoHu/zGjnjnMT339aRaIzyu', 1, '2021-04-03 23:38:14', 1, '::1', 'mo', '0', NULL),
+(3, 'jane', 'Jane', 'Doe', '$2y$10$tzQO6UhCtb6/WDc0qy/x7.D2U7AFrvb3XmIKoN.HKRtUrDFOr1oTa', 1, '2021-04-05 20:41:44', 0, '::1', 'root', 'current_user()', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,8 +151,8 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `password`, `u
 
 CREATE TABLE `user_access_level` (
   `id` int(11) NOT NULL,
-  `access_name` text NOT NULL,
-  `access_level` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `access_level` int(11) NOT NULL DEFAULT 0,
   `Perm_dashboard` int(11) NOT NULL DEFAULT 0 COMMENT 'permission for dashboard',
   `Perm_company_setup` int(11) NOT NULL DEFAULT 0 COMMENT 'permission for company setup view',
   `Perm_tax` int(11) NOT NULL DEFAULT 0,
@@ -161,15 +164,17 @@ CREATE TABLE `user_access_level` (
   `Perm_reports` int(11) NOT NULL DEFAULT 0,
   `Perm_booking` int(11) NOT NULL DEFAULT 0,
   `Perm_check_in` int(11) NOT NULL DEFAULT 0,
-  `Perm_payment` int(11) NOT NULL DEFAULT 0
+  `Perm_payment` int(11) NOT NULL DEFAULT 0,
+  `owner` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_access_level`
 --
 
-INSERT INTO `user_access_level` (`id`, `access_name`, `access_level`, `Perm_dashboard`, `Perm_company_setup`, `Perm_tax`, `Perm_payment_method`, `Perm_backup`, `Perm_modify_company`, `Perm_facility_management`, `Perm_user_management`, `Perm_reports`, `Perm_booking`, `Perm_check_in`, `Perm_payment`) VALUES
-(1, 'Administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO `user_access_level` (`id`, `name`, `access_level`, `Perm_dashboard`, `Perm_company_setup`, `Perm_tax`, `Perm_payment_method`, `Perm_backup`, `Perm_modify_company`, `Perm_facility_management`, `Perm_user_management`, `Perm_reports`, `Perm_booking`, `Perm_check_in`, `Perm_payment`, `owner`) VALUES
+(1, 'Administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'root'),
+(2, 'test', 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 'root');
 
 -- --------------------------------------------------------
 
@@ -182,29 +187,44 @@ CREATE TABLE `user_login_log` (
   `user_id` int(11) NOT NULL,
   `username` text NOT NULL,
   `func` text NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `time` time DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_login_log`
 --
 
-INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created`) VALUES
-(1, 1, 'root', 'logout', '2021-04-04 06:06:58'),
-(2, 1, 'root', 'login', '2021-04-04 06:09:03'),
-(3, 1, 'root', 'login', '2021-04-04 15:15:57'),
-(4, 1, 'root', 'logout', '2021-04-04 16:16:47'),
-(5, 1, 'root', 'login', '2021-04-04 16:17:51'),
-(6, 1, 'root', 'logout', '2021-04-04 16:41:27'),
-(7, 1, 'root', 'login', '2021-04-04 16:41:31'),
-(8, 1, 'root', 'logout', '2021-04-04 17:01:19'),
-(9, 1, 'root', 'login', '2021-04-04 17:01:26'),
-(10, 1, 'root', 'logout', '2021-04-04 17:13:38'),
-(11, 1, 'root', 'login', '2021-04-04 17:13:43'),
-(12, 1, 'root', 'logout', '2021-04-04 17:16:15'),
-(13, 1, 'root', 'login', '2021-04-04 17:16:19'),
-(14, 1, 'root', 'logout', '2021-04-04 17:16:55'),
-(15, 1, 'root', 'login', '2021-04-04 17:17:00');
+INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created`, `time`) VALUES
+(1, 1, 'root', 'logout', '2021-04-04 06:06:58', '01:15:58'),
+(2, 1, 'root', 'login', '2021-04-04 06:09:03', '01:15:58'),
+(3, 1, 'root', 'login', '2021-04-04 15:15:57', '01:15:58'),
+(4, 1, 'root', 'logout', '2021-04-04 16:16:47', '01:15:58'),
+(5, 1, 'root', 'login', '2021-04-04 16:17:51', '01:15:58'),
+(6, 1, 'root', 'logout', '2021-04-04 16:41:27', '01:15:58'),
+(7, 1, 'root', 'login', '2021-04-04 16:41:31', '01:15:58'),
+(8, 1, 'root', 'logout', '2021-04-04 17:01:19', '01:15:58'),
+(9, 1, 'root', 'login', '2021-04-04 17:01:26', '01:15:58'),
+(10, 1, 'root', 'logout', '2021-04-04 17:13:38', '01:15:58'),
+(11, 1, 'root', 'login', '2021-04-04 17:13:43', '01:15:58'),
+(12, 1, 'root', 'logout', '2021-04-04 17:16:15', '01:15:58'),
+(13, 1, 'root', 'login', '2021-04-04 17:16:19', '01:15:58'),
+(14, 1, 'root', 'logout', '2021-04-04 17:16:55', '01:15:58'),
+(15, 1, 'root', 'login', '2021-04-04 17:17:00', '01:15:58'),
+(16, 1, 'root', 'login', '2021-04-05 14:28:07', '01:15:58'),
+(17, 1, 'root', 'logout', '2021-04-05 19:11:46', '01:15:58'),
+(18, 1, 'root', 'login', '2021-04-05 20:40:54', '01:15:58'),
+(19, 1, 'root', 'logout', '2021-04-05 20:42:15', '01:15:58'),
+(20, 1, 'root', 'login', '2021-04-05 20:42:28', '01:15:58'),
+(21, 1, 'root', 'logout', '2021-04-05 20:42:31', '01:15:58'),
+(22, 3, 'jane', 'login', '2021-04-05 21:01:26', '01:15:58'),
+(23, 3, 'jane', 'logout', '2021-04-05 21:01:52', '01:15:58'),
+(24, 1, 'root', 'login', '2021-04-05 21:02:03', '01:15:58'),
+(25, 1, 'root', 'logout', '2021-04-06 00:41:31', '01:15:58'),
+(26, 1, 'root', 'login', '2021-04-06 01:10:10', '01:15:58'),
+(27, 1, 'root', 'logout', '2021-04-06 01:17:24', '01:17:24'),
+(28, 1, 'root', 'login', '2021-04-06 05:32:34', '05:32:34'),
+(29, 1, 'root', 'login', '2021-04-07 06:06:17', '06:06:17');
 
 -- --------------------------------------------------------
 
@@ -220,6 +240,14 @@ CREATE TABLE `user_task` (
   `message` text NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_task`
+--
+
+INSERT INTO `user_task` (`id`, `user`, `task_status`, `task`, `message`, `date_created`) VALUES
+(4, 'root', 0, '2', 'Password Reset', '2021-04-06 00:38:13'),
+(5, 'root', 0, '2', 'Password Reset', '2021-04-06 00:41:23');
 
 --
 -- Indexes for dumped tables
@@ -318,25 +346,25 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_access_level`
 --
 ALTER TABLE `user_access_level`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `user_task`
 --
 ALTER TABLE `user_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
