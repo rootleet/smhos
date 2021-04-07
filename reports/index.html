@@ -289,6 +289,7 @@
                             <div
                                  class="w-100 h-95 bg-clight d-flex flex-wrap align-content-center justify-content-center">
                                 <div class="w-50 text-center text-center">
+                                    <!--LIVE FIGURES-->
                                     <h1 style="font-size: 50px !important;"
                                         class="text-c-success">
 
@@ -321,80 +322,45 @@
 
                                     </h1>
 
-
-                                    <kbd data-toggle="modal"
-                                         data-target="#liveIncomeDetails"
-                                         class="font-italic pointer">details</kbd>
-                                    <!-- liveIncomeDetails Modal -->
-                                    <div class="modal fade"
-                                         id="liveIncomeDetails">
-                                        <div class="modal-dialog">
+                                    <!--LIVE FIGURES DETAIL MODAL-->
+                                    <button data-toggle="modal" data-target="#liveIncDetails" class="btn btn-info btn-sm">Details</button>
+                                    <div class="modal fade text-dark" id="liveIncDetails">
+                                        <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
 
-                                                <div class="modal-header bg-csecondary">
-                                                    <strong class="modal-title">
-                                                        Payment Details
-                                                    </strong>
-                                                    <button class="close"
-                                                            data-dismiss="modal">&times;</button>
+                                                <div class="modal-header">
+                                                    <strong class="modal-title">Income Details</strong>
+                                                    <button class="close" data-dismiss="modal">&times;</button>
                                                 </div>
-                                                <div class="modal-body p-2 text-dark">
 
-                                                    <div class="table table-responsive-sm">
-                                                        <table class="table text-left table-bordered table-sm">
+                                                <div class="modal-body p-2">
+                                                    <div class="table table-responsive-sm mb-0">
+                                                        <table class="table text-left table-bordered table-sm mb-0">
+
                                                             <thead class="thead-dark">
                                                                 <tr>
                                                                     <th>Payment Function</th>
                                                                     <th>Value</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
 
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Cash</td>
+                                                                    <td><?php echo $cash_income ?></td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td>Mobile Money</td>
-                                                                    <?php
-                                                                            $momo_sql = "SELECT SUM(amount_paid) FROM `payment` where `method` = 'Mobile Money'";
-                                                                            $momo_stmt = $pdo->prepare($momo_sql);
-                                                                            $momo_stmt->execute();
-                                                                            $momo_stmt_res = $momo_stmt->fetch(PDO::FETCH_ASSOC);
-                                                                            $momo_total = $momo_stmt_res['SUM(amount_paid)'];
-                                                                        ?>
-                                                                    <td>GHS <?php echo $momo_total.'.00' ?></td>
+                                                                    <td><?php echo $momo_income ?></td>
                                                                 </tr>
-
                                                                 <tr>
-                                                                    <td>Cash Payment</td>
-                                                                    <?php
-                                                                            $cash_sql = "SELECT SUM(amount_paid) FROM `payment` where `method` = 'Cash'";
-                                                                            $cash_stmt = $pdo->prepare($cash_sql);
-                                                                            $cash_stmt->execute();
-                                                                            $cash_stmt_res = $cash_stmt->fetch(PDO::FETCH_ASSOC);
-                                                                            $cash_total = $cash_stmt_res['SUM(amount_paid)'];
-                                                                        ?>
-                                                                    <td>GHS <?php echo $cash_total ?>.00</td>
+                                                                    <td>Card</td>
+                                                                    <td><?php echo $card_income ?></td>
                                                                 </tr>
-
-                                                                <tr>
-                                                                    <td>Card Payment</td>
-                                                                    <?php
-                                                                            $card_sql = "SELECT SUM(amount_paid) FROM `payment` where `method` = 'Card'";
-                                                                            $card_stmt = $pdo->prepare($card_sql);
-                                                                            $card_stmt->execute();
-                                                                            $card_stmt_res = $card_stmt->fetch(PDO::FETCH_ASSOC);
-                                                                            $card_total = $card_stmt_res['SUM(amount_paid)'];
-                                                                        ?>
-                                                                    <td>GHS <?php echo $card_total ?>..00</td>
-                                                                </tr>
-
-                                                                <tr class="text-danger">
-                                                                    <td>Refund</td>
-                                                                    <td>GHS 20.00</td>
-                                                                </tr>
-
                                                             </tbody>
+
                                                         </table>
                                                     </div>
-
                                                 </div>
 
                                             </div>
@@ -3119,7 +3085,7 @@
                 </div>
 
             </article>
-            </article>
+            </section>
             <?php endif; ?>
 
 

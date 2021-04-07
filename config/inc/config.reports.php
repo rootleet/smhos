@@ -27,3 +27,37 @@
     {
         echo 'hello';
     }
+
+
+    //live income queries
+    if ($activity === 'Live Income')
+    {
+
+        //cash payment
+        $cash_income = getSumOfColumn(
+            'payment',
+            'amount_paid',
+            "`date_paid` = '$today' AND `method` = '1'",
+            $pdo
+        );
+
+        //momo payments
+        $momo_income = getSumOfColumn(
+            'payment',
+            'amount_paid',
+            "`date_paid` = '$today' AND `method` = '2'",
+            $pdo
+        );
+
+        //card payment
+        $card_income = getSumOfColumn(
+            'payment',
+            'amount_paid',
+            "`date_paid` = '$today' AND `method` = '3'",
+            $pdo
+        );
+
+
+
+    }
+

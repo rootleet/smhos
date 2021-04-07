@@ -60,7 +60,7 @@
     ##column sum
     function getSumOfColumn($table , $column , $condition , $connection)
     {
-        if ($connection === 'none')
+        if ($condition != 'none')
         {
             $sql = "select SUM($column) from $table WHERE $condition";
         }
@@ -71,7 +71,25 @@
         $stmt  = $connection->prepare($sql);
         $stmt->execute();
         $stmt_res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $stmt_res['SUM('.$column.')'];
+        $result = $stmt_res['SUM('.$column.')'];
+        if ($result === NULL)
+        {
+            $x = '0.00';
+        }
+        else
+        {
+            //explode result
+            if(explode('.' , $result) === true)
+            {
+                $x = $result;
+            }
+            else
+            {
+                $x = $result.'.00';
+            }
+
+        }
+        return $_SESSION['currency'].' '.$x;
     }
 
     ##CHECK IF RECORD EXIST

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2021 at 08:36 AM
+-- Generation Time: Apr 07, 2021 at 10:09 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -102,17 +102,18 @@ CREATE TABLE `check_in` (
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
-  `amount_paid` text NOT NULL,
+  `amount_paid` text NOT NULL DEFAULT '0.00',
   `date_paid` date NOT NULL,
-  `level` text DEFAULT 'Primary'
+  `level` text DEFAULT 'Primary',
+  `method` text DEFAULT 'unknown'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`) VALUES
-(1, '100.00', '2021-04-04', 'Primary');
+INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`, `method`) VALUES
+(1, '100.00', '2021-04-04', 'Primary', 'unknown');
 
 -- --------------------------------------------------------
 
