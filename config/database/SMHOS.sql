@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2021 at 10:09 AM
+-- Generation Time: Apr 08, 2021 at 07:37 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -73,15 +73,36 @@ INSERT INTO `admin.currency` (`id`, `symbol`, `short`, `active`) VALUES
 
 CREATE TABLE `bookings` (
   `id` int(11) NOT NULL,
-  `date_booked` timestamp NOT NULL DEFAULT current_timestamp()
+  `date_booked` date NOT NULL DEFAULT current_timestamp(),
+  `fac_category` text DEFAULT 'none',
+  `facility` text DEFAULT 'none',
+  `quantity` int(11) DEFAULT 0,
+  `receptionist` text DEFAULT 'unknown',
+  `time_booked` time DEFAULT curtime(),
+  `paid` int(11) DEFAULT NULL,
+  `checkin` int(11) DEFAULT NULL,
+  `cust_first_name` text DEFAULT 'unknown',
+  `cust_last_name` text DEFAULT 'unknown',
+  `cust_phone` text DEFAULT '+233 xx xxx xxxx',
+  `cust_email` text DEFAULT 'none',
+  `cost` text DEFAULT '0.00',
+  `days` text DEFAULT '0',
+  `arri_date` text DEFAULT 'not set',
+  `fac_number` int(11) DEFAULT 0,
+  `dep_date` text DEFAULT 'not set',
+  `hold` int(11) DEFAULT 0,
+  `date_modified` text DEFAULT 'not modified',
+  `time_modified` text DEFAULT 'not modified',
+  `modified_by` text DEFAULT 'not modified',
+  `special_request` text DEFAULT 'None'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `date_booked`) VALUES
-(1, '2021-04-04 06:16:32');
+INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `fac_number`, `dep_date`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`) VALUES
+(1, '2021-04-04', 'Rooms', 'Single Room', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', 'not set', 0, 'not set', 0, 'not modified', 'not modified', 'not modified', 'None');
 
 -- --------------------------------------------------------
 
@@ -102,18 +123,19 @@ CREATE TABLE `check_in` (
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
-  `amount_paid` text NOT NULL DEFAULT '0.00',
+  `amount_paid` text DEFAULT NULL,
   `date_paid` date NOT NULL,
   `level` text DEFAULT 'Primary',
-  `method` text DEFAULT 'unknown'
+  `method` text DEFAULT 'unknown',
+  `booking` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`, `method`) VALUES
-(1, '100.00', '2021-04-04', 'Primary', 'unknown');
+INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`, `method`, `booking`) VALUES
+(1, '55.21', '2021-04-04', 'Primary', 'unknown', 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +247,9 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (26, 1, 'root', 'login', '2021-04-06 01:10:10', '01:15:58'),
 (27, 1, 'root', 'logout', '2021-04-06 01:17:24', '01:17:24'),
 (28, 1, 'root', 'login', '2021-04-06 05:32:34', '05:32:34'),
-(29, 1, 'root', 'login', '2021-04-07 06:06:17', '06:06:17');
+(29, 1, 'root', 'login', '2021-04-07 06:06:17', '06:06:17'),
+(30, 1, 'root', 'logout', '2021-04-07 08:59:55', '08:59:55'),
+(31, 1, 'root', 'login', '2021-04-07 22:54:27', '22:54:27');
 
 -- --------------------------------------------------------
 
@@ -359,7 +383,7 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `user_task`

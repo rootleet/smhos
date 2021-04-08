@@ -25,35 +25,12 @@
     <div class="row h-100 no-gutters">
 
         <!--Navigation-->
-        <section class="col-sm-2 h-100 o-hide">
-            <header class="h_main d-flex flex-wrap align-content-center justify-content-center">
-                <strong class="cname"><?php echo $company_setup['c_name']; ?></strong>
-            </header>
-
-            <article class="a_main pt-1">
-                <?php include '../config/inc/general_nav.inc.php'; ?>
-
-                <div class="w-100 h-10">
-                    <button onclick="loction.href='www.facebook.com'" class="btn btn-csecondary rounded-0 h-100 w-100">Powered By Rootech.inc</button>
-                </div>
-            </article>
-        </section>
+        <?php require '../config/inc/parts/general_nav.inc.php' ?>
 
         <!--Work Space-->
         <section class="col-sm-10 h-100 bg-cmain o-hide">
             <!--work space header-->
-            <header class="bg-clight">
-                <div class="w-25 ml-auto h-100 d-flex flex-wrap justify-content-end pr-2 align-content-center">
-                    <!--Username-->
-                    <div style="height: 30px;" class="d-flex flex-wrap align-content-center">
-                        <span class="mr-1 ml-1"><?php echo $user_details['first_name'] . ' ' . $user_details['last_name'] ?></span>
-                    </div>
-                    <!--Logout-->
-                    <div onclick="location.href='../config/inc/logout.php'" data-toggle="tooltip" title="logout" class="ico-nm pointer bg-success rounded-circle ml-1 border border-success">
-                        <img src="../assets/icos/general/logout.png" alt="" class="img-fluid">
-                    </div>
-                </div>
-            </header>
+            <?php require '../config/inc/parts/top_bar.php' ?>
 
             <!--WorkSpace-->
             <article>

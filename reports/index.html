@@ -25,42 +25,12 @@
     <div class="row h-100 no-gutters">
 
         <!--Navigation-->
-        <section class="col-sm-2 h-100 o-hide">
-            <header class="h_main d-flex flex-wrap align-content-center justify-content-center">
-                <strong class="cname"><?php echo $company_setup['c_name']; ?></strong>
-            </header>
-
-            <article class="a_main pt-1">
-                <?php include '../config/inc/general_nav.inc.php'; ?>
-
-                <div class="w-100 h-10">
-                    <button onclick="loction.href='www.facebook.com'"
-                            class="btn btn-csecondary rounded-0 h-100 w-100">Powered By Rootech.inc</button>
-                </div>
-            </article>
-        </section>
+        <?php require '../config/inc/parts/general_nav.inc.php' ?>
 
         <!--Work Space-->
         <section class="col-sm-10 h-100 bg-cmain o-hide">
             <!--work space header-->
-            <header class="bg-clight">
-                <div class="w-25 ml-auto h-100 d-flex flex-wrap justify-content-end pr-2 align-content-center">
-                    <!--Username-->
-                    <div style="height: 30px;"
-                         class="d-flex flex-wrap align-content-center">
-                        <span class="mr-1 ml-1"><?php echo $user_details['first_name'] . ' ' . $user_details['last_name'] ?></span>
-                    </div>
-                    <!--Logout-->
-                    <div onclick="location.href='../config/inc/logout.php'"
-                         data-toggle="tooltip"
-                         title="logout"
-                         class="ico-nm pointer bg-success rounded-circle ml-1 border border-success">
-                        <img src="../assets/icos/general/logout.png"
-                             alt=""
-                             class="img-fluid">
-                    </div>
-                </div>
-            </header>
+            <?php require '../config/inc/parts/top_bar.php' ?>
 
             <!--WorkSpace-->
             <article style='overflow:auto !important'>
@@ -315,7 +285,6 @@
 
                                                 xmlhttp.open('GET', '../config/proc/ajax.php?update', true);
                                                 xmlhttp.send();
-                                                console.log('Hello');
                                             }, 1000);
 
                                         </script>
@@ -560,42 +529,37 @@
                                             <!--Paid & Check in-->
                                             <div class="h-30 w-100 d-flex flex-wrap justify-content-end">
                                                 <?php
-                                                            $check_payment_sql = "SELECT * FROM `payment` where `booking` = ?";
-                                                            $check_payment_stmt = $pdo->prepare($check_payment_sql);
-                                                            $check_payment_stmt->execute([$record['id']]);
-                                                            $check_payment = $check_payment_stmt->fetch(PDO::FETCH_ASSOC);
-                                                            $check_payment_count = $check_payment_stmt->rowCount();
-                                                        ?>
+                                                    $check_payment_sql = "SELECT * FROM `payment` where `booking` = ?";
+                                                    $check_payment_stmt = $pdo->prepare($check_payment_sql);
+                                                    $check_payment_stmt->execute([$record['id']]);
+                                                    $check_payment = $check_payment_stmt->fetch(PDO::FETCH_ASSOC);
+                                                    $check_payment_count = $check_payment_stmt->rowCount();
+                                                ?>
                                                 <div class="w-25 h-100">
                                                     <!--PAID-->
-                                                    <div
-                                                         class="w-100 h-50 d-flex flex-wrap justify-content-end align-content-center">
+                                                    <div class="w-100 h-50 d-flex flex-wrap justify-content-end align-content-center">
                                                         <?php if ($record['paid'] === 0): ?>
-                                                        <?php if ($check_payment_count < 1) : ?>
-                                                        <kbd
-                                                             class="light-bg-warning h-fit w-40 text-center text_xxsm badge-pill">Not
-                                                            Paid</kbd>
-                                                        <?php endif; ?>
-                                                        <?php if ($check_payment_count > 0) : ?>
+                                                            <?php if ($check_payment_count < 1) : ?>
+                                                                <kbd class="light-bg-warning h-fit w-40 text-center text_xxsm badge-pill">Not Paid</kbd>
+                                                            <?php endif; ?>
 
-                                                        <?php if ( $record['cost'] > $check_payment['amount_paid'] && $check_payment['amount_paid'] > 0): ?>
-                                                        <!-- IF PAYMENT IS NOT FULL -->
-                                                        <kbd
-                                                             class="light-bg-success h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
-                                                        <?php endif; ?>
 
-                                                        <?php if ( $record['cost'] === $check_payment['amount_paid']): ?>
-                                                        <!-- IF PAYMENT IS  FULL -->
-                                                        <kbd
-                                                             class="bg-success h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
-                                                        <?php endif; ?>
-
-                                                        <?php endif; ?>
                                                         <?php endif; ?>
 
                                                         <?php if ($record['paid'] === 1): ?>
-                                                        <kbd
-                                                             class="light-bg-success h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
+                                                            <?php if ($check_payment_count > 0) : ?>
+
+                                                            <?php if ( $record['cost'] > intval($check_payment['amount_paid']) && $check_payment['amount_paid'] > 0): ?>
+                                                                <!-- IF PAYMENT IS NOT FULL -->
+                                                                <kbd class="bg-warning h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
+                                                                <?php endif; ?>
+
+                                                                <?php if ( $record['cost'] === intval($check_payment['amount_paid'])): ?>
+                                                                <!-- IF PAYMENT IS  FULL -->
+                                                                <kbd class="bg-success h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
+                                                                <?php endif; ?>
+
+                                                            <?php endif; ?>
                                                         <?php endif; ?>
                                                     </div>
                                                     <!--CHECK IN-->

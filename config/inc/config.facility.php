@@ -2,8 +2,9 @@
     require 'session.php';
     require 'db.php';
     require 'functions.php';
+    $loc = 'facility_management';
 
-    //set session catigory main view
+    //set session category main view
     if (!isset($_SESSION['fac_cat_main_view']))
     {
         $_SESSION['fac_cat_main_view'] = 'view';

@@ -117,11 +117,14 @@ article
 {
     background-color: #222230;
     color: #84E2FE !important;
-    font-weight: bolder;
+    font-weight: bold;
     height: 10% !important;
     border-left-style: solid;
     border-left-width: 6px;
     border-left-color: #84E2FE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn-nav:hover

@@ -3,7 +3,6 @@
     @!session_start();
     $today = date('Y-m-d');
     $hostN = 'http://localhost/smhos/';
-
     
     // Check if the user is logged in, if not then redirect to login page
     if(!isset($_SESSION["7c922db59b635d53f58462201588ee26"]) || $_SESSION["7c922db59b635d53f58462201588ee26"] !== true){
@@ -55,4 +54,9 @@
 
 
     }
+
+    //unsest session infos
+?>
+
+
 

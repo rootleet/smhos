@@ -53,3 +53,16 @@
             echo $date;
         }
     }
+
+    //cancel sessions
+    if (isset($_GET['unset_sessions']))
+    {
+        $sessions_array = ['info' , 'error' , 'warming' , 'success'];
+        foreach ($sessions_array as $key => $value)
+        {
+            if(isset($_SESSION[$value]))
+            {
+                unset($_SESSION[$value]);
+            }
+        }
+    }
