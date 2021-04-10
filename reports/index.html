@@ -927,18 +927,9 @@
                                                                         $other_stmt->execute([$payment['id']]);
                                                                         $other_payment_result = $other_stmt->fetch(PDO::FETCH_ASSOC);
                                                                         $other_paid_amount = $other_payment_result['SUM(amount_paid)'];
-
-                                                                        if (explode('.',$other_paid_amount))
-                                                                        {
-                                                                            $actually_other_paid = $other_paid_amount.'.00';
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            $actually_other_paid = $other_paid_amount;
-                                                                        }
                                                                     ?>
 
-                                                    <?php echo $payment['amount_paid']+$actually_other_paid ?>
+                                                    <?php echo $payment['amount_paid']+$other_paid_amount ?>
                                                     <span data-toggle="tooltip"
                                                           title="GHS <?php echo $payment['amount_paid']; ?> on booking"
                                                           data-placement="right"
@@ -1066,16 +1057,7 @@
                                                                 $other_payment_result = $other_stmt->fetch(PDO::FETCH_ASSOC);
                                                                 $other_paid_amount = $other_payment_result['SUM(amount_paid)'];
 
-                                                                if (explode('.',$other_paid_amount))
-                                                                {
-                                                                $actually_other_paid = $other_paid_amount.'.00';
-                                                                }
-                                                                else
-                                                                {
-                                                                $actually_other_paid = $other_paid_amount;
-                                                                }
-
-                                                                echo $p_paid + $actually_other_paid;
+                                                                echo $p_paid + $other_paid_amount;
 
                                                             ?>
                                                 </kbd>

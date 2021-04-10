@@ -1,0 +1,5 @@
+===Database SMHOS
+
+== Dumping data for table payment
+
+|2|55.21|2021-04-04|08:33:29|Primary|Cash|1|0|0|0|Jane Doe|root|Facility|100.00|44.79

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 08, 2021 at 07:37 PM
+-- Generation Time: Apr 10, 2021 at 10:22 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -85,7 +85,7 @@ CREATE TABLE `bookings` (
   `cust_last_name` text DEFAULT 'unknown',
   `cust_phone` text DEFAULT '+233 xx xxx xxxx',
   `cust_email` text DEFAULT 'none',
-  `cost` text DEFAULT '0.00',
+  `cost` decimal(50,2) DEFAULT NULL,
   `days` text DEFAULT '0',
   `arri_date` text DEFAULT 'not set',
   `fac_number` int(11) DEFAULT 0,
@@ -123,19 +123,36 @@ CREATE TABLE `check_in` (
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
-  `amount_paid` text DEFAULT NULL,
+  `amount_paid` decimal(50,2) DEFAULT NULL,
   `date_paid` date NOT NULL,
+  `time_paid` time NOT NULL DEFAULT current_timestamp(),
   `level` text DEFAULT 'Primary',
   `method` text DEFAULT 'unknown',
-  `booking` int(11) DEFAULT NULL
+  `booking` int(11) DEFAULT NULL,
+  `refund` int(11) DEFAULT 0,
+  `master` int(11) DEFAULT 0,
+  `p_count` int(11) DEFAULT 1,
+  `customer` text DEFAULT NULL,
+  `receptionist` text DEFAULT NULL,
+  `facility` text DEFAULT NULL,
+  `amount_owed` decimal(50,2) DEFAULT NULL,
+  `amount_balance` decimal(50,2) DEFAULT NULL,
+  `card_type` text DEFAULT NULL,
+  `card_number` int(11) DEFAULT NULL,
+  `momo_carrier` text DEFAULT NULL,
+  `momo_sender` text DEFAULT NULL,
+  `momo_number` text DEFAULT NULL,
+  `momo_trans_id` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `level`, `method`, `booking`) VALUES
-(1, '55.21', '2021-04-04', 'Primary', 'unknown', 1);
+INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `time_paid`, `level`, `method`, `booking`, `refund`, `master`, `p_count`, `customer`, `receptionist`, `facility`, `amount_owed`, `amount_balance`, `card_type`, `card_number`, `momo_carrier`, `momo_sender`, `momo_number`, `momo_trans_id`) VALUES
+(1, '50.00', '2021-04-04', '08:33:29', 'Primary', 'Cash', 1, 0, 0, 2, 'Jane Doe', 'root', 'Facility', '100.00', '50.00', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, '30.00', '2021-04-04', '08:33:29', 'Secondary', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Facility', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
+(3, '20.00', '2021-04-04', '08:33:29', 'Secondary', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Facility', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424');
 
 -- --------------------------------------------------------
 
@@ -197,7 +214,7 @@ CREATE TABLE `user_access_level` (
 
 INSERT INTO `user_access_level` (`id`, `name`, `access_level`, `Perm_dashboard`, `Perm_company_setup`, `Perm_tax`, `Perm_payment_method`, `Perm_backup`, `Perm_modify_company`, `Perm_facility_management`, `Perm_user_management`, `Perm_reports`, `Perm_booking`, `Perm_check_in`, `Perm_payment`, `owner`) VALUES
 (1, 'Administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'root'),
-(2, 'test', 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 'root');
+(2, 'test', 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 'root');
 
 -- --------------------------------------------------------
 
@@ -249,7 +266,11 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (28, 1, 'root', 'login', '2021-04-06 05:32:34', '05:32:34'),
 (29, 1, 'root', 'login', '2021-04-07 06:06:17', '06:06:17'),
 (30, 1, 'root', 'logout', '2021-04-07 08:59:55', '08:59:55'),
-(31, 1, 'root', 'login', '2021-04-07 22:54:27', '22:54:27');
+(31, 1, 'root', 'login', '2021-04-07 22:54:27', '22:54:27'),
+(32, 1, 'root', 'logout', '2021-04-09 08:48:18', '08:48:18'),
+(33, 1, 'root', 'login', '2021-04-09 08:49:00', '08:49:00'),
+(34, 1, 'root', 'logout', '2021-04-09 09:02:27', '09:02:27'),
+(35, 1, 'root', 'login', '2021-04-09 11:34:12', '11:34:12');
 
 -- --------------------------------------------------------
 
@@ -272,7 +293,8 @@ CREATE TABLE `user_task` (
 
 INSERT INTO `user_task` (`id`, `user`, `task_status`, `task`, `message`, `date_created`) VALUES
 (4, 'root', 0, '2', 'Password Reset', '2021-04-06 00:38:13'),
-(5, 'root', 0, '2', 'Password Reset', '2021-04-06 00:41:23');
+(5, 'root', 0, '2', 'Password Reset', '2021-04-06 00:41:23'),
+(6, 'Mina', 1, '1', 'Initialize your account', '2021-04-09 08:59:04');
 
 --
 -- Indexes for dumped tables
@@ -365,13 +387,13 @@ ALTER TABLE `check_in`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_access_level`
@@ -383,13 +405,13 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `user_task`
 --
 ALTER TABLE `user_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

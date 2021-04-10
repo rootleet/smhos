@@ -17,6 +17,7 @@
     $bookingStmt->execute();
     $bookingsCount = $bookingStmt->rowCount();
 
+
     //payments query
     $paymentSql = "SELECT * FROM `payment` where `level` = 'Primary'";
     $paymentStmt = $pdo->prepare($paymentSql);
