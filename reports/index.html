@@ -445,21 +445,26 @@
                                             <tbody id="<?php echo $activity ?>Table">
 
                                                 <?php while ($bookings = $bookingStmt->fetch(PDO::FETCH_ASSOC)): ?>
-                                                <tr onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bookings['id'] ?>'"
-                                                    class="border-bottom">
-                                                    <td class="pl-1 c_td_xsm w-25">
-                                                        <?php echo $bookings['fac_category'] ?>
-                                                    </td>
-                                                    <td class="c_td_xsm pl-0 w-25">
-                                                        <?php echo $bookings['facility'] ?>
-                                                    </td>
-                                                    <td class="c_td_xsm pl-0 w-25">
-                                                        <?php echo $bookings['quantity']  ?>
-                                                    </td>
-                                                    <td class="pr-2 c_td_xsm w-25 text-right">
-                                                        <?php echo $bookings['receptionist'] ?>
-                                                    </td>
-                                                </tr>
+
+                                                    <tr onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bookings['id'] ?>'"
+                                                        class="border-bottom">
+                                                        <td class="pl-1 c_td_xsm w-25">
+                                                            <?php echo $bookings['fac_category'] ?>
+                                                        </td>
+                                                        <td class="c_td_xsm pl-0 w-25">
+                                                            <?php
+                                                                $b_facility = $bookings['facility'];
+                                                                echo fetchFunc("facilities" , "`id` = $b_facility", $pdo)['name'];
+                                                            ?>
+                                                        </td>
+                                                        <td class="c_td_xsm pl-0 w-25">
+                                                            <?php echo $bookings['quantity']  ?>
+                                                        </td>
+                                                        <td class="pr-2 c_td_xsm w-25 text-right">
+                                                            <?php echo $bookings['receptionist'] ?>
+                                                        </td>
+                                                    </tr>
+
                                                 <?php endwhile; ?>
 
                                             </tbody>
@@ -478,14 +483,7 @@
 
 
                             <?php if ($view === 'View Record'): ?>
-                            <?php
-                                        $record_id = $_SESSION['record_id'];
-                                        //fetch record details
-                                        $recordSql = "SELECT * FROM `bookings` where `id` = ?";
-                                        $record_stmt = $pdo->prepare($recordSql);
-                                        $record_stmt->execute([$record_id]);
-                                        $record = $record_stmt->fetch(PDO::FETCH_ASSOC);
-                                    ?>
+
                             <!--View Single Record -->
                             <div class="w-100 h-100 container p-0 o-hide">
                                 <div class="row w-100 h-100 no-gutters">
@@ -499,7 +497,7 @@
                                     </div>
 
                                     <!--Information-->
-                                    <div class="col-sm-10 h-100 bg-clight text-dark p-3 o-hide">
+                                    <div class="col-sm-10 h-100 <?php if ($record['refund'] === 1){echo 'light-bg-warning';} else {echo 'bg-clight';} ?> text-dark p-3 o-hide">
                                         <!--Top-->
                                         <div class="w-100 h-50">
                                             <div class="h-40 w-100 clearfix">
@@ -527,39 +525,18 @@
                                             </div>
 
                                             <!--Paid & Check in-->
-                                            <div class="h-30 w-100 d-flex flex-wrap justify-content-end">
-                                                <?php
-                                                    $check_payment_sql = "SELECT * FROM `payment` where `booking` = ?";
-                                                    $check_payment_stmt = $pdo->prepare($check_payment_sql);
-                                                    $check_payment_stmt->execute([$record['id']]);
-                                                    $check_payment = $check_payment_stmt->fetch(PDO::FETCH_ASSOC);
-                                                    $check_payment_count = $check_payment_stmt->rowCount();
-                                                ?>
+                                            <?php if ($record['refund'] === 0): ?>
+                                                <div class="h-30 w-100 d-flex flex-wrap justify-content-end">
+
                                                 <div class="w-25 h-100">
                                                     <!--PAID-->
                                                     <div class="w-100 h-50 d-flex flex-wrap justify-content-end align-content-center">
-                                                        <?php if ($record['paid'] === 0): ?>
-                                                            <?php if ($check_payment_count < 1) : ?>
-                                                                <kbd class="light-bg-warning h-fit w-40 text-center text_xxsm badge-pill">Not Paid</kbd>
-                                                            <?php endif; ?>
-
-
+                                                        <?php if ($total_paid < 1) : ?>
+                                                            <kbd class="light-bg-warning h-fit w-40 text-center text_xxsm badge-pill">Not Paid</kbd>
                                                         <?php endif; ?>
 
-                                                        <?php if ($record['paid'] === 1): ?>
-                                                            <?php if ($check_payment_count > 0) : ?>
-
-                                                            <?php if ( $record['cost'] > intval($check_payment['amount_paid']) && $check_payment['amount_paid'] > 0): ?>
-                                                                <!-- IF PAYMENT IS NOT FULL -->
-                                                                <kbd class="bg-warning h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
-                                                                <?php endif; ?>
-
-                                                                <?php if ( $record['cost'] === intval($check_payment['amount_paid'])): ?>
-                                                                <!-- IF PAYMENT IS  FULL -->
-                                                                <kbd class="bg-success h-fit w-40 text-center text_xxsm badge-pill">Paid</kbd>
-                                                                <?php endif; ?>
-
-                                                            <?php endif; ?>
+                                                        <?php if ($total_paid > 0): ?>
+                                                            <kbd data-toggle="tooltip" title="<?php echo $toggle ?>" data-placement="right" class="h-fit w-40 pointer <?php echo $paid_bg ?> text-center text_xxsm badge-pill">Paid</kbd>
                                                         <?php endif; ?>
                                                     </div>
                                                     <!--CHECK IN-->
@@ -578,6 +555,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php endif; ?>
+
+                                            <!--REFUND NOTICE-->
+                                            <?php if ($record['refund'] === 1): ?>
+                                                <div class="h-30 w-100 d-flex flex-wrap justify-content-center align-content-center">
+                                                    <span class="text-muted">BILL REFUNDED</span>
+                                                </div>
+                                            <?php endif; ?>
 
                                             <!--Order Details -->
                                             <div class="h-30 w-100">
@@ -589,7 +574,22 @@
                                                                 <th class="p-1 pl-2 c_th_sm w-25">Category</th>
                                                                 <th class="p-1 c_th_sm w-25">Facility</th>
                                                                 <th class="p-1 c_th_sm w-25">Quantity</th>
-                                                                <th class="p-1 pr-2 c_th_sm w-25">N<u>0</u> Of Days</th>
+
+                                                                    <th class="p-1 pr-2 c_th_sm w-25">
+                                                                        <?php
+
+                                                                            if ($charges_type === 'h')
+                                                                            {
+                                                                                echo "N<u>0</u> Of Hours";
+                                                                            }
+                                                                            elseif ($charges_type === 'd')
+                                                                            {
+                                                                                echo "N<u>0</u> Of Days";
+                                                                            }
+
+                                                                        ?>
+
+                                                                    </th>
                                                             </tr>
                                                         </thead>
                                                     </table>
@@ -604,13 +604,25 @@
                                                                     <?php echo $record['fac_category']; ?>
                                                                 </td>
                                                                 <td class="c_td_xsm pl-1 w-25">
-                                                                    <?php echo $record['facility']; ?>
+                                                                    <?php
+                                                                        echo $facility;
+                                                                    ?>
                                                                 </td>
                                                                 <td class="c_td_xsm pl-1 w-25">
                                                                     <?php echo $record['quantity']; ?>
                                                                 </td>
                                                                 <td class="c_td_xsm pl-1 w-25">
-                                                                    <?php echo $record['days'] ; ?>
+                                                                    <?php
+                                                                        if ($charges_type === 'h')
+                                                                        {
+                                                                            echo timeDifference($record['arr_time'],$record['dep_time']) * dateDifference($record['arri_date'] , $record['dep_date']);
+                                                                        }
+                                                                        elseif ($charges_type === 'd')
+                                                                        {
+                                                                            echo dateDifference($record['arri_date'] , $record['dep_date']);
+                                                                        }
+
+                                                                    ?>
                                                                 </td>
                                                             </tr>
 
@@ -1447,7 +1459,7 @@
                                     <div
                                          class="w-100 d-flex flex-wrap align-content-center justify-content-center h-25">
 
-                                        <?php if ($recordRes['p_count'] === 1 || $recordRes['p_count'] === 2): ?>
+                                        <?php if ($subPaymentsCount > 0): ?>
 
                                         <button data-toggle="modal"
                                                 data-target="#pCountOne"
@@ -1841,7 +1853,7 @@
 
                                         <?php endif; ?>
 
-                                        <?php if ($recordRes['p_count'] === 2): ?>
+                                        <?php if ($subPaymentsCount > 1): ?>
                                         <button data-toggle="modal"
                                                 data-target="#pCountTwo"
                                                 class="w-25 ml-2 mr-2 btn h-50 btn-cprimary cust_shadow bold text-magento">Payment
@@ -2316,7 +2328,9 @@
                         <article class="d-flex flex-wrap align-content-center justify-content-center o-hide">
                             <!-- NO REFUND -->
                             <?php if ($refund_count < 1) :?>
-                            <p class="enc">No Refund Yet</p>
+                                <div class="bg-clight d-flex flex-wrap align-content-center justify-content-center w-100 h-95">
+                                    <p class="enc">No Refund Yet</p>
+                                </div>
                             <?php endif; ?>
 
                             <!-- REFUND TABLE -->
@@ -2345,7 +2359,7 @@
                                                 <?php echo $refund['bill_number'] ?>
                                             </td>
                                             <td class="c_td_xsm p-2">
-                                                <?php echo $refund['amount_refund'] ?>
+                                                <span class="text-danger"><?php echo '- '. $_SESSION['currency']. ' ' . $refund['amount_refund'] ?></span>
                                             </td>
                                             <td class="c_td_xsm p-2">
                                                 <?php echo $refund['receptionist'] ?>
@@ -2383,7 +2397,7 @@
                                                             <p class="float-left">
 
                                                                 <strong>Bill : </strong><span
-                                                                      onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bill_number ?>&redir=Payment'"
+                                                                      onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bill_number ?>&redir=Booking'"
                                                                       class="text-primary pointer"><?php echo $refund['bill_number'] ?></span>
                                                             </p>
                                                             <p class="float-right text-right">
@@ -2412,255 +2426,293 @@
 
                     <?php if ($activity === 'CheckIn'): ?>
 
-                    <?php
-                            $checkin_sql = "SELECT * FROM `check_in`";
-                            $checkin_stmt = $pdo->prepare($checkin_sql);
-                            $checkin_stmt->execute();
-                            $checkin_count = $checkin_stmt->rowCount();
-                        ?>
+                        <!--Check In-->
+                        <article class="pl-3 pr-3 o-hide">
 
-                    <!--Check In-->
-                    <article class="pl-3 pr-3 o-hide">
+                            <header class="d-flex p-0 flex-wrap w-100 align-content-end justify-content-between">
+                                <form method="get"
+                                      action="../config/proc/inside_nav.process.php"
+                                      class="h-70 o-hide w-25 clearfix">
+                                    <!--Select-->
+                                    <div class="w-65 h-100 float-left bg-dark">
+                                        <input type="hidden"
+                                               value="reports"
+                                               name="page">
+                                        <select name="activity"
+                                                class="form-control-sm border-0 w-100 rounded-0 bg-dark text-light">
+                                            <option <?php if ($activity === 'Live Income'){echo 'selected';}?>
+                                            value="Live Income">Live Income</option>
+                                            <option <?php if ($activity === 'Booking'){echo 'selected';}?>
+                                            value="Booking">Booking</option>
+                                            <option <?php if ($activity === 'Payment'){echo 'selected';}?>
+                                            value="Payment">Payment</option>
+                                            <option <?php if ($activity === 'Refund'){echo 'selected';}?>
+                                            value="Refund">Refund</option>
+                                            <option <?php if ($activity === 'CheckIn'){echo 'selected';}?>
+                                            value="Check In">Check In</option>
+                                            <option <?php if ($activity === 'Check Out'){echo 'selected';}?>
+                                            value="Check Out">Check Out</option>
+                                            <option <?php if ($activity === 'Invoice'){echo 'selected';}?>
+                                            value="Invoice">Invoice</option>
+                                        </select>
+                                    </div>
+                                    <!--Button-->
+                                    <div class="w-25 float-right bg-danger text_sm text-center o-hide h-100">
+                                        <button class="btn btn-sm btn-magento w-100 bold h-100">LOAD</button>
+                                    </div>
+                                </form>
 
-                        <?php if ($checkin_count < 1) :?>
+                                <?php if ($checkin_count > 0): ?>
+                                <div class="input-group input-group-sm w-50">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><img src="../assets/icos/general/delete.png"
+                                                                            alt=""
+                                                                            class="img-fluid"></span>
+                                    </div>
 
-                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
-                            <p class="enc">No Check In Yet</p>
-                        </div>
 
-                        <?php endif; ?>
+                                    <input type="text"
+                                           autocomplete="off"
+                                           class="w-75 inside_search text-dark pl-2"
+                                           id="<?php echo $activity ?>Search"
+                                           placeholder="Search String">
 
-                        <?php if ($checkin_count > 0) :?>
-
-                        <header class="d-flex p-0 flex-wrap w-100 align-content-end justify-content-between">
-                            <form method="get"
-                                  action="../config/proc/inside_nav.process.php"
-                                  class="h-70 o-hide w-25 clearfix">
-                                <!--Select-->
-                                <div class="w-65 h-100 float-left bg-dark">
-                                    <input type="hidden"
-                                           value="reports"
-                                           name="page">
-                                    <select name="activity"
-                                            class="form-control-sm border-0 w-100 rounded-0 bg-dark text-light">
-                                        <option <?php if ($activity === 'Live Income'){echo 'selected';}?>
-                                                value="Live Income">Live Income</option>
-                                        <option <?php if ($activity === 'Booking'){echo 'selected';}?>
-                                                value="Booking">Booking</option>
-                                        <option <?php if ($activity === 'Payment'){echo 'selected';}?>
-                                                value="Payment">Payment</option>
-                                        <option <?php if ($activity === 'Refund'){echo 'selected';}?>
-                                                value="Refund">Refund</option>
-                                        <option <?php if ($activity === 'Check In'){echo 'selected';}?>
-                                                value="Check In">Check In</option>
-                                        <option <?php if ($activity === 'Check Out'){echo 'selected';}?>
-                                                value="Check Out">Check Out</option>
-                                        <option <?php if ($activity === 'Invoice'){echo 'selected';}?>
-                                                value="Invoice">Invoice</option>
-                                    </select>
                                 </div>
-                                <!--Button-->
-                                <div class="w-25 float-right bg-danger text_sm text-center o-hide h-100">
-                                    <button class="btn btn-sm btn-magento w-100 bold h-100">LOAD</button>
+                                <?php endif; ?>
+                            </header>
+
+                            <?php if ($checkin_count < 1) :?>
+
+                            <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                <div class="bg-clight d-flex flex-wrap align-content-center justify-content-center w-100 h-95">
+                                    <p class="enc">No Checkin Yet</p>
                                 </div>
-                            </form>
-
-                            <?php if (1 > 0): ?>
-                            <div class="input-group input-group-sm w-50">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><img src="../assets/icos/general/delete.png"
-                                             alt=""
-                                             class="img-fluid"></span>
-                                </div>
-
-
-                                <input type="text"
-                                       autocomplete="off"
-                                       class="w-75 inside_search text-dark pl-2"
-                                       id="<?php echo $activity ?>Search"
-                                       placeholder="Search String">
-
                             </div>
+
                             <?php endif; ?>
-                        </header>
 
-                        <article class="d-flex flex-wrap align-content-center justify-content-center o-hide">
+                            <?php if ($checkin_count > 0) :?>
 
-                            <div class="w-100 h-95 bg-clight text-dark">
-                                <table class="table border-0 table-hover">
-                                    <thead>
 
-                                        <tr class="c_tr_head">
-                                            <th class="p-2 c_th w-25">Facility</th>
-                                            <th class="p-2 c_th w-25">Customer</th>
-                                            <th class="p-2 c_th w-25">Receptionist</th>
-                                            <th class="p-2 c_th w-25 text-right">Date</th>
-                                        </tr>
 
-                                    </thead>
+                            <article class="d-flex flex-wrap align-content-center justify-content-center o-hide">
 
-                                    <tbody id="<?php echo $activity ?>Table">
+                                <div class="w-100 h-95 bg-clight text-dark">
+                                    <table class="table border-0 table-hover">
+                                        <thead>
 
-                                        <?php while ($checkIn = $checkin_stmt->fetch(PDO::FETCH_ASSOC)): ?>
-                                        <?php
+                                            <tr class="c_tr_head">
+                                                <th class="p-2 c_th w-25">Facility</th>
+                                                <th class="p-2 c_th w-25">Customer</th>
+                                                <th class="p-2 c_th w-25">Receptionist</th>
+                                                <th class="p-2 c_th w-25 text-right">Date</th>
+                                            </tr>
 
-                                                        $booking_sql = "SELECT * FROM `bookings` where `id` = ?";
-                                                        $booking_stmt = $pdo->prepare($booking_sql);
-                                                        $booking_stmt->execute([ $checkIn['booking'] ]);
-                                                        $booking = $booking_stmt->fetch(PDO::FETCH_ASSOC);
+                                        </thead>
+
+                                        <tbody id="<?php echo $activity ?>Table">
+
+                                            <?php while ($checkIn = $checkin_stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                                            <?php
+
+                                                $booking_sql = "SELECT * FROM `bookings` where `id` = ?";
+                                                $booking_stmt = $pdo->prepare($booking_sql);
+                                                $booking_stmt->execute([ $checkIn['booking'] ]);
+                                                $booking = $booking_stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                $fac = $booking['facility'];
+                                                $fac_category = fetchFunc("facilities" , "`id` = $fac", $pdo)['facCat'];
+                                                $charges_type = fetchFunc("facCat" , "`id` = $fac_category", $pdo)['charges_type'];
+                                            ?>
+
+
+                                            <tr data-toggle="modal"
+                                                data-target="#checkInModal<?php echo $checkIn['id'] ?>"
+                                                class="border-bottom pointer">
+
+                                                <td class="p-2 c_td_xsm w-25">
+                                                    <?php
+                                                        $fac = $booking['facility'];
+                                                        echo fetchFunc("facilities" , "`id` = $fac", $pdo)['name'];
                                                     ?>
+                                                </td>
+                                                <td class="c_td_xsm p-2 w-25">
+                                                    <?php echo $booking['cust_first_name'] ?>
+                                                </td>
+                                                <td class="c_td_xsm p-2 w-25">
+                                                    <?php echo $checkIn['receptionist'] ?>
+                                                </td>
+                                                <td class="p-2 c_td_xsm w-25 text-right">
+                                                    <?php echo $checkIn['date_recorded'] ?>
+                                                </td>
 
+                                            </tr>
 
-                                        <tr data-toggle="modal"
-                                            data-target="#checkInModal<?php echo $checkIn['id'] ?>"
-                                            class="border-bottom pointer">
+                                            <!-- CHECK IN MODAL -->
+                                            <div class="modal fade"
+                                                 id="checkInModal<?php echo $checkIn['id'] ?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
 
-                                            <td class="p-2 c_td_xsm w-25">
-                                                <?php echo $booking['facility'] ?>
-                                            </td>
-                                            <td class="c_td_xsm p-2 w-25">
-                                                <?php echo $booking['cust_first_name'] ?>
-                                            </td>
-                                            <td class="c_td_xsm p-2 w-25">
-                                                <?php echo $checkIn['receptionist'] ?>
-                                            </td>
-                                            <td class="p-2 c_td_xsm w-25 text-right">
-                                                <?php echo $checkIn['date_recorded'] ?>
-                                            </td>
-
-                                        </tr>
-
-                                        <!-- CHECK IN MODAL -->
-                                        <div class="modal fade"
-                                             id="checkInModal<?php echo $checkIn['id'] ?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-
-                                                    <div class="modal-header bg-csecondary">
-                                                        <strong class="modal-title">Check In Details</strong>
-                                                        <button class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                    </div>
-
-                                                    <div class="modal-body p-3">
-                                                        <!-- ARR DEP DATE -->
-                                                        <div class="w-100 clearfix mb-3">
-
-                                                            <!-- ARR DATE -->
-                                                            <div class="w-45 float-left card">
-                                                                <div
-                                                                     class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
-                                                                    Arrival
-                                                                </div>
-                                                                <div class="w-100 p-1 card-body">
-                                                                    <p class="p-0 m-0 text_sm">
-                                                                        <?php echo $booking['arri_date'] ?></p>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- DEP DATE -->
-                                                            <div class="w-45 float-right card">
-                                                                <div
-                                                                     class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
-                                                                    Depature
-                                                                </div>
-                                                                <div class="w-100 p-1 card-body">
-                                                                    <p class="p-0 m-0 text_sm">
-                                                                        <?php echo $booking['dep_date'] ?></p>
-                                                                </div>
-                                                            </div>
-
+                                                        <div class="modal-header bg-csecondary">
+                                                            <strong class="modal-title">Check In Details</strong>
+                                                            <button class="close"
+                                                                    data-dismiss="modal">&times;</button>
                                                         </div>
 
-                                                        <!-- Payment Status and Room Number -->
-                                                        <div class="w-100 clearfix mb-3">
+                                                        <div class="modal-body p-3">
+                                                            <div class="w-100 d-flex flex-wrap align-content-center justify-content-end">
+                                                                <p class="badge badge-info badge-pill">
+                                                                    <?php
 
-                                                            <!-- Payment -->
-                                                            <div class="w-45 card float-left">
-                                                                <div
-                                                                     class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
+
+                                                                        if ($charges_type === 'h')
+                                                                        {
+                                                                            echo timeDifference(date('H:s:i'),$booking['dep_time']). ' Houres Remaining';
+                                                                        }
+                                                                        elseif ($charges_type === 'd')
+                                                                        {
+                                                                            echo dateDifference(date('Y-m-d') , $booking['dep_date']) . ' Days Remaining';
+                                                                        }
+
+                                                                    ?>
+                                                                </p>
+                                                            </div>
+                                                            <!-- ARR DEP DATE -->
+                                                            <div class="w-100 clearfix mb-3">
+
+                                                                <!-- ARR DATE -->
+                                                                <div class="w-45 float-left card">
+                                                                    <div
+                                                                         class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
+                                                                        Arrival
+                                                                    </div>
+                                                                    <div class="w-100 p-1 card-body">
+                                                                        <p class="p-0 m-0 text_sm">
+                                                                            <?php echo $booking['arri_date'] ?></p>
+                                                                        <p class="m-0 p-0 text_sm text-info">
+                                                                            <?php
+                                                                                if ($charges_type === 'h')
+                                                                                {
+                                                                                    echo $booking['arr_time'];
+                                                                                }
+                                                                            ?>
+                                                                        </p>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- DEP DATE -->
+                                                                <div class="w-45 float-right card">
+                                                                    <div
+                                                                         class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
+                                                                        Depature
+                                                                    </div>
+                                                                    <div class="w-100 p-1 card-body">
+                                                                        <p class="p-0 m-0 text_sm"><?php echo $booking['dep_date'] ?></p>
+                                                                        <p class="m-0 p-0 text_sm text-info">
+                                                                            <?php
+                                                                                if ($charges_type === 'h')
+                                                                                {
+                                                                                    echo $booking['dep_time'];
+                                                                                }
+                                                                            ?>
+                                                                        </p>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <!-- Payment Status and Room Number -->
+                                                            <div class="w-100 clearfix mb-3">
+
+                                                                <!-- Payment -->
+                                                                <div class="w-45 card float-left">
+                                                                    <div
+                                                                         class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
+                                                                        Payment
+                                                                    </div>
+                                                                    <div class="w-100 p-1 card-body">
+                                                                        <p class="p-0 m-0 text_sm">
+                                                                            <?php
+                                                                                        $payment_calc = "SELECT SUM(amount_paid) , id from payment where booking = ?";
+                                                                                        $payment_calc_stmt = $pdo->prepare($payment_calc);
+                                                                                        $payment_calc_stmt->execute([ $checkIn['booking'] ]);
+                                                                                        $calculated_payment = $payment_calc_stmt->fetch(PDO::FETCH_ASSOC);
+                                                                                    ?>
+                                                                            <?php if ( $calculated_payment['SUM(amount_paid)'] === $booking['cost'] ): ?>
+                                                                            Full
+                                                                            <?php endif; ?>
+
+                                                                            <?php if ( $calculated_payment['SUM(amount_paid)'] < $booking['cost'] ): ?>
+                                                                            Not Fully Paid ( <?php echo $_SESSION['currency'] . ' ' . $booking['cost'] -  $calculated_payment['SUM(amount_paid)'] ?> Remaining)
+                                                                            <?php endif; ?>
+                                                                        </p>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Room Number -->
+                                                                <div class="w-45 float-right card">
+                                                                    <div
+                                                                         class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
+                                                                        Facility Number
+                                                                    </div>
+                                                                    <div class="w-100 p-1 card-body">
+                                                                        <p class="p-0 m-0 text_sm">
+                                                                            <?php echo $booking['fac_number'] ?>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <!-- BOOKING ID AND INVOICE BUTTON -->
+                                                            <div
+                                                                 class="d-flex flex-wrap w-75 mx-auto mt-5 justify-content-between">
+
+                                                                <button onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $booking['id'] ?>&redir=Booking'"
+                                                                        class="btn text_sm btn-sm btn-cprimary">
+                                                                    Booking
+                                                                </button>
+
+                                                                <?php
+                                                                                $payment_detail_sql = "SELECT * FROM `payment` where `booking` = ? and `level` = ? ";
+                                                                                $payment_detail_stmt = $pdo->prepare($payment_detail_sql);
+                                                                                $payment_detail_stmt->execute( [$checkIn['booking'] , 'Primary'] );
+                                                                                $payment_detail = $payment_detail_stmt->fetch(PDO::FETCH_ASSOC);
+                                                                                $payment_id = $payment_detail['id'];
+                                                                            ?>
+                                                                <button onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $payment_id ?>&redir=Payment'"
+                                                                        class="btn text_sm btn-sm btn-cprimary">
                                                                     Payment
-                                                                </div>
-                                                                <div class="w-100 p-1 card-body">
-                                                                    <p class="p-0 m-0 text_sm">
-                                                                        <?php
-                                                                                    $payment_calc = "SELECT SUM(amount_paid) , id from payment where booking = ?";
-                                                                                    $payment_calc_stmt = $pdo->prepare($payment_calc);
-                                                                                    $payment_calc_stmt->execute([ $checkIn['booking'] ]);
-                                                                                    $calculated_payment = $payment_calc_stmt->fetch(PDO::FETCH_ASSOC);
-                                                                                ?>
-                                                                        <?php if ( $calculated_payment['SUM(amount_paid)'] === $booking['cost'] ): ?>
-                                                                        Full
-                                                                        <?php endif; ?>
+                                                                </button>
 
-                                                                        <?php if ( $calculated_payment['SUM(amount_paid)'] < $booking['cost'] ): ?>
-                                                                        Not Fully Paid
-                                                                        <?php endif; ?>
-                                                                    </p>
-
-                                                                </div>
+                                                                <button class="btn text_sm btn-sm btn-cprimary">
+                                                                    Invoice
+                                                                </button>
                                                             </div>
 
-                                                            <!-- Room Number -->
-                                                            <div class="w-45 float-right card">
-                                                                <div
-                                                                     class="w-100 rounded-top p-1 bg-cus-muted text-dark card-header">
-                                                                    Facility Number
-                                                                </div>
-                                                                <div class="w-100 p-1 card-body">
-                                                                    <p class="p-0 m-0 text_sm">
-                                                                        <?php echo $booking['fac_number'] ?>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <!-- BOOKING ID AND INVOICE BUTTON -->
-                                                        <div
-                                                             class="d-flex flex-wrap w-75 mx-auto mt-5 justify-content-between">
-
-                                                            <button onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $booking['id'] ?>&redir=Booking'"
-                                                                    class="btn text_sm btn-sm btn-cprimary">
-                                                                Booking
-                                                            </button>
-
-                                                            <?php
-                                                                            $payment_detail_sql = "SELECT * FROM `payment` where `booking` = ? and `level` = ? ";
-                                                                            $payment_detail_stmt = $pdo->prepare($payment_detail_sql);
-                                                                            $payment_detail_stmt->execute( [$checkIn['booking'] , 'Primary'] );
-                                                                            $payment_detail = $payment_detail_stmt->fetch(PDO::FETCH_ASSOC);
-                                                                            $payment_id = $payment_detail['id'];
-                                                                        ?>
-                                                            <button onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $payment_id ?>&redir=Payment'"
-                                                                    class="btn text_sm btn-sm btn-cprimary">
-                                                                Payment
-                                                            </button>
-
-                                                            <button class="btn text_sm btn-sm btn-cprimary">
-                                                                Invoice
-                                                            </button>
                                                         </div>
 
                                                     </div>
-
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <?php endwhile; ?>
+                                            <?php endwhile; ?>
 
-                                    </tbody>
+                                        </tbody>
 
-                                </table>
+                                    </table>
 
-                            </div>
+                                </div>
+
+                            </article>
+
+                            <?php endif; ?>
 
                         </article>
-
-                        <?php endif; ?>
-
-                    </article>
 
                     <?php endif; ?>
 
@@ -2678,8 +2730,8 @@
 
                         <?php if ($checkout_count < 1) :?>
 
-                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
-                            <p class="enc">No Check Out Yet</p>
+                        <div class="bg-clight d-flex flex-wrap align-content-center justify-content-center w-100 h-95">
+                            <p class="enc">No Refund Yet</p>
                         </div>
 
                         <?php endif; ?>

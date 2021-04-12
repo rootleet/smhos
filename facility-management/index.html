@@ -343,6 +343,24 @@
                                                                         <div class="col-sm-8 der_det p-1"><?php echo $cat_standing['name'] ?></div>
                                                                     </div>
 
+                                                                    <!--CHARGES TYPE-->
+                                                                    <div class="row p-0 der_row no-gutters">
+                                                                        <div class="col-sm-4"><strong class="text-dark">Charges Type</strong></div>
+                                                                        <div class="col-sm-8 der_det p-1">
+                                                                            <?php if ($cat_standing['charges_type'] === 'd')
+                                                                                {
+                                                                                    echo 'Day';
+                                                                                } elseif ($cat_standing['charges_type'] === 'h')
+                                                                                {
+                                                                                    echo 'Hour';
+                                                                                } else
+                                                                                {
+                                                                                    echo 'Unknown';
+                                                                                }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+
 
                                                                 </div>
                                                             </div>
@@ -376,7 +394,19 @@
                                                                             <input required autocomplete="off" type="text" placeholder="Facility Name" name="facName" class="form-control mb-2">
 
                                                                             <!--SPACE AVAILABLE-->
-                                                                            <input required autocomplete="off" type="text" placeholder="Spaces" name="space" class="form-control mb-2">
+                                                                            <input required autocomplete="off" type="text" placeholder="Spaces" name="space" class="form-control"><hr>
+
+                                                                            <!--Cost-->
+                                                                            <div class="input-group mb-2">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text text-info">
+                                                                                        $
+                                                                                    </span>
+                                                                                </div>
+                                                                                <input required autocomplete="off" type="text" placeholder="0.00" id="cost" name="cost" class="form-control text-info">
+                                                                            </div>
+
+                                                                            <hr>
 
                                                                             <button name="addFacility" class="btn btn-csecondary w-100">
                                                                                 ADD FACILITY
@@ -423,6 +453,7 @@
                                                                                         <th class="p-1 text_xsm">Name</th>
                                                                                         <th class="p-1 text_xsm">Owner</th>
                                                                                         <th class="p-1 text_xsm">Date Created</th>
+                                                                                        <th class="p-1 text_xsm">Cost</th>
                                                                                         <th class="p-1 text_xsm">Spaces</th>
                                                                                         <th class="p-1 text_xsm">Available</th>
                                                                                     </tr>
@@ -434,6 +465,7 @@
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['name'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['owner'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['date_created'] ?></td>
+                                                                                            <td class="p-1 text_xxsm"><?php echo $_SESSION['currency'] . ' ' . $cat_fac['cost'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                         </tr>
@@ -462,16 +494,37 @@
                                                     <?php if ($_SESSION['fac_cat_main_view'] === 'edit'): ?>
                                                         <div class="w-100 pt-2 h-50 overflow-hidden clearfix">
                                                         <!--Category-->
-                                                        <div class="w-40 float-left">
+                                                        <div class="w-40 h-100 float-left">
 
                                                             <!--Details-->
-                                                            <div class="container w-100 p-2">
+                                                            <div class="container h-100 w-100 p-2">
 
                                                                 <!--Name-->
-                                                                <form id="commitCategoryChange" method="post" action="../config/proc/facility.php" class="row p-0 der_row no-gutters">
-                                                                    <div class="col-sm-4"><strong class="text-dark">Name</strong></div>
-                                                                    <input name="name" autocomplete="off" value="<?php echo $cat_standing['name'] ?>" class="col-sm-8 der_det pl-2">
+                                                                <form id="commitCategoryChange" method="post" action="../config/proc/facility.php" class="p-0 der_row container">
+                                                                    <div class="row mb-2 no-gutter">
+                                                                        <div class="col-sm-4"><strong class="text-dark">Namex</strong></div>
+                                                                        <input name="name" autocomplete="off" value="<?php echo $cat_standing['name'] ?>" class="col-sm-8 der_det pl-2">
+                                                                    </div>
+
+                                                                    <!--CHARGE TYPE-->
+                                                                    <div class="row mb-2 no-gutter">
+                                                                        <div class="col-sm-4"><strong class="text-dark">Charge Type</strong></div>
+                                                                        <select class="col-sm-8 der_det pl-2" name="charge_type">
+                                                                            <?php if ($cat_standing['charges_type'] === 'd'): ?>
+                                                                                <option selected value="d">Daily</option>
+                                                                                <option value="h">Hourly</option>
+                                                                            <?php endif; ?>
+
+                                                                            <?php if ($cat_standing['charges_type'] === 'h'): ?>
+                                                                                <option value="d">Daily</option>
+                                                                                <option selected value="h">Hourly</option>
+                                                                            <?php endif; ?>
+                                                                        </select>
+                                                                    </div>
+
+
                                                                     <input type="hidden" name="currentCat" value="<?php echo $cat_standing['name'] ?>">
+                                                                    <input type="hidden" name="currentCatId" value="<?php echo $cat_standing['id'] ?>">
                                                                 </form>
 
 
@@ -487,7 +540,7 @@
                                                         <div class="card-body overflow-hidden">
 
                                                             <div class="w-100 h-100 overflow-auto table-responsive table-responsive-sm p-1">
-                                                                <table class="table h-100 mb-0">
+                                                                <table class="table max-h-100 mb-0">
                                                                     <thead class="bg-info text-light">
                                                                     <tr>
                                                                         <th class="p-1 text_xsm">Name</th>

@@ -69,11 +69,12 @@
         $facility = htmlentities($_POST['facName']);
         $category = $_SESSION['cat_standing'];
         $space = htmlentities($_POST['space']);
+        $cost = htmlentities($_POST['cost']);
 
         //add facility
-        $sql = "INSERT INTO `facilities` (`facCat` , `name` , `owner` , `total_space`) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO `facilities` (`facCat` , `name` , `owner` , `total_space`,`cost`) VALUES (?,?,?,?,?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$category , $facility , $_SESSION['username'] , $space]);
+        $stmt->execute([$category , $facility , $_SESSION['username'] , $space,$cost]);
         $_SESSION['notif'] = $facility . ' has been added to category ' . $category;
         header("Location:".$_SERVER['HTTP_REFERER']);
     }
@@ -145,11 +146,13 @@
     {
         $cat_target = htmlentities($_POST['currentCat']);
         $new_name = htmlentities($_POST['name']);
+        $charge_type = htmlentities($_POST['charge_type']);
+        $currentCatId = htmlentities($_POST['currentCatId']);
 
         //check if new name taken
-        $check = "SELECT * FROM `facCat` WHERE `name` = ?";
+        $check = "SELECT * FROM `facCat` WHERE `name` = ? AND `id` != ?";
         $check_stmt = $pdo->prepare($check);
-        $check_stmt->execute([$new_name]);
+        $check_stmt->execute([$new_name,$currentCatId]);
         if ($check_stmt->rowCount() > 0)
         {
             $_SESSION['notif'] = 'Category ' . $new_name . ' taken';
@@ -159,10 +162,10 @@
         else
         {
             //update
-            $sql = "UPDATE `facCat` SET `name` = ? WHERE `name` = ?";
+            $sql = "UPDATE `facCat` SET `name` = ? , `charges_type` = ? WHERE `id` = ?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$new_name , $cat_target]);
-            $_SESSION['notif'] = 'Category ' . $cat_target . ' change to ' . $new_name;
+            $stmt->execute([$new_name , $charge_type ,$currentCatId]);
+            $_SESSION['notif'] = 'Category Updated Successfully';
             $_SESSION['fac_cat_main_view'] = 'view';
             header("Location:".$_SERVER['HTTP_REFERER']);
             exit();

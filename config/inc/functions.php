@@ -41,6 +41,41 @@
         return $rcStmt->rowCount();
     }
 
+    ##date difference
+    function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' )
+    {
+
+        //////////////////////////////////////////////////////////////////////
+        //PARA: Date Should In YYYY-MM-DD Format
+        //RESULT FORMAT:
+        // '%y Year %m Month %d Day %h Hours %i Minute %s Seconds'        =>  1 Year 3 Month 14 Day 11 Hours 49 Minute 36 Seconds
+        // '%y Year %m Month %d Day'                                    =>  1 Year 3 Month 14 Days
+        // '%m Month %d Day'                                            =>  3 Month 14 Day
+        // '%d Day %h Hours'                                            =>  14 Day 11 Hours
+        // '%d Day'                                                        =>  14 Days
+        // '%h Hours %i Minute %s Seconds'                                =>  11 Hours 49 Minute 36 Seconds
+        // '%i Minute %s Seconds'                                        =>  49 Minute 36 Seconds
+        // '%h Hours                                                    =>  11 Hours
+        // '%a Days                                                        =>  468 Days
+        //////////////////////////////////////////////////////////////////////
+
+        $datetime1 = date_create($date_1);
+        $datetime2 = date_create($date_2);
+
+        $interval = date_diff($datetime1, $datetime2);
+
+        return $interval->format($differenceFormat);
+
+    }
+
+    ## time difference
+    function timeDifference($start , $end)
+    {
+        $time1 = strtotime($start);
+        $time2 = strtotime($end);
+        return round(abs($time2 - $time1) / 3600,2);
+    }
+
     ##fetch from table
     function fetchFunc($table , $condition, $connection)
     {
@@ -57,8 +92,11 @@
         return $result = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    ##execute
+
+
     ##column sum
-    function getSumOfColumn($table , $column , $condition , $connection)
+    function getSumOfColumn($table , $column , $condition  , $connection , $currency = 0)
     {
         if ($condition != 'none')
         {
@@ -85,11 +123,20 @@
             }
             else
             {
-                $x = $result.'.00';
+                $x = $result;
             }
 
         }
-        return $_SESSION['currency'].' '.$x;
+
+        if ($currency === 0)
+        {
+            return $x;
+        }
+        else
+        {
+            return $_SESSION['currency'].' '.$x;
+        }
+
     }
 
     ##CHECK IF RECORD EXIST

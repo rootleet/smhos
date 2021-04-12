@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 10, 2021 at 10:22 PM
+-- Generation Time: Apr 12, 2021 at 09:12 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -88,21 +88,24 @@ CREATE TABLE `bookings` (
   `cost` decimal(50,2) DEFAULT NULL,
   `days` text DEFAULT '0',
   `arri_date` text DEFAULT 'not set',
+  `dep_date` text DEFAULT '\'not set\'',
+  `arr_time` time DEFAULT NULL,
+  `dep_time` time DEFAULT NULL,
   `fac_number` int(11) DEFAULT 0,
-  `dep_date` text DEFAULT 'not set',
   `hold` int(11) DEFAULT 0,
   `date_modified` text DEFAULT 'not modified',
   `time_modified` text DEFAULT 'not modified',
   `modified_by` text DEFAULT 'not modified',
-  `special_request` text DEFAULT 'None'
+  `special_request` text DEFAULT 'None',
+  `refund` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `fac_number`, `dep_date`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`) VALUES
-(1, '2021-04-04', 'Rooms', 'Single Room', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', 'not set', 0, 'not set', 0, 'not modified', 'not modified', 'not modified', 'None');
+INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `dep_date`, `arr_time`, `dep_time`, `fac_number`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`, `refund`) VALUES
+(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
 
 -- --------------------------------------------------------
 
@@ -112,8 +115,18 @@ INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quanti
 
 CREATE TABLE `check_in` (
   `id` int(11) NOT NULL,
-  `date` text NOT NULL
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  `booking` int(11) DEFAULT NULL,
+  `receptionist` text NOT NULL,
+  `date_recorded` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `check_in`
+--
+
+INSERT INTO `check_in` (`id`, `date`, `booking`, `receptionist`, `date_recorded`) VALUES
+(1, '2021-04-11', 1, 'root', '2021-04-11 15:37:58');
 
 -- --------------------------------------------------------
 
@@ -151,8 +164,8 @@ CREATE TABLE `payment` (
 
 INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `time_paid`, `level`, `method`, `booking`, `refund`, `master`, `p_count`, `customer`, `receptionist`, `facility`, `amount_owed`, `amount_balance`, `card_type`, `card_number`, `momo_carrier`, `momo_sender`, `momo_number`, `momo_trans_id`) VALUES
 (1, '50.00', '2021-04-04', '08:33:29', 'Primary', 'Cash', 1, 0, 0, 2, 'Jane Doe', 'root', 'Facility', '100.00', '50.00', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, '30.00', '2021-04-04', '08:33:29', 'Secondary', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Facility', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
-(3, '20.00', '2021-04-04', '08:33:29', 'Secondary', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Facility', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424');
+(2, '30.00', '2021-04-04', '08:33:29', 'p1', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Facility', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
+(3, '20.00', '2021-04-04', '08:33:29', 'p2', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Facility', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424');
 
 -- --------------------------------------------------------
 
@@ -381,7 +394,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `check_in`
 --
 ALTER TABLE `check_in`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payment`
