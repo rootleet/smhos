@@ -89,7 +89,7 @@
         }
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        return $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return  $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     ##execute

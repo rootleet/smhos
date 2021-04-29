@@ -1,10 +1,10 @@
 
 <section class="col-sm-2 h-100 o-hide">
-    <header class="h_main d-flex flex-wrap align-content-center justify-content-center">
+    <header class="h_main d-flex flex-wrap align-content-center pl-2">
         <strong class="cname"><?php echo $company_setup['c_name']; ?></strong>
     </header>
 
-    <article class="a_main pt-1">
+    <article class="a_main">
         <ul class="nav h-90 nav-pills nav-justified flex-column">
 
             <!--Dashboard-->

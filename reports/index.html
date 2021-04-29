@@ -1054,10 +1054,11 @@
                                             </div>
                                             <!-- Total Paid -->
                                             <div class="w-100 d-flex flex-wrap justify-content-end h-70">
-                                                <?php if ($recordRes['p_count'] > 0) : ?>
-                                                <kbd class="bg-info h-fit text_sm text-right"> <strong>Totally Paid :
+
+                                                <div class="w-100 h-fit text-right">
+                                                    <kbd class="bg-info h-fit text_sm text-right"> <strong>Totally Paid :
                                                     </strong> GHS
-                                                    <?php
+                                                        <?php
 
                                                                 $p_paid = $recordRes['amount_paid'];
 
@@ -1071,9 +1072,12 @@
 
                                                                 echo $p_paid + $other_paid_amount;
 
-                                                            ?>
-                                                </kbd>
-                                                <?php endif; ?>
+                                                        ?>
+                                                    </kbd>
+                                                </div>
+
+                                                <button onclick="popupwindow('extra_func.php?pmt_inv&pid=<?php echo $recordRes['id'] ?>', 'User Access Level', 800, 620)" class="btn btn-sm h-fit btn-cprimary">Invoice</button>
+
                                             </div>
 
                                         </div>
@@ -1191,7 +1195,7 @@
                                         <div class="w-100 h-fit d-flex flex-wrap justify-content-between">
 
                                             <!--First Card -->
-                                            <div class="w-30 card  h-fit">
+                                            <div class="w-30 card border-0  h-fit">
                                                 <div class="table-responsive-sm max-width">
 
                                                     <table class="table-sm">
@@ -1248,7 +1252,7 @@
                                             </div>
 
                                             <!--Second Card -->
-                                            <div class="w-30 card h-fit">
+                                            <div class="w-30 card border-0 h-fit">
                                                 <div class="table-responsive-sm max-width">
 
                                                     <table class="table-sm">
@@ -1283,7 +1287,7 @@
                                             </div>
 
                                             <!-- Third Card -->
-                                            <div class="w-30 card h-fit">
+                                            <div class="w-30 card border-0 h-fit">
                                                 <div class="table-responsive-sm max-width">
 
                                                     <table class="table-sm">
@@ -1489,7 +1493,7 @@
                                                     <div class="modal-body p-3 text_sm">
 
                                                         <div class="w-100 h-fit d-flex flex-wrap justify-content-end">
-                                                            <button class="btn btn-sm btn-cprimary">Invoice</button>
+                                                            <button onclick="popupwindow('extra_func.php?pmt_inv&pid=<?php echo $pCountOne['id'] ?>', 'User Access Level', 800, 620)" class="btn btn-sm btn-cprimary">Invoice</button>
                                                         </div>
 
                                                         <?php
@@ -1883,7 +1887,7 @@
                                                     <div class="modal-body p-3 text_sm">
 
                                                         <div class="w-100 h-fit d-flex flex-wrap justify-content-end">
-                                                            <button class="btn btn-sm btn-cprimary">Invoice</button>
+                                                            <button onclick="popupwindow('extra_func.php?pmt_inv&pid=<?php echo $pCountTwo['id'] ?>', 'User Access Level', 800, 620)" class="btn btn-sm btn-cprimary">Invoice</button>
                                                         </div>
 
                                                         <?php
@@ -2731,7 +2735,7 @@
                         <?php if ($checkout_count < 1) :?>
 
                         <div class="bg-clight d-flex flex-wrap align-content-center justify-content-center w-100 h-95">
-                            <p class="enc">No Refund Yet</p>
+                            <p class="enc">No Check Yet</p>
                         </div>
 
                         <?php endif; ?>
@@ -2807,17 +2811,25 @@
 
                                         <?php while ($checkOut = $checkout_stmt->fetch(PDO::FETCH_ASSOC)): ?>
                                         <?php
-                                                        $booking_sql = "SELECT * FROM `bookings` where `id` = ?";
-                                                        $booking_stmt = $pdo->prepare( $booking_sql) ;
-                                                        $booking_stmt->execute( [ $checkOut['booking'] ] );
-                                                        $booking = $booking_stmt->fetch(PDO::FETCH_ASSOC);
-                                                    ?>
+                                            $booking_sql = "SELECT * FROM `bookings` where `id` = ?";
+                                            $booking_stmt = $pdo->prepare( $booking_sql) ;
+                                            $booking_stmt->execute( [ $checkOut['booking'] ] );
+                                            $booking = $booking_stmt->fetch(PDO::FETCH_ASSOC);
+                                            $stay_duration = dateDifference ($booking['dep_date'] , $checkOut['date_recorded']);
+                                        ?>
 
                                         <tr data-toggle="modal"
                                             data-target="#checkInModal<?php echo $checkOut['id'] ?>"
-                                            class="border-bottom pointer">
+                                            class="border-bottom <?php if ($stay_duration < 0) {echo 'bg-ligh-danger';} elseif ($stay_duration > 0){echo 'light-bg-warning';} ?> pointer">
                                             <td class="p-2 c_td_xsm w-25">
-                                                <?php echo $booking['facility'] ?>
+                                                <?php
+
+                                                    $fac = $booking['facility'];
+                                                    echo fetchFunc (
+                                                        'facilities', "`id`=$fac", $pdo
+                                                    )['name'];
+
+                                                ?>
                                             </td>
                                             <td class="c_td_xsm p-2 w-25">
                                                 <?php echo $booking['cust_first_name'].' '.$booking['cust_last_name'] ?>
@@ -2826,7 +2838,13 @@
                                                 <?php echo $checkOut['receptionist'] ?>
                                             </td>
                                             <td class="p-2 c_td_xsm w-25 text-right">
-                                                <?php echo $checkOut['date_recorded'] ?>
+                                                <?php
+
+                                                    echo $checkOut['date_recorded'];
+
+
+                                                ?>
+
                                             </td>
                                         </tr>
 
@@ -2843,6 +2861,20 @@
                                                     </div>
 
                                                     <div class="modal-body p-3">
+
+                                                        <div class="w-100 mb-3 d-flex flex-wrap align-content-center justify-content-end">
+                                                            <?php
+                                                                if ($stay_duration < 0)
+                                                                {
+                                                                    echo "<span class='badge badge-pill bg-ligh-danger'>".$stay_duration."</span>";
+                                                                }
+                                                                elseif ($stay_duration > 0)
+                                                                {
+                                                                    echo "<span class='badge badge-pill light-bg-warning'>Checked out ".$stay_duration." days before estimated checkout date</span>";
+                                                                }
+                                                            ?>
+                                                        </div>
+
                                                         <!-- ARR DEP DATE -->
                                                         <div class="w-100 clearfix mb-3">
 

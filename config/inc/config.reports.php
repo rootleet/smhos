@@ -2,6 +2,7 @@
     require 'session.php';
     require 'db.php';
     require 'functions.php';
+    require 'fpdf182/fpdf.php';
     $loc = "reports";
 
 

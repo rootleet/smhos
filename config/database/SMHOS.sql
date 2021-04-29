@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 12, 2021 at 09:12 AM
+-- Generation Time: Apr 29, 2021 at 05:45 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -105,7 +105,8 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `dep_date`, `arr_time`, `dep_time`, `fac_number`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`, `refund`) VALUES
-(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
+(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0),
+(2, '2021-04-29', 'none', 'Small Room', 0, 'unknown', '12:34:00', NULL, NULL, 'unknown', 'unknown', '+233 xx xxx xxxx', 'none', NULL, '0', 'not set', '\'not set\'', '12:34:00', '38:34:00', 0, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
 
 -- --------------------------------------------------------
 
@@ -137,7 +138,7 @@ INSERT INTO `check_in` (`id`, `date`, `booking`, `receptionist`, `date_recorded`
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `amount_paid` decimal(50,2) DEFAULT NULL,
-  `date_paid` date NOT NULL,
+  `date_paid` date NOT NULL DEFAULT current_timestamp(),
   `time_paid` time NOT NULL DEFAULT current_timestamp(),
   `level` text DEFAULT 'Primary',
   `method` text DEFAULT 'unknown',
@@ -163,9 +164,11 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `time_paid`, `level`, `method`, `booking`, `refund`, `master`, `p_count`, `customer`, `receptionist`, `facility`, `amount_owed`, `amount_balance`, `card_type`, `card_number`, `momo_carrier`, `momo_sender`, `momo_number`, `momo_trans_id`) VALUES
-(1, '50.00', '2021-04-04', '08:33:29', 'Primary', 'Cash', 1, 0, 0, 2, 'Jane Doe', 'root', 'Facility', '100.00', '50.00', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, '30.00', '2021-04-04', '08:33:29', 'p1', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Facility', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
-(3, '20.00', '2021-04-04', '08:33:29', 'p2', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Facility', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424');
+(1, '50.00', '2021-04-04', '08:33:29', 'Primary', 'Cash', 1, 0, 0, 2, 'Jane Doe', 'root', 'Single Room', '100.00', '50.00', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, '30.00', '2021-04-04', '08:33:29', 'p1', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Single Room', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
+(3, '20.00', '2021-04-04', '08:33:29', 'p2', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Single Room', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424'),
+(4, '25.00', '2021-04-29', '12:32:00', 'Primary', 'Mobile Money', 2, 0, 0, NULL, 'John Doe', 'james', 'Small Room', '250.00', '200.00', NULL, NULL, 'MTN', 'Kaniel Outis', '0546310011', '874987789'),
+(9, '25.00', '2021-04-29', '13:03:00', 'Primary', 'Card', NULL, 0, 0, NULL, 'Bawa Nafiwu', 'Anton', 'Big Room', '250.00', '200.00', 'VISA', 1254658, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -283,7 +286,27 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (32, 1, 'root', 'logout', '2021-04-09 08:48:18', '08:48:18'),
 (33, 1, 'root', 'login', '2021-04-09 08:49:00', '08:49:00'),
 (34, 1, 'root', 'logout', '2021-04-09 09:02:27', '09:02:27'),
-(35, 1, 'root', 'login', '2021-04-09 11:34:12', '11:34:12');
+(35, 1, 'root', 'login', '2021-04-09 11:34:12', '11:34:12'),
+(36, 1, 'root', 'login', '2021-04-12 11:21:56', '11:21:56'),
+(37, 1, 'root', 'login', '2021-04-14 22:57:32', '22:57:32'),
+(38, 1, 'root', 'login', '2021-04-14 23:19:46', '23:19:46'),
+(39, 1, 'root', 'logout', '2021-04-14 23:19:53', '23:19:53'),
+(40, 1, 'root', 'login', '2021-04-15 12:32:17', '12:32:17'),
+(41, 1, 'root', 'logout', '2021-04-20 18:55:27', '18:55:27'),
+(42, 1, 'root', 'login', '2021-04-20 19:19:51', '19:19:51'),
+(43, 1, 'root', 'logout', '2021-04-20 19:19:53', '19:19:53'),
+(44, 1, 'root', 'login', '2021-04-20 20:15:44', '20:15:44'),
+(45, 1, 'root', 'logout', '2021-04-20 20:19:45', '20:19:45'),
+(46, 1, 'root', 'login', '2021-04-20 20:25:24', '20:25:24'),
+(47, 1, 'root', 'logout', '2021-04-20 20:41:30', '20:41:30'),
+(48, 1, 'root', 'login', '2021-04-20 20:42:34', '20:42:34'),
+(49, 1, 'root', 'logout', '2021-04-20 20:54:39', '20:54:39'),
+(50, 1, 'root', 'login', '2021-04-20 20:54:46', '20:54:46'),
+(51, 1, 'root', 'logout', '2021-04-20 21:49:23', '21:49:23'),
+(52, 1, 'root', 'login', '2021-04-24 00:59:27', '00:59:27'),
+(53, 1, 'root', 'login', '2021-04-26 09:31:55', '09:31:55'),
+(54, 1, 'root', 'logout', '2021-04-29 11:42:47', '11:42:47'),
+(55, 1, 'root', 'login', '2021-04-29 11:43:28', '11:43:28');
 
 -- --------------------------------------------------------
 
@@ -388,7 +411,7 @@ ALTER TABLE `admin.currency`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `check_in`
@@ -400,7 +423,7 @@ ALTER TABLE `check_in`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -418,7 +441,7 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `user_task`

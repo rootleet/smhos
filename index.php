@@ -147,38 +147,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="shortcut icon" href="assets/icos/general/Hms.png" type="image/x-icon">
     <title>SMHOS || Login</title>
 </head>
-<body style="height: 100vh !important;" class="clearix p-0 container-fluid">
-    <div class="float-left bg-cprimary w-50 h-100 d-flex flex-wrap align-content-center justify-content-center">
-        
+<body class="w-100 vh-100">
+
+    <div class="form_container w-25 text-center p-2">
+        <h3 class="bold" style="letter-spacing: 3px;" >SMHOS</h3>
+
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+            <!--USERNAME-->
+            <input autocomplete="off" type="text" name="username" placeholder="username" value="<?php echo $username; ?>">
+            <i class="help-block text-warning"><?php echo $username_err; ?></i>
+
+            <!--PASSWORD-->
+            <input placeholder="password" type="password" name="password" >
+            <i class="help-block text-danger"><?php echo $password_err; ?></i>
+
+            <input type="submit" style="background:#3498DB;cursor:pointer;color:white;margin:10px;letter-spacing: 1px;font-size:13px;font-weight:bold" value="LOGIN">
+        </form>
+        <a href="#" >Lost your password?</a>
     </div>
 
-    <div class="float-right w-50 h-100 d-flex flex-wrap align-content-center justify-content-center">
-        <div class="card p-2 w-50 border-0">
-            <!--LOGO-->
-            <div class="w-25 mx-auto m-2">
-                <img src="assets/icos/general/Hms.png" alt="" class="img-fluid rounded border img-thumbnail bg-cprimary">
-            </div>
-            <!--Welcome Text-->
-            <span class="text-center mb-2 text-muted t-small">Welcome Back! Please login to your account</span>
-
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                    <input autocomplete="off" type="text" name="username" placeholder="Username" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 p-1" value="<?php echo $username; ?>">
-                    <span class="help-block"><?php echo $username_err; ?></span>
-                </div>    
-                <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                    <input placeholder="Password" type="password" name="password" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 p-1">
-                    <span class="help-block"><?php echo $password_err; ?></span>
-                </div>
-                <div class="form-group mb-0">
-                    <input type="submit" class="btn btn-cprimary w-100" value="Login">
-                </div>
-            </form>
-        </div>
-    </div>
 </body>
 </html>

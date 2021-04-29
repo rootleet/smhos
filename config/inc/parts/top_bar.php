@@ -1,4 +1,4 @@
-<header class="bg-clight">
+<header class="top_bar">
     <div class="w-100 ml-auto h-100 d-flex flex-wrap justify-content-between pr-2 align-content-center">
 
         <div class="d-flex w-25 flex-wrap align-content-center pl-2">

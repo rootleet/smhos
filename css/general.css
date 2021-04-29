@@ -2,6 +2,12 @@ body
 {
     height: 100vh !important;
     overflow: hidden;
+
+}
+
+body, .top_bar
+{
+    background: #35393C !important;
 }
 
 input:focus, input.no-focus:focus {
@@ -79,7 +85,7 @@ header
 
 .h_main
 {
-    background-color: #222230;
+
     color: #f1f1f1;
 }
 
@@ -230,7 +236,7 @@ address
 
 .cname
 {
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 }
 
 .head
