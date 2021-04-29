@@ -149,6 +149,7 @@
 
             $pdf->Cell(95,10,'',0,1,'L');
 
+
             $pdf->Cell(95,10,'Payment Method    :	'.$payment['method'],0,0,'L'); //Payment Method
             $pdf->Cell(95,10,'Amount Owed  : GHS '.$payment['amount_owed'],0,1,'R'); //Amount owed
 
