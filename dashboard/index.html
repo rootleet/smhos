@@ -27,6 +27,8 @@
     <link rel="shortcut icon"
           href="../assets/icos/general/Hms.png"
           type="image/x-icon">
+    <script type="text/javascript" src="../js/loader.js"></script>
+<!--    <script type="text/javascript" src="../js/line_chart.js"></script>-->
     <title>SMHOS || Dashboard</title>
 </head>
 
@@ -181,30 +183,33 @@
                             <?php if (checkPermission(['payment'])): ?>
                                 <div class="w-100 d-flex flex-wrap text-center align-content-center justify-content-center h-100">
 
-                                    <h1 id="updatedValue" class="display-1">Loading...</h1>
                                     <script>
+                                        google.charts.load('current', {'packages':['corechart']});
+                                        google.charts.setOnLoadCallback(drawChart);
 
-                                        setInterval(
-                                            function updateLiveIncome() {
-                                                if (window.XMLHttpRequest) {
-                                                    xmlhttp = new XMLHttpRequest();
-                                                }
-                                                else {
-                                                    xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-                                                }
+                                        function drawChart() {
+                                            var data = google.visualization.arrayToDataTable([
+                                                ['Day', 'Payments', 'Refund'],
+                                                ['<?php echo $today ?>',  1000,      400],
+                                                ['2005',  1170,      460],
+                                                ['2006',  660,       1120],
+                                                ['2007',  1030,      540]
+                                            ]);
 
-                                                xmlhttp.onreadystatechange = function () {
-                                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                                        document.getElementById('updatedValue').innerHTML = xmlhttp.responseText;
-                                                    }
-                                                }
+                                            var options = {
+                                                title: 'Company Performance',
+                                                curveType: 'function',
+                                                legend: { position: 'bottom' }
+                                            };
 
-                                                xmlhttp.open('GET', '../config/proc/ajax.php?update', true);
-                                                xmlhttp.send();
-                                            }, 1000);
+                                            var chart = new google.visualization.LineChart(document.getElementById('home_line'));
 
+                                            chart.draw(data, options);
+                                        }
                                     </script>
-                            </div>
+                                    <div id="home_line" class="w-50 h-50 border"></div>
+
+                                </div>
                             <?php endif; ?>
 
                             <?php if (!checkPermission(['payment'])): ?>

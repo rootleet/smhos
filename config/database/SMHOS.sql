@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2021 at 05:45 PM
+-- Generation Time: Apr 29, 2021 at 09:56 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -105,8 +105,7 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `dep_date`, `arr_time`, `dep_time`, `fac_number`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`, `refund`) VALUES
-(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0),
-(2, '2021-04-29', 'none', 'Small Room', 0, 'unknown', '12:34:00', NULL, NULL, 'unknown', 'unknown', '+233 xx xxx xxxx', 'none', NULL, '0', 'not set', '\'not set\'', '12:34:00', '38:34:00', 0, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
+(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
 
 -- --------------------------------------------------------
 
@@ -306,7 +305,9 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (52, 1, 'root', 'login', '2021-04-24 00:59:27', '00:59:27'),
 (53, 1, 'root', 'login', '2021-04-26 09:31:55', '09:31:55'),
 (54, 1, 'root', 'logout', '2021-04-29 11:42:47', '11:42:47'),
-(55, 1, 'root', 'login', '2021-04-29 11:43:28', '11:43:28');
+(55, 1, 'root', 'login', '2021-04-29 11:43:28', '11:43:28'),
+(56, 1, 'root', 'logout', '2021-04-29 18:36:27', '18:36:27'),
+(57, 1, 'root', 'login', '2021-04-29 18:36:33', '18:36:33');
 
 -- --------------------------------------------------------
 
@@ -441,7 +442,7 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `user_task`

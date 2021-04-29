@@ -554,6 +554,11 @@ input:focus
       max-width: 100% !important;
   }
 
+  textarea
+  {
+      resize: none !important;
+  }
+
 .paid_bg
 {
     background-image: url("../assets/icos/bg/paid_in_full.png");
@@ -571,7 +576,7 @@ input:focus
   .btn-cprimary:hover
   {
     background-color: #222230;
-    color: #fff;
+    color: #84E2FE;
   }
 
   .btn-cprimary-active

@@ -2892,8 +2892,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     z-index: 1000;
     display: none;
     float: left;
-    min-width: 20rem;
-    padding: .5rem 0;
+    min-width: 10rem;
+    /*padding: .5rem 0;*/
     margin: .125rem 0 0;
     font-size: 1rem;
     color: #212529;

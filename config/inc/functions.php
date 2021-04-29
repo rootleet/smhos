@@ -89,7 +89,7 @@
         }
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        return  $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     ##execute
@@ -296,6 +296,12 @@
     function reload()
     {
         echo '<script>location.reload()</script>';
+    }
+
+    ## go back
+    function back()
+    {
+        header("Location:".$_SERVER['HTTP_REFERER']);
     }
 
 

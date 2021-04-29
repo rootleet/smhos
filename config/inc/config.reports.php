@@ -9,6 +9,24 @@
     if ( isset($_SESSION['reports_activity']) || !empty( $_SESSION['reports_activity'] )) {
         $activity = $_SESSION['reports_activity'];
         $view = $_SESSION['reports_view'];
+
+        //QUERIES
+        if ($activity === 'main')
+        {
+            //bookings counts
+            $bookings = rowsOf("bookings" , "`date_booked` = '$today'" , $pdo);
+
+            $payments = rowsOf("payment" , "`date_paid` = '$today'" , $pdo); //paymemts count
+            $paymentsCal = $_SESSION['currency'] . ' '. getSumOfColumn("payment" , 'amount_paid' , "`date_paid` = '$today'" , $pdo);
+
+            $refund = rowsOf('payment', "`refund` = 1 AND `date_paid` = '$today'" , $pdo); //refund
+            $refundCal = $_SESSION['currency'] . ' ' . getSumOfColumn("payment" , 'amount_paid' , "`refund` = 1 AND `date_paid` = '$today'" , $pdo);
+
+            $checkin = rowsOf("check_in" , "`date` = '$today'" , $pdo); //check in
+            $checkout = rowsOf("check_out" , "`date_recorded` = '$today'" , $pdo); //check out
+
+        }
+
     } else {
         die ("Error: Please if this is not a legal access, go back!!");
     }

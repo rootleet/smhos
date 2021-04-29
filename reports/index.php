@@ -108,8 +108,7 @@
                                         </div>
 
                                         <div class="w-100 h-60 rcard_details clearfix">
-                                            <strong class="text-muted">60</strong>
-
+                                            <strong class="text-muted"><?php echo $bookings ?></strong>
                                         </div>
                                     </div>
 
@@ -123,13 +122,14 @@
                                      class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
 
                                     <div class="w-100 h-100">
-                                        <div class="w-100 clearfix h-40">
-                                            <span class="rcard-title text-magento float-left">Payment</span>
+                                        <div class="w-100 d-flex flex-wrap align-content-center justify-content-between h-40">
+                                            <span class="rcard-title text-magento">Payment</span>
+                                            <span class="rcard-title badge badge-dark text-light "><?php echo $payments ?></span>
 
                                         </div>
 
-                                        <div class="w-100 h-60 rcard_details clearfix">
-                                            <strong>$60,000.00</strong>
+                                        <div class="w-100 h-60 rcard_details d-flex flex-wrap align-content-end">
+                                            <strong><?php echo $paymentsCal ?></strong>
 
                                         </div>
                                     </div>
@@ -144,13 +144,14 @@
                                      class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-between">
 
                                     <div class="w-100 h-100">
-                                        <div class="w-100 clearfix h-40">
-                                            <span class="rcard-title float-left">Refund</span>
+                                        <div class="w-100 d-flex flex-wrap align-content-center justify-content-between h-40">
+                                            <span class="rcard-title">Refund</span>
+                                            <span class="rcard-title badge badge-dark text-light "><?php echo $refund ?></span>
 
                                         </div>
 
                                         <div class="w-100 h-60 rcard_details clearfix">
-                                            <strong class="text-dark">$60,000.00</strong>
+                                            <strong class="text-dark"><?php echo $refundCal ?></strong>
 
                                         </div>
                                     </div>
@@ -171,7 +172,7 @@
                                         </div>
 
                                         <div class="w-100 h-60 rcard_details clearfix">
-                                            <strong class="text-magento">60</strong>
+                                            <strong class="text-magento"><?php echo $checkin ?></strong>
 
                                         </div>
                                     </div>
@@ -192,7 +193,7 @@
                                         </div>
 
                                         <div class="w-100 h-60 rcard_details clearfix">
-                                            <strong>60</strong>
+                                            <strong><?php echo $checkout ?></strong>
 
                                         </div>
                                     </div>
@@ -200,16 +201,7 @@
                                 </div>
                             </div>
 
-                            <!--Invoice-->
-                            <div class="col-sm-4 p-3">
-                                <div onclick="location.href='../config/proc/inside_nav.process.php?page=reports&activity=Invoice'"
-                                     id="invoiceButt"
-                                     class="rcard w-100 p-3 h-100 d-flex flex-wrap align-content-center justify-content-center">
 
-                                    <button class="btn text-light">INVOICE</button>
-
-                                </div>
-                            </div>
 
 
                         </div>
@@ -847,8 +839,7 @@
                                                 value="Check In">Check In</option>
                                         <option <?php if ($activity === 'Check Out'){echo 'selected';}?>
                                                 value="Check Out">Check Out</option>
-                                        <option <?php if ($activity === 'Invoice'){echo 'selected';}?>
-                                                value="Invoice">Invoice</option>
+                                        
                                     </select>
                                 </div>
                                 <!--Button-->
@@ -2997,126 +2988,7 @@
                     <?php endif; ?>
 
 
-                    <?php if ($activity === 'Invoice'): ?>
-                    <!--Invoice-->
-                    <article class="pl-3 pr-3 o-hide">
-                        <header class="d-flex p-0 flex-wrap align-content-end">
-                            <form method="get"
-                                  action="../config/proc/inside_nav.process.php"
-                                  class="h-70 o-hide w-25 clearfix">
-                                <!--Select-->
-                                <div class="w-65 h-100 float-left bg-dark">
-                                    <input type="hidden"
-                                           value="reports"
-                                           name="page">
-                                    <select name="activity"
-                                            class="form-control-sm border-0 w-100 rounded-0 bg-dark text-light">
-                                        <option <?php if ($activity === 'Live Income'){echo 'selected';}?>
-                                                value="Live Income">Live Income</option>
-                                        <option <?php if ($activity === 'Booking'){echo 'selected';}?>
-                                                value="Booking">Booking</option>
-                                        <option <?php if ($activity === 'Payment'){echo 'selected';}?>
-                                                value="Payment">Payment</option>
-                                        <option <?php if ($activity === 'Refund'){echo 'selected';}?>
-                                                value="Refund">Refund</option>
-                                        <option <?php if ($activity === 'Check In'){echo 'selected';}?>
-                                                value="Check In">Check In</option>
-                                        <option <?php if ($activity === 'Check Out'){echo 'selected';}?>
-                                                value="Check Out">Check Out</option>
-                                        <option <?php if ($activity === 'Invoice'){echo 'selected';}?>
-                                                value="Invoice">Invoice</option>
-                                    </select>
-                                </div>
-                                <!--Button-->
-                                <div class="w-25 float-right bg-danger text_sm text-center o-hide h-100">
-                                    <button class="btn btn-sm btn-magento w-100 bold h-100">LOAD</button>
-                                </div>
-                            </form>
-                        </header>
 
-                        <article class="d-flex flex-wrap align-content-center justify-content-center o-hide">
-                            <div class="w-100 h-95 bg-clight text-dark">
-
-                                <?php if ( $view === 'all' ) : ?>
-                                <?php
-                                            $invoice_sql = "SELECT * FROM `invoice`";
-                                            $invoice_stmt = $pdo->prepare($invoice_sql);
-                                            $invoice_stmt->execute();
-                                            $invoiceCount = $invoice_stmt->rowCount();
-                                        ?>
-
-                                <?php if ($invoiceCount < 1) :?>
-
-                                <div
-                                     class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center o-hide">
-                                    <p class="enc">No Invoice Recorded</p>
-                                </div>
-
-                                <?php endif; ?>
-
-                                <?php if ($invoiceCount > 0) :?>
-
-                                <div class="w-100 h-100 o-auto">
-
-                                    <table class="table border-0 table-hover pointer">
-
-                                        <thead>
-                                            <tr class="c_tr_head">
-                                                <th class="p-2 c_th w-25">Customer</th>
-                                                <th class="p-2 c_th w-25">Facility</th>
-                                                <th class="p-2 c_th w-25">Receptionist</th>
-                                                <th class="p-2  c_th w-25 text-right">Date</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody id="<?php echo $activity ?>Table">
-
-                                            <?php while ( $invoice = $invoice_stmt->fetch(PDO::FETCH_ASSOC)) : ?>
-
-                                            <?php
-                                                            $payment_id = $invoice['payment_id'];
-                                                            $payment_detail_sql = "SELECT * FROM `payment` where `id` = $payment_id";
-                                                            $payment_detail_stmt = $pdo->prepare($payment_detail_sql);
-                                                            $payment_detail_stmt->execute();
-                                                            $payment_detail = $payment_detail_stmt->fetch(PDO::FETCH_ASSOC);
-                                                        ?>
-
-                                            <tr onclick="location.href='../config/proc/inside_nav.process.php?reports_view=View Record&record_id=<?php echo $bookings['id'] ?>'"
-                                                class="border-bottom">
-                                                <td class="p-2 c_td_xsm w-25">
-                                                    <?php echo $payment_detail['customer'] ?>
-                                                </td>
-                                                <td class="c_td_xsm p-2 w-25">
-                                                    <?php echo $payment_detail['facility'] ?>
-                                                </td>
-                                                <td class="c_td_xsm p-2 w-25">
-                                                    <?php echo '2' ?>
-                                                </td>
-                                                <td class="p-2 c_td_xsm w-25 text-right">
-                                                    Worldest
-                                                </td>
-                                            </tr>
-
-                                            <?php endwhile; ?>
-
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-
-                                <?php endif; ?>
-
-
-
-                            </div>
-                            <?php endif; ?>
-
-                </div>
-
-            </article>
-            </section>
-            <?php endif; ?>
 
 
 

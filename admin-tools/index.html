@@ -1,0 +1,214 @@
+<?php
+    require '../config/inc/config.admin_tools.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrative Tools</title>
+    <link rel="stylesheet"
+          href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="shortcut icon"
+          href="../assets/icos/general/Hms.png"
+          type="image/x-icon">
+</head>
+<body class="container-fluid p-0">
+
+    <div class="row h-100 no-gutters">
+
+        <!--Navigation-->
+        <?php require '../config/inc/parts/general_nav.inc.php' ?>
+
+        <!--Work Space-->
+        <section class="col-sm-10 h-100 bg-cmain o-hide">
+
+            <!--work space header-->
+            <?php require '../config/inc/parts/top_bar.php' ?>
+
+            <!--WorkSpace-->
+            <article class="container w-100 p-0">
+
+                <?php if (strtolower($display) === 'welcome'): ?>
+
+                    <!--WELCOME-->
+                    <div class="row o-hide no-gutters w-100">
+
+                    <div class="col-sm-2 p-3">
+
+                        <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=Expenses'"
+                             class="btn-cprimary btn btn-sm w-100 p-3 h-100 d-flex flex-wrap align-content-between justify-content-center">
+
+                                Petty Cash
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <?php endif; ?>
+
+                <?php if (strtolower($display) !== 'welcome'): ?>
+
+                    <div class="container h-100 w-100 p-0 o-hide">
+                        <header class="w-100 p-2 d-flex flex-row align-content-center">
+                            <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=welcome'" class="btn btn-sm <?php if (strtolower($display) === 'welcome'){echo 'btn-cprimary-active';} else {echo 'btn-cprimary';} ?> mr-2">Home</button>
+                            <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=Expenses'" class="btn btn-sm <?php if (strtolower($display) === 'expenses'){echo 'btn-cprimary-active';} else {echo 'btn-cprimary';} ?> mr-2">Expenses</button>
+                        </header>
+
+                        <article class="p-2">
+
+                            <div class="w-100 h-100 cust_shadow">
+
+                                <header class="p-1 d-flex flex-wrap align-content-center justify-content-end">
+                                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#newExpense">New</button>
+                                    <div class="modal fade text-dark" id="newExpense">
+
+                                        <div class="modal-dialog modal-dialog-centered">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <strong class="modal-title">New Expense</strong>
+                                                    <button class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                <div class="modal-header p-2">
+
+                                                    <form method="post" action="../config/proc/form_process.php" class="w-100">
+                                                        <div class="input-group input-group-sm mb-2">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text bg-dark">Title</span>
+                                                            </div>
+                                                            <input type="text" required name="title" autocomplete="off" class="form-control form-control-sm" >
+                                                        </div>
+
+                                                        <div class="input-group input-group-sm mb-2">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text bg-dark">Amount <?php echo $_SESSION['currency'] ?></span>
+                                                            </div>
+                                                            <input type="text" required name="amount" autocomplete="off" class="form-control form-control-sm" >
+                                                        </div>
+
+                                                        <div class="input-group input-group-sm mb-2">
+                                                            <textarea required rows="5" class="form-control form-control-sm" name="reason" placeholder="Description"></textarea>
+                                                        </div>
+
+                                                        <div>
+                                                            <button name="addExpenses" class="btn btn-sm btn-success">Submit</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </header>
+
+                                <article class="table-responsive-sm h-100 w-100 o-auto">
+
+                                    <?php if ($expenses_count <= 0): ?>
+                                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                            <p class="enc">No Expense Made</p>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if ($expenses_count > 0): ?>
+
+                                        <table class="table table-hover table-striped table-borderless">
+
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Requested</th>
+                                                <th>Date Requested</th>
+                                                <th>Approved</th>
+                                                <th>Date Approved</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php while ($expense = $expenses_stmt->fetch(PDO::FETCH_ASSOC)): ?>
+
+                                                <tr class="pointer text_sm">
+                                                    <td><?php echo $expense['title'] ?></td>
+                                                    <td><?php echo $expense['owner'] ?></td>
+                                                    <td><?php echo $expense['date_created'] ?></td>
+                                                    <td>
+                                                        <?php if ($expense['stat'] <= 0): ?>
+                                                            <kbd class="bg-danger">Not Approved</kbd>
+                                                        <?php endif; ?>
+                                                        <?php if ($expense['stat'] > 0): ?>
+                                                            <kbd class="bg-success">Approved</kbd>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php if ($expense['stat'] <= 0): ?>
+                                                            <kbd class="bg-danger">Not Approved</kbd>
+                                                        <?php endif; ?>
+                                                        <?php if ($expense['stat'] > 0): ?>
+                                                            <?php echo $expense['date_approved'] ?>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown dropleft">
+                                                            <span  data-toggle="dropdown">
+                                                                <img src="../assets/icos/general/more.png" class="img-fluid h_btn_sm">
+                                                            </span>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item text-success" onclick="location.href=''">Approve</a>
+                                                                <a class="dropdown-item text-danger" >Reject</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            <?php endwhile; ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                    <?php endif; ?>
+
+                                </article>
+
+                            </div>
+
+                        </article>
+                    </div>
+
+                <?php endif; ?>
+
+            </article>
+
+        </section>
+    </div>
+
+</body>
+</html>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../js/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="../js/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="../js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

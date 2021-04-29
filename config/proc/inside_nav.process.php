@@ -1,7 +1,11 @@
 <?php
 require_once '../inc/session.php';
+require '../inc/functions.php';
 
 if (isset($_GET['page']) && !empty($_GET['page'])) {
+
+    $page = $_GET['page'];
+
     //reports navigator
     if ($_GET['page'] === 'reports') {
         //set session of current activity
@@ -31,7 +35,16 @@ if (isset($_GET['page']) && !empty($_GET['page'])) {
         }
        
     }
+
+    //admin tools
+    if ($page === 'admin_toole')
+    {
+        $activity = $_GET['activity'];
+        $_SESSION['t_display'] = $activity;
+        back();
+    }
 }
+
 elseif (isset($_GET['reports_view']) && !empty($_GET['reports_view']) && $_GET['record_id'] && !empty($_GET['record_id']))
 {
     $_SESSION['reports_view'] = $_GET['reports_view'];

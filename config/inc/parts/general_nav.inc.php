@@ -46,6 +46,12 @@
                     <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/reports.png" alt="" class="img-fluid"></div></span>
                     <span class="w-80">Reports</span>
                 </button>
+
+                <!--Reports-->
+                <button onclick="location.href='<?php if ($loc !== 'admin_tools') {echo '../admin-tools/';}   ?>'" class="btn <?php if ($loc === 'admin_tools') {echo 'btn-nav-active';} else {echo 'btn-nav';}   ?>  text-left rounded-0 d-flex flex-wrap align-content-center justify-content-between">
+                    <span class="w-20"><div class="ico-sm"><img src="../assets/icos/general/manager.png" alt="" class="img-fluid"></div></span>
+                    <span class="w-80">Administrative Tools</span>
+                </button>
             <?php endif; ?>
 
         </ul>
