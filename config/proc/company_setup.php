@@ -105,7 +105,32 @@
 
         if($main == "Tax")
         {
-            echo 'Deleting Tax Item';
+            //get next
+            $tax_id = $_SESSION['tax_id'];
+            //get next
+            $next_count = rowsOf("tax_master","`id` > $tax_id",$pdo);
+            //get previous
+            $previous_count = rowsOf("tax_master","`id` < $tax_id",$pdo);
+
+            if(deleteRow("tax_master", "`id`=$tax_id",$pdo))
+            {
+                if($next_count > 0)
+                {
+                    $_SESSION['tax_id'] = $_SESSION['tax_id'] = fetchFunc("tax_master", "`id` > $tax_id", $pdo)['id'];
+                }
+                elseif($previous_count < 0)
+                {
+                    $_SESSION['tax_id'] = fetchFunc("tax_master", "`id` < $tax_id", $pdo)['id'];
+                }
+                else
+                {
+                    unset($_SESSION['tax_id']);
+                }
+
+
+                info("Tax Deleted");
+            }
+            gb('');
         }
     }
 
@@ -116,15 +141,19 @@
     {
         if($main == "Tax")
         {
+            $tax = $_SESSION['tax_id'];
             $direction = $_GET['direction'];
             if($direction == "Previous")
             {
-                echo 'Moving back tax';
+                $_SESSION['tax_id'] = fetchFunc("tax_master", "`id` < $tax", $pdo)['id'];
+
             }
-            else
+            elseif($direction == 'Next')
             {
-                echo 'Moving Fromt Tax';
+
+                $_SESSION['tax_id'] = fetchFunc("tax_master", "`id` > $tax", $pdo)['id'];
             }
+            gb('');
         }
     }
 

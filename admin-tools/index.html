@@ -55,7 +55,7 @@
                     <div class="container h-100 w-100 p-0 o-hide">
                         <header class="w-100 p-2 d-flex flex-row align-content-center">
                             <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=welcome'" class="btn btn-sm <?php if (strtolower($display) === 'welcome'){echo 'btn-cprimary-active';} else {echo 'btn-cprimary';} ?> mr-2">Home</button>
-                            <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=Expenses'" class="btn btn-sm <?php if (strtolower($display) === 'expenses'){echo 'btn-cprimary-active';} else {echo 'btn-cprimary';} ?> mr-2">Expenses</button>
+                            <button onclick="location.href='../config/proc/inside_nav.process.php?page=admin_toole&activity=Expenses'" class="btn btn-sm <?php if (strtolower($display) === 'expenses'){echo 'btn-cprimary-active';} else {echo 'btn-cprimary';} ?> mr-2">Petty Cash</button>
                         </header>
 
                         <article class="p-2">
@@ -127,6 +127,7 @@
                                                 <th>Title</th>
                                                 <th>Requested</th>
                                                 <th>Date Requested</th>
+                                                <th>Amount</th>
                                                 <th>Approved</th>
                                                 <th>Date Approved</th>
                                                 <th>Action</th>
@@ -140,7 +141,8 @@
                                                 <tr class="pointer text_sm">
                                                     <td><?php echo $expense['title'] ?></td>
                                                     <td><?php echo $expense['owner'] ?></td>
-                                                    <td><?php echo $expense['date_created'] ?></td>
+                                                    <td><?php echo $expense['day'] . '-' .$expense['month']. '-' . $expense['year'] ?></td>
+                                                    <td><?php echo $_SESSION['currency'].' '.$expense['amount'] ?></td>
                                                     <td>
                                                         <?php if ($expense['stat'] <= 0): ?>
                                                             <kbd class="bg-danger">Not Approved</kbd>
@@ -158,14 +160,18 @@
                                                         <?php endif; ?>
                                                     </td>
                                                     <td>
-                                                        <div class="dropdown dropleft">
+                                                        <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center">
+
+                                                            <div class="dropdown dropleft">
                                                             <span  data-toggle="dropdown">
                                                                 <img src="../assets/icos/general/more.png" class="img-fluid h_btn_sm">
                                                             </span>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item text-success" onclick="location.href=''">Approve</a>
-                                                                <a class="dropdown-item text-danger" >Reject</a>
+                                                                <div class="dropdown-menu">
+                                                                    <a class="dropdown-item text-success" onclick="location.href=''">Approve</a>
+                                                                    <a class="dropdown-item text-danger" >Reject</a>
+                                                                </div>
                                                             </div>
+
                                                         </div>
                                                     </td>
                                                 </tr>

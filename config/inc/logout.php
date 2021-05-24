@@ -1,7 +1,6 @@
 <?php
 
     require 'session.php';// Initialize the session
-    include 'functions.php';
     require 'db.php';
 
     //update user status

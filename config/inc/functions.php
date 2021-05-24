@@ -112,19 +112,12 @@
         $result = $stmt_res['SUM('.$column.')'];
         if ($result === NULL)
         {
-            $x = '0.00';
+            $x = number_format(0.00);
         }
         else
         {
             //explode result
-            if(explode('.' , $result) === true)
-            {
-                $x = $result;
-            }
-            else
-            {
-                $x = $result;
-            }
+            $x = number_format($result,2);
 
         }
 

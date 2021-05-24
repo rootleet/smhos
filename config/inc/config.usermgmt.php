@@ -1,7 +1,6 @@
 <?php
     require 'session.php';
     require 'db.php';
-    require 'functions.php';
     $loc = 'user_mgmt';
 
     if (isset($_SESSION['usermgmt_main']))

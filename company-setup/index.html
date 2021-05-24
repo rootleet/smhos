@@ -236,177 +236,203 @@
 
                                 <!--Contents-->
                                 <div class="w-100 h-80 o-hide">
-                                    <header class="w-100 border clearfix sub_header">
-                                        <!--Buttons-->
-                                        <div class="w-50 h-100 float-left d-flex flex-wrap align-content-center">
-                                            <?php if ($sub == 'View'): ?>
-                                                <!--Add New-->
-                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Add New" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/add_new.png" alt="NEW" class="img-fluid h_btn_md mr-2">
-                                                </button>
+                                    <?php if ($tax_count < 1): ?>
+                                        <!--NO TAX-->
+                                        <div class="w-100 card h-100 d-flex flex-wrap align-content-center justify-content-center">
+                                            <p data-toggle="modal" data-target="#firstTax" class="enc">Create Tax</p>
+                                            <div class="modal fade" id="firstTax">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
 
-                                                <!--Edit-->
-                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
-                                                </button>
+                                                        <div class="modal-header">
+                                                            <strong class="modal-title">Creating Tax Group</strong>
+                                                            <button class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
 
-                                                <!--Delete-->
-                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Delete" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/delete.png" alt="Delete" class="img-fluid h_btn_md mr-2">
-                                                </button>
+                                                        <div class="modal-body p-2">
+                                                            <form class="w-75 mx-auto" method="post" action="../config/proc/form_process.php">
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend w-30">
+                                                                        <span class="input-group-text text-dark bold w-100">Description</span>
+                                                                    </div>
+                                                                    <input type="text" required autocomplete="off" name="tax_desc" class="form-control">
+                                                                </div>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend w-30">
+                                                                        <span class="input-group-text text-dark bold w-100">Rate</span>
+                                                                    </div>
+                                                                    <input type="text" required autocomplete="off" name="tax_rate" placeholder="without percentage" class="form-control">
+                                                                </div>
+                                                                <div class="text-center"><button class="btn btn-success" name="create_tax">Create</button></div>
+                                                            </form>
+                                                        </div>
 
-                                                <!--Disablke-->
-                                                <button data-toggle="tooltip" title="Disable" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/disable.png" alt="Disable" class="img-fluid h_btn_md mr-2">
-                                                </button>
-
-                                                <!--Enable-->
-                                                <button data-toggle="tooltip" title="Enable" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/enable.png" alt="Enable" class="img-fluid h_btn_md mr-2">
-                                                </button>
-                                            <?php endif; ?>
-                                            
-                                            <?php if ($sub == 'Edit'): ?>
-                                                <!--Save Edit-->
-                                                <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
-                                                </button>
-
-                                                <!--Cancel Edit-->
-                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
-                                                </button>
-                                            <?php endif; ?>
-
-                                            <?php if ($sub == "New"): ?>
-                                                <!--Save New-->
-                                                <button form="newForm" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md">
-                                                </button>
-
-                                                <!--Cancel Add-->
-                                                <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
-                                                    <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
-                                                </button>
-                                            <?php endif; ?>
-
-                                        </div>
-                                    </header>
-
-                                    <article class="border bg-clight o-auto">
-
-                                        <?php if ($sub == 'View'): ?>
-                                            <!--VIEW-->
-                                            <div class="w-25 h-50 p-2">
-                                                <!--Next Back-->
-                                                <div class="w-100 d-flex flex-wrap align-content-center" style="height: 25px;">
-
-                                                    <!--Back-->
-                                                    <button onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
-                                                        <img src="../assets/icos/general/sort_left.png" alt="Previous" class="img -fluid">
-                                                    </button>
-
-                                                    <!--Next-->
-                                                    <button onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
-                                                        <img src="../assets/icos/general/sort_right.png" alt="Next" class="img -fluid">
-                                                    </button>
-
-                                                </div>
-
-                                                <!--Details-->
-                                                <div class="container w-100 p-2">
-                                                    <!--Tax ID-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
-                                                        <div class="col-sm-8 der_det p-1">01</div>
-                                                    </div>
-
-                                                    <!--Name-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
-                                                        <div class="col-sm-8 der_det p-1">Cust 1</div>
-                                                    </div>
-
-                                                    <!--Rate-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
-                                                        <div class="col-sm-8 der_det p-1">12%</div>
-                                                    </div>
-
-                                                    <div class="der_row">
-                                                        <span class="badge badge-pill pointer badge-success">Active</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php endif; ?>
-                                        
-                                        <?php if ($sub == 'Edit'): ?>
-                                            <!--Edit-->
-                                            <form id="editForm" method="POST" action="../config/proc/company_setup.php" class="w-25 h-50 p-2">
+                                        </div>
+                                    <?php endif; ?>
 
-                                                <!--Details-->
-                                                <div class="container w-100 p-2">
-                                                    <!--Tax ID-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
-                                                        <div class="col-sm-8 der_det p-1">01</div>
+                                    <?php if ($tax_count > 0): ?>
+                                        <!--TAX-->
+                                        <header class="w-100 border clearfix sub_header">
+                                            <!--Buttons-->
+                                            <div class="w-50 h-100 float-left d-flex flex-wrap align-content-center">
+                                                <?php if ($sub == 'View'): ?>
+                                                    <!--Add New-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=New'" data-toggle="tooltip" title="Add New" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/add_new.png" alt="NEW" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Edit-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=Edit'" data-toggle="tooltip" title="Edit" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/edit.png" alt="EDIT" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Delete-->
+                                                    <button onclick="var com = confirm('Are you want to delete <?php echo $t_d ?>'); if(com === true){location.href='../config/proc/company_setup.php?del'}" data-toggle="tooltip" title="Delete" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/delete.png" alt="Delete" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+
+                                                <?php endif; ?>
+
+                                                <?php if ($sub == 'Edit'): ?>
+                                                    <!--Save Edit-->
+                                                    <button form="editForm" name="commitEdit" data-toggle="tooltip" title="Save Changes" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/save_edit.png" alt="SAVE" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+
+                                                    <!--Cancel Edit-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php?sub_nav&sub=View'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                                <?php if ($sub == "New"): ?>
+                                                    <!--Save New-->
+                                                    <button form="newForm" name="saveNew" data-toggle="tooltip" title="Save" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/save.png" alt="SAVE" class="img-fluid h_btn_md">
+                                                    </button>
+
+                                                    <!--Cancel Add-->
+                                                    <button onclick="location.href='../config/proc/company_setup.php'" data-toggle="tooltip" title="Cancel" class="btn p-0 rounded-0">
+                                                        <img src="../assets/icos/general/disable.png" alt="Cancel" class="img-fluid h_btn_md mr-2">
+                                                    </button>
+                                                <?php endif; ?>
+
+                                            </div>
+                                        </header>
+
+                                        <article class="border bg-clight o-auto">
+
+                                            <?php if ($sub == 'View'): ?>
+                                                <!--VIEW-->
+                                                <div class="w-25 h-50 p-2">
+                                                    <!--Next Back-->
+                                                    <div class="w-100 d-flex flex-wrap align-content-center" style="height: 25px;">
+
+                                                        <!--Back-->
+                                                        <?php if($previous_count > 0): ?>
+                                                            <button data-toggle="tooltip" title="Back" data-placement="left" onclick="location.href='../config/proc/company_setup.php?item_nav&direction=Previous'" class="btn p-0 mr-1 rounded-0">
+                                                                <img src="../assets/icos/general/sort_left.png" alt="Previous" class="img -fluid">
+                                                            </button>
+                                                        <?php endif; ?>
+
+                                                        <?php if($previous_count < 1): ?>
+                                                            <button data-toggle="tooltip" title="Start" data-placement="left" onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
+                                                                <img src="../assets/icos/general/sort_left_disabled.png" alt="Previous" class="img -fluid">
+                                                            </button>
+                                                        <?php endif; ?>
+
+                                                        <!--Next-->
+                                                        <?php if($next_count > 0): ?>
+                                                            <button data-toggle="tooltip" title="Next" data-placement="right" onclick="location.href='../config/proc/company_setup.php?item_nav&direction=Next'" class="btn p-0 mr-1 rounded-0">
+                                                                <img src="../assets/icos/general/sort_right.png" alt="Next" class="img -fluid">
+                                                            </button>
+                                                        <?php endif; ?>
+                                                        <?php if($next_count < 1): ?>
+                                                            <button data-toggle="tooltip" title="End" data-placement="right" onclick="location.href='../config/proc/company_setup.php'" class="btn p-0 mr-1 rounded-0">
+                                                                <img src="../assets/icos/general/sort_right_disabled.png" alt="End" class="img -fluid">
+                                                            </button>
+                                                        <?php endif; ?>
+
                                                     </div>
 
-                                                    <!--Name-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
-                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="Cust 1" name="name" id="">
-                                                    </div>
+                                                    <!--Details-->
+                                                    <div class="container w-100 p-2">
+                                                        <!--Tax ID-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">ID</strong></div>
+                                                            <div class="col-sm-8 der_det p-1"><?php echo $tax['id'] ?></div>
+                                                        </div>
 
-                                                    <!--Rate-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
-                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="12" name="rate" id="">
-                                                    </div>
+                                                        <!--Name-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">
+                                                                <p class="text_eclips m-0 pr-1">Description</p>
+                                                            </strong></div>
+                                                            <div class="col-sm-8 der_det p-1">
+                                                                <p class="m-0 text_eclips"><?php echo $tax['description'] ?></p>
+                                                            </div>
+                                                        </div>
 
-                                                    <!--Active-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Active</strong></div>
-                                                        <select name="active" class="col-sm-8 der_det pl-1" id="">
-                                                            <option value="1">YES</option>
-                                                            <option value="2">NO</option>
-                                                        </select>
+                                                        <!--Rate-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                            <div class="col-sm-8 der_det p-1"><?php echo $tax['rate'] ?>%</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        <?php endif; ?>
+                                            <?php endif; ?>
 
-                                        <?php if ($sub == 'New'): ?>
-                                            <!--New-->
-                                            <form id="newForm" method="POST" action="../config/proc/company_setup.php" class="w-25 h-50 p-2">
+                                            <?php if ($sub == 'Edit'): ?>
+                                                <!--Edit-->
+                                                <form id="editForm" method="POST" action="../config/proc/form_process.php" class="w-25 h-50 p-2">
 
-                                                <!--Details-->
-                                                <div class="container w-100 p-2">
-                                                    <!--Name-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Tax Bane</strong></div>
-                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Tax Unique Name" name="name" id="">
+                                                    <!--Details-->
+                                                    <div class="container w-100 p-2">
+                                                        <!--Name-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark"><p class="m-0 text_eclips pr-1">Tax Description</p></strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="<?php echo $tax['description'] ?>" name="tax_desc" id="">
+                                                        </div>
+
+                                                        <!--Rate-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" value="<?php echo $tax['rate'] ?>" name="tax_rate" id="">
+                                                        </div>
                                                     </div>
+                                                </form>
+                                            <?php endif; ?>
 
-                                                    <!--Rate-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
-                                                        <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="rate without % (12)" name="rate" id="">
+                                            <?php if ($sub == 'New'): ?>
+                                                <!--New-->
+                                                <form id="newForm" method="POST" action="../config/proc/form_process.php" class="w-25 h-50 p-2">
+
+                                                    <!--Details-->
+                                                    <div class="container w-100 p-2">
+                                                        <!--Name-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">
+                                                                <p class="m-0 pr-1 text_eclips">Description</p>
+                                                            </strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="Tax Unique Name" name="tax_desc" id="">
+                                                        </div>
+
+                                                        <!--Rate-->
+                                                        <div class="row p-0 der_row no-gutters">
+                                                            <div class="col-sm-4"><strong class="text-dark">Rate</strong></div>
+                                                            <input type="text" autocomplete="off" class="col-sm-8 der_det pl-1" placeholder="rate without % (12)" name="tax_rate" id="">
+                                                        </div>
+
                                                     </div>
+                                                </form>
+                                            <?php endif; ?>
 
-                                                    <!--Active-->
-                                                    <div class="row p-0 der_row no-gutters">
-                                                        <div class="col-sm-4"><strong class="text-dark">Active</strong></div>
-                                                        <select name="active" class="col-sm-8 der_det pl-1" id="">
-                                                            <option value="1">YES</option>
-                                                            <option value="2">NO</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        <?php endif; ?>
-
-                                    </article>
+                                        </article>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
 

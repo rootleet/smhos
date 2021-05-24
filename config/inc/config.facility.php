@@ -1,7 +1,6 @@
 <?php 
     require 'session.php';
     require 'db.php';
-    require 'functions.php';
     $loc = 'facility_management';
 
     //set session category main view

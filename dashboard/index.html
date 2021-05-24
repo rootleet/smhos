@@ -27,9 +27,9 @@
     <link rel="shortcut icon"
           href="../assets/icos/general/Hms.png"
           type="image/x-icon">
-    <script type="text/javascript" src="../js/loader.js"></script>
-<!--    <script type="text/javascript" src="../js/line_chart.js"></script>-->
+    <script src="../js/apexcharts"></script>
     <title>SMHOS || Dashboard</title>
+
 </head>
 
 <body class="container-fluid p-0">
@@ -142,9 +142,9 @@
                                         <div class="w-100 h-100">
                                         <div class="w-100 clearfix h-40">
                                             <span class="rcard-title float-left">Total Payment</span>
-                                             
+
                                         </div>
-    
+
                                         <div class="w-100 h-60 rcard_details clearfix">
                                             <!--Count-->
                                             <div class="w-50 h-100 float-left">
@@ -160,7 +160,7 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                        </div>
                                     <?php endif; ?>
 
                                     <?php if (!checkPermission(['payment'])): ?>
@@ -183,31 +183,95 @@
                             <?php if (checkPermission(['payment'])): ?>
                                 <div class="w-100 d-flex flex-wrap text-center align-content-center justify-content-center h-100">
 
+
+                                    <div id="chart" style="height: 300px; width: 100%;"></div>
+
                                     <script>
-                                        google.charts.load('current', {'packages':['corechart']});
-                                        google.charts.setOnLoadCallback(drawChart);
+                                        var options = {
+                                            series: [
+                                                {
+                                                    name: "Monthly Sales - <?php echo $total_sales ?>",
+                                                    data: [
+                                                        <?php while ($montly_sale = $monthly_sales_stmt->fetch(PDO::FETCH_ASSOC))
+                                                            {
+                                                                echo $montly_sale['value'] . ',';
+                                                            }
+                                                        ?>
+                                                    ]
+                                                },
+                                                {
+                                                    name: "Monthly Expenses - <?php echo $total_exp ?>",
+                                                    data: [
+                                                    <?php while ($montly_exp = $monthly_exp_stmt->fetch(PDO::FETCH_ASSOC))
+                                                    {
+                                                        echo $montly_exp['amount'] . ',';
+                                                    }
+                                                ?>
+                                                ]
+                                                }
+                                            ],
+                                            chart: {
+                                                height: 350,
+                                                type: 'line',
+                                                dropShadow: {
+                                                    enabled: true,
+                                                    color: '#000',
+                                                    top: 18,
+                                                    left: 7,
+                                                    blur: 10,
+                                                    opacity: 0.2
+                                                },
+                                                toolbar: {
+                                                    show: true
+                                                }
+                                            },
+                                            colors: ['#1DC081', '#F76D6D'],
+                                            dataLabels: {
+                                                enabled: true,
+                                            },
+                                            stroke: {
+                                                curve: 'smooth'
+                                            },
+                                            title: {
+                                                text: 'Monthly Sales And Expenses - <?php echo date('Y') ?>',
+                                                align: 'left'
+                                            },
+                                            grid: {
+                                                borderColor: '#e7e7e7',
+                                                row: {
+                                                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                                                    opacity: 0.5
+                                                },
+                                            },
+                                            markers: {
+                                                size: 1
+                                            },
+                                            xaxis: {
+                                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                                                title: {
+                                                    text: 'Month'
+                                                }
+                                            },
+                                            yaxis: {
+                                                title: {
+                                                    text: 'Value (<?php echo $_SESSION["currency"] ?>)'
+                                                },
+                                                min: <?php echo '0' ?>,
+                                                max: <?php echo $max ?>
+                                            },
+                                            legend: {
+                                                position: 'top',
+                                                horizontalAlign: 'center',
+                                                floating: true,
+                                                offsetY: -25,
+                                                offsetX: -5
+                                            }
+                                        };
 
-                                        function drawChart() {
-                                            var data = google.visualization.arrayToDataTable([
-                                                ['Day', 'Payments', 'Refund'],
-                                                ['<?php echo $today ?>',  1000,      400],
-                                                ['2005',  1170,      460],
-                                                ['2006',  660,       1120],
-                                                ['2007',  1030,      540]
-                                            ]);
-
-                                            var options = {
-                                                title: 'Company Performance',
-                                                curveType: 'function',
-                                                legend: { position: 'bottom' }
-                                            };
-
-                                            var chart = new google.visualization.LineChart(document.getElementById('home_line'));
-
-                                            chart.draw(data, options);
-                                        }
+                                        var chart = new ApexCharts(document.querySelector("#chart"), options);
+                                        chart.render();
                                     </script>
-                                    <div id="home_line" class="w-50 h-50 border"></div>
+
 
                                 </div>
                             <?php endif; ?>
@@ -243,6 +307,7 @@
     <script src="../js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src="../js/jquery.canvasjs.min.js"></script>
 
     <script>
         $(document).ready(function(){

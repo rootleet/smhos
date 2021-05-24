@@ -2,7 +2,6 @@
 
     //includes
     include '../inc/db.php';
-    include '../inc/functions.php';
     include '../inc/session.php';
 
     //get live income query

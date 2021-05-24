@@ -1,7 +1,6 @@
 <?php
     include '../inc/session.php';
     include '../inc/db.php';
-    require '../inc/functions.php';
     $main = $_SESSION['usermgmt_main'];
     $sub = $_SESSION['usermgmt_main_sub'];
 

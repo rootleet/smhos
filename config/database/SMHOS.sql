@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2021 at 09:56 PM
+-- Generation Time: May 24, 2021 at 08:37 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -100,13 +100,6 @@ CREATE TABLE `bookings` (
   `refund` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`id`, `date_booked`, `fac_category`, `facility`, `quantity`, `receptionist`, `time_booked`, `paid`, `checkin`, `cust_first_name`, `cust_last_name`, `cust_phone`, `cust_email`, `cost`, `days`, `arri_date`, `dep_date`, `arr_time`, `dep_time`, `fac_number`, `hold`, `date_modified`, `time_modified`, `modified_by`, `special_request`, `refund`) VALUES
-(1, '2021-04-04', 'Rooms', '17', 1, 'root', '05:50:16', 1, 1, 'Jane', 'Doe', '+233 xx xxx xxxx', 'none', '100.00', '2', '2021-04-05', '2021-04-15', '18:01:00', '22:04:37', 12, 0, 'not modified', 'not modified', 'not modified', 'None', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -120,13 +113,6 @@ CREATE TABLE `check_in` (
   `receptionist` text NOT NULL,
   `date_recorded` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `check_in`
---
-
-INSERT INTO `check_in` (`id`, `date`, `booking`, `receptionist`, `date_recorded`) VALUES
-(1, '2021-04-11', 1, 'root', '2021-04-11 15:37:58');
 
 -- --------------------------------------------------------
 
@@ -157,17 +143,6 @@ CREATE TABLE `payment` (
   `momo_number` text DEFAULT NULL,
   `momo_trans_id` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`id`, `amount_paid`, `date_paid`, `time_paid`, `level`, `method`, `booking`, `refund`, `master`, `p_count`, `customer`, `receptionist`, `facility`, `amount_owed`, `amount_balance`, `card_type`, `card_number`, `momo_carrier`, `momo_sender`, `momo_number`, `momo_trans_id`) VALUES
-(1, '50.00', '2021-04-04', '08:33:29', 'Primary', 'Cash', 1, 0, 0, 2, 'Jane Doe', 'root', 'Single Room', '100.00', '50.00', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, '30.00', '2021-04-04', '08:33:29', 'p1', 'Card', 1, 0, 1, 1, 'Jane Doe', 'root', 'Single Room', '50.00', '20.00', 'VISA', 1234567890, NULL, NULL, NULL, NULL),
-(3, '20.00', '2021-04-04', '08:33:29', 'p2', 'Mobile Money', 1, 0, 1, 2, 'Jane Doe', 'root', 'Single Room', '20.00', '0.00', NULL, NULL, 'Vodafone', 'Jane Doe', '233201998184', '52465945424'),
-(4, '25.00', '2021-04-29', '12:32:00', 'Primary', 'Mobile Money', 2, 0, 0, NULL, 'John Doe', 'james', 'Small Room', '250.00', '200.00', NULL, NULL, 'MTN', 'Kaniel Outis', '0546310011', '874987789'),
-(9, '25.00', '2021-04-29', '13:03:00', 'Primary', 'Card', NULL, 0, 0, NULL, 'Bawa Nafiwu', 'Anton', 'Big Room', '250.00', '200.00', 'VISA', 1254658, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -307,7 +282,24 @@ INSERT INTO `user_login_log` (`id`, `user_id`, `username`, `func`, `date_created
 (54, 1, 'root', 'logout', '2021-04-29 11:42:47', '11:42:47'),
 (55, 1, 'root', 'login', '2021-04-29 11:43:28', '11:43:28'),
 (56, 1, 'root', 'logout', '2021-04-29 18:36:27', '18:36:27'),
-(57, 1, 'root', 'login', '2021-04-29 18:36:33', '18:36:33');
+(57, 1, 'root', 'login', '2021-04-29 18:36:33', '18:36:33'),
+(58, 1, 'root', 'logout', '2021-04-30 08:00:41', '08:00:41'),
+(59, 1, 'root', 'login', '2021-04-30 09:59:53', '09:59:53'),
+(60, 1, 'mina', 'logout', '2021-05-06 00:46:37', '00:46:37'),
+(61, 1, 'root', 'login', '2021-05-06 01:01:02', '01:01:02'),
+(62, 1, 'root', 'logout', '2021-05-06 06:46:05', '06:46:05'),
+(63, 1, 'root', 'login', '2021-05-06 06:46:34', '06:46:34'),
+(64, 1, 'root', 'logout', '2021-05-06 06:47:41', '06:47:41'),
+(65, 1, 'root', 'login', '2021-05-06 10:03:40', '10:03:40'),
+(66, 1, 'root', 'logout', '2021-05-06 10:06:10', '10:06:10'),
+(67, 1, 'root', 'login', '2021-05-06 10:06:15', '10:06:15'),
+(68, 1, 'root', 'logout', '2021-05-06 12:34:16', '12:34:16'),
+(69, 1, 'root', 'login', '2021-05-21 08:15:05', '08:15:05'),
+(70, 1, 'root', 'login', '2021-05-24 06:47:47', '06:47:47'),
+(71, 1, 'root', 'login', '2021-05-24 09:50:39', '09:50:39'),
+(72, 1, 'root', 'login', '2021-05-24 14:48:37', '14:48:37'),
+(73, 1, 'root', 'logout', '2021-05-24 17:37:08', '17:37:08'),
+(74, 1, 'root', 'login', '2021-05-24 17:37:18', '17:37:18');
 
 -- --------------------------------------------------------
 
@@ -442,7 +434,7 @@ ALTER TABLE `user_access_level`
 -- AUTO_INCREMENT for table `user_login_log`
 --
 ALTER TABLE `user_login_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `user_task`

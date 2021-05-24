@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/config/inc/config.admin_tools.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/config/inc/config.dashboard.php" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/config/inc/config.facility.php" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/config/inc/config.reports.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/config/inc/functions.php" dialect="GenericSQL" />

@@ -324,6 +324,11 @@ address
     background-color: #E2E2E2;
 }
 
+.canvasjs-chart-credit
+{
+    display: none !important;
+}
+
 
 
 .h_btn_sm

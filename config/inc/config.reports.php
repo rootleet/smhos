@@ -1,7 +1,6 @@
 <?php
     require 'session.php';
     require 'db.php';
-    require 'functions.php';
     require 'fpdf182/fpdf.php';
     $loc = "reports";
 
@@ -26,6 +25,7 @@
             $checkout = rowsOf("check_out" , "`date_recorded` = '$today'" , $pdo); //check out
 
         }
+
 
     } else {
         die ("Error: Please if this is not a legal access, go back!!");
@@ -149,6 +149,7 @@
         $checkin_stmt = $pdo->prepare($checkin_sql);
         $checkin_stmt->execute();
         $checkin_count = $checkin_stmt->rowCount();
+
     }
 
 

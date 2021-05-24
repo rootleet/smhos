@@ -2720,6 +2720,7 @@
                             $checkout_count = $checkout_stmt->rowCount();
                         ?>
 
+
                     <!--Check Out-->
                     <article class="pl-3 pr-3 o-hide">
 

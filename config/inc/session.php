@@ -1,9 +1,14 @@
 <?php
     // Initialize the session
     @!session_start();
-    $today = date('Y-m-d');
+    $today = date('d-m-Y');
+    $year = date('Y');
+    $month = date('M');
+    $day = date('d');
+    $time = date("H:m:ia");
+
     $hostN = 'http://localhost/smhos/';
-    
+
     // Check if the user is logged in, if not then redirect to login page
     if(!isset($_SESSION["7c922db59b635d53f58462201588ee26"]) || $_SESSION["7c922db59b635d53f58462201588ee26"] !== true){
 
@@ -23,6 +28,7 @@
     {
         include "db.php";
         include "permissions.php";
+        require 'functions.php';
 
         date_default_timezone_set('Africa/Accra');
 
@@ -41,8 +47,11 @@
         $_SESSION['curr_short'] = $currency['short'];
 
 
-
         //user config
+        $my_id = $_SESSION['id'];
+
+        $my = fetchFunc("users","`id` = $my_id",$pdo);
+        $owner = $my['username'];
         $user_details_sql = "SELECT * FROM `users` WHERE `id` = ?";
         $user_details_stmt = $pdo->prepare($user_details_sql);
         $user_details_stmt->execute([$_SESSION['id']]);
@@ -55,8 +64,7 @@
 
     }
 
-    //unsest session infos
-?>
+
 
 
 
