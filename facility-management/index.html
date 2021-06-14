@@ -453,6 +453,7 @@
                                                                                         <th class="p-1 text_xsm">Owner</th>
                                                                                         <th class="p-1 text_xsm">Date Created</th>
                                                                                         <th class="p-1 text_xsm">Cost</th>
+                                                                                        <th class="p-1 text_xsm">Tax Group</th>
                                                                                         <th class="p-1 text_xsm">Spaces</th>
                                                                                         <th class="p-1 text_xsm">Available</th>
                                                                                     </tr>
@@ -460,11 +461,16 @@
 
                                                                                 <tbody>
                                                                                     <?php while ($cat_fac = $cat_fac_stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                                                                                        <?php
+                                                                                            $tax_grp = $cat_fac['tax_group'];
+                                                                                            $tax = fetchFunc("tax_master","`id` = $tax_grp",$pdo);
+                                                                                        ?>
                                                                                         <tr>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['name'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['owner'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['date_created'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $_SESSION['currency'] . ' ' . $cat_fac['cost'] ?></td>
+                                                                                            <td class="p-1 text_xxsm"><?php echo $tax['description'] ?> <span class="badge badge-info"><?php echo $tax['rate'] ?>%</span></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                         </tr>
