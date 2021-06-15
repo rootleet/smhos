@@ -446,7 +446,7 @@
                                                                 <div class="card-body overflow-hidden">
 
                                                                         <div class="w-100 h-100 table-responsive table-responsive-sm p-1">
-                                                                            <table class="table mb-0 h-100">
+                                                                            <table class="table table-hover mb-0 h-100">
                                                                                 <thead class="bg-info text-light">
                                                                                     <tr>
                                                                                         <th class="p-1 text_xsm">Name</th>
@@ -465,7 +465,7 @@
                                                                                             $tax_grp = $cat_fac['tax_group'];
                                                                                             $tax = fetchFunc("tax_master","`id` = $tax_grp",$pdo);
                                                                                         ?>
-                                                                                        <tr>
+                                                                                        <tr class="pointer" data-toggle="modal" data-target="#facSubs<?php echo $cat_fac['id'] ?>">
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['name'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['owner'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['date_created'] ?></td>
@@ -474,6 +474,16 @@
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                             <td class="p-1 text_xxsm"><?php echo $cat_fac['total_space'] ?></td>
                                                                                         </tr>
+                                                                                        <div class="modal fade" id="facSubs<?php echo $cat_fac['id'] ?>">
+                                                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <strong class="modal-title">Sub of <?php echo $cat_fac['name']?></strong>
+                                                                                                        <button class="close" data-dismiss="modal">&times;</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     <?php endwhile; ?>
 
                                                                                 </tbody>

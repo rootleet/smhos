@@ -154,7 +154,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <body class="w-100 vh-100">
 
     <div class="form_container w-25 text-center p-2">
-        <h3 class="bold" style="letter-spacing: 3px;" >SMHOS</h3>
+        <h3 class="bold" style="letter-spacing: 3px;" >SMHOS - ADMIN</h3>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
